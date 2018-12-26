@@ -1,0 +1,97 @@
+<?php
+$baseUrl = $this->baseUrl;
+$relatedPackages = $this->relatedPackages;
+$objHelper = $this->objHelper;
+?>
+<div class="clearfix">
+    <div class="m-top-1"></div>
+    <div class="related-tours clearfix">
+        <header class="header-with-nav animatedParent clearfix">
+            <h3 class="title pull-left animated growIn slower">Related Tours</h3>
+            <a class="pull-right animated growIn slower" href="<?php echo $baseUrl; ?>tours/package">SEE All Tours</a>
+        </header>
+        <?php
+        if (count($relatedPackages) > 0) {
+            ?>
+            <div class="row">
+                <?php
+                foreach ($relatedPackages as $key => $value) {
+                    $mDestination = explode(',', $value['Destination']);
+                    $mDestination1 = implode(', ', $mDestination);
+                    
+                    
+                    ?>
+                    <div class="col-md-3 col-xs-6 animatedParent">
+                        <article class="tour-post"> 
+                            <div class="tour-contents clearfix">
+                                <div class="popular">
+                                    <div class="popular_inner">
+                                        <?php if($value['img'] != "") { 
+                                          $imageVal = explode(',', $value['img']); 
+                                          $imageValF = $imageVal[0];
+                                         ?>
+                                        <figure> <a href="<?php echo $baseUrl;?>detail/tour-package-for-<?php echo Catabatic_Helper::getSeoName($value['Destination']);?>/<?php echo Catabatic_Helper::getSeoName($value['nameF']);?>-<?php echo $value['PkgSysId'];?>-<?php echo $value['defaultCategoryId'];?>-<?php echo $value['GTXPkgId'];?>-<?php echo $value['tourtype'];?>-<?php echo $value['mp']?>.html" style="color: #000">
+                                                <img style="height:152px;" data-original="<?php echo $baseUrl;?>public/upload/tours/<?php echo $value['PkgSysId']?>/images/medium/<?php echo $imageValF;?>" alt="<?php echo $value['name'];?>"
+            src="<?php echo $baseUrl;?>public/upload/tours/<?php echo $value['PkgSysId']?>/images/medium/<?php echo $imageValF;?>"
+            onerror="this.src='<?php echo $baseUrl;?>public/images/No-Image-2.jpg'" />
+                                                <div class="caption left_side">
+                  <div class="caption_price num"><span class="WebRupee" style="font-size: 20px !important;color: #fff !important; text-align: center; ">Rs</span> <?php echo $value['price']; ?>/-</div>
+                      </div> 
+          </a> </figure>
+                                        <?php } ?>
+                                        <div class="caption">
+                                            <div class="txt1" style="font-size:11px;">
+                                                <span style="font-size:15px;">
+                                                <a style="color:#636363;" title="<?php echo $value['nameF']; ?>" href="<?php echo $baseUrl;?>detail/tour-package-for-<?php echo Catabatic_Helper::getSeoName($value['Destination']);?>/<?php echo Catabatic_Helper::getSeoName($value['nameF']);?>-<?php echo $value['PkgSysId'];?>-<?php echo $value['defaultCategoryId'];?>-<?php echo $value['GTXPkgId'];?>-<?php echo $value['tourtype'];?>-<?php echo $value['mp']?>.html">
+                                                   <?php echo substr($value['name'], 0,15);?>
+                                                </a>
+                                                </span> 
+                                                    <?php echo $mDestination1; ?>
+                                            </div>
+                                            
+<!--                                            <div class="txt3 clearfix"> 
+                                                <div class="left_side">Starting From</div>
+                                                
+                                                <div class="right_side">
+                                               <div class="nums">INR <?php echo $value['price']; ?>/-</div>
+                                                </div>
+                                            </div>-->
+                                            
+                                            
+                                            
+                                            
+                                            <input type="hidden" id="PkgSysIdHTML" value="<?php echo $value['PkgSysId'];?>" />
+                    <input type="hidden" id="packagetype_<?php echo $value['PkgSysId'];?>" value="<?php echo $value['PackageType'];?>" />
+                    <input type="hidden" id="gtxpackage_<?php echo $value['PkgSysId'];?>" value="<?php echo $value['GTXPkgId'];?>" />
+                    <input type="hidden" id="hotelcategoryid_<?php echo $value['PkgSysId'];?>" value="<?php echo $value['defaultCategoryId'];?>" />
+                    <input type="hidden" id="packagetpid_<?php echo $value['PkgSysId'];?>" value="<?php echo $value['TPId'];?>" />
+                    <input type="hidden" id="packagename_<?php echo $value['PkgSysId'];?>" value="<?php echo $value['nameF'];?>" />
+                    <input type="hidden" id="mealplantype_<?php echo $value['PkgSysId']; ?>" value="<?php echo $value['mp'];?>" />
+                    <input type="hidden" id="tourtype_<?php echo $value['PkgSysId'];?>" value="<?php echo $value['tourtype'];?>" />
+                                            
+                    
+                    <div class="txt3 clearfix" style="padding-top:0px; color: #959595; font-size: 12px;">
+                      <div class="left_side" >
+                          <img src="<?php echo $baseUrl; ?>public/images/m2-min.png" alt="" style="display: inline-block;">
+                        No of days : <?php echo $value['night']+1;?>
+                        
+                      </div>
+                      <div class="right_side">
+                                                    <a href="<?php echo $baseUrl;?>detail/tour-package-for-<?php echo Catabatic_Helper::getSeoName($value['Destination']);?>/<?php echo Catabatic_Helper::getSeoName($value['nameF']);?>-<?php echo $value['PkgSysId'];?>-<?php echo $value['defaultCategoryId'];?>-<?php echo $value['GTXPkgId'];?>-<?php echo $value['tourtype'];?>-<?php echo $value['mp']?>.html" class="btn">View Detail</a>
+                                                </div>
+                    </div>
+                    
+                    
+                    
+                    
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </article>
+                    </div>
+                <?php } ?>
+            </div>
+        <?php } ?>
+    </div>
+</div>

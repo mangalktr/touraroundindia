@@ -1,0 +1,94 @@
+<?php 
+$options = Zend_Controller_Front::getInstance()->getParam('bootstrap')->getOption('bootstrap');
+$resultset = $this->resultset; 
+$result_destination = $this->result_destination; 
+//echo "<pre>";print_r($result_destination);die;  
+$objHelper = Zend_Controller_Action_HelperBroker::getStaticHelper('General');
+?>
+
+<div class="content">        
+<div class="header">
+    <h1 class="page-title">Manage Blog Comment</h1>
+</div>
+<ul class="breadcrumb">
+    <li><a href="<?php echo $options['siteUrl'];?>admin/dashboard/index">Home</a> <span class="divider">/</span></li>
+    <li class="active">Manage Blog Comment<span class="divider">/</span></li>
+    <li><?php echo ucfirst($this->blogDetails['TravTitle']); ?></li>
+</ul>
+
+<div class="container-fluid">
+    <div class="row-fluid">
+                    
+
+<div class="col-md-12">
+    <?php if (count($this->messages)) { ?>
+     <div class="alert alert-success" >
+         <button data-dismiss="alert" class="close" type="button">x</button>
+         <?php foreach ($this->messages as $message) {  ?>
+         <?php echo $this->escape($message); ?>
+         <?php } ?>
+     </div>
+    <?php } ?>
+</div>
+       
+<div class="well">
+    <table class="table display" id="example">
+      <thead>
+        <tr>
+          <th>S.No.</th>
+          <th>Blog Title</th>
+          <th>Name</th>
+          <th>Email Address</th>        
+          <th>Phone Number</th>         
+          <th>Comment</th> 
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        <?php
+        if(count($resultset) >0) {
+            foreach($resultset as $key=>$val){ 
+             //echo "<pre>";print_r($val);
+        ?>
+        <tr <?php echo ( $val['status'] == 0 ) ? 'style="background:#ffeeea"' : "";?>>
+          <td ><?php echo ($this->per_page_record * ($this->page-1) + ++$key) ; ?></td>
+          <td title="<?php echo ucfirst($this->blogDetails['TravTitle']);?>"><?php echo ucfirst($this->blogDetails['TravTitle']); ?></td>     
+          <td title="<?php echo ucfirst($val['name']);?>"><?php echo ucfirst($val['name']); ?></td>          
+          <td> <?php echo $val['emailId']; ?> </td>          
+          <td ><?php echo $val['phone'];?></td>
+          <td ><?php echo $val['comment'];?></td> 
+          <td> 
+              <a href="<?php echo $options['siteUrl'];?>admin/travelogues/editcomment/id/<?php echo $val['commentId'];?>" title="Edit"><i class="icon-pencil"></i></a>                          
+              <a href="<?php echo $options['siteUrl'];?>admin/travelogues/deletecomment/id/<?php echo $val['commentId'];?>" class="Delete" title="delete"><i class="icon-trash"></i></a>                 
+          </td>
+                   
+        </tr>
+        <?php }
+        }
+        else {
+        ?>
+        <tr>
+          <td colspan="6">No data found.</td>
+        </tr>
+        <?php } ?>
+        
+      </tbody>
+    </table>
+</div>
+
+<!--Pagingnation Start-->
+<?php
+echo $this->paginationControl($this->resultset, 'Sliding', 'pagination.phtml');
+?>
+<!--Pagingnation End-->
+          
+   </div>
+</div>
+</div>
+<script>
+$('.Delete').click(function(){
+    if (!confirm('Are you sure you want to delete?')) {
+        return false;
+    }
+    });
+</script>

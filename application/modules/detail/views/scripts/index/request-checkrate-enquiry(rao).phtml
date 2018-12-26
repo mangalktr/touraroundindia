@@ -1,0 +1,399 @@
+<?php
+$CONST_PACKAGE_TRAVELER_MAX_ADULT_IN_ROOM = $this->CONST_PACKAGE_TRAVELER_MAX_ADULT_IN_ROOM;
+$CONST_PACKAGE_TRAVELER_MAX_CHILD_IN_ROOM = $this->CONST_PACKAGE_TRAVELER_MAX_CHILD_IN_ROOM;
+$CONST_PACKAGE_TRAVELER_MAX_INFANT_IN_ROOM = $this->CONST_PACKAGE_TRAVELER_MAX_INFANT_IN_ROOM;
+$CONST_PACKAGE_TRAVELER_MAX_ROOM = $this->CONST_PACKAGE_TRAVELER_MAX_ROOM;
+$badtype_array = ['withoutbed' => 'Without Bed', 'extrabed' => 'With Bed'];
+$Childbadtype_array = ['withoutbed' => 'Without Bed', 'extrabed' => 'With Bed', 'none' => 'None'];
+$modulename = $this->modulename;
+$paramArray = $this->paramArray;
+$objHelper = $this->objHelper;
+$dayItineraryArray = $this->dayItineraryArray;
+$send_enquiry_text = 'Check Rate &amp; Send Enquiry';
+if (isset($_SESSION['TravelAgent']['session']) && !empty($_SESSION['TravelAgent']['session'])) {
+    $send_enquiry_text = 'Check Rate &amp; Get Proposal';
+}
+$POPUPCOOKIES = Zend_Controller_Action_HelperBroker::getStaticHelper('General')->getMypopCookie('MyCookies'); // get the popup sessions
+$IsBusRoutePackage = $this->IsBusRoutePackage;
+$BuspickupLocation = $this->BuspickupLocation;
+//echo "<pre>";print_r($BuspickupLocation);die;
+
+?>
+<input type="hidden" value="<?php echo (isset($BuspickupLocation) && $BuspickupLocation != '' ) ? count($BuspickupLocation) : '';?>" id="BuspickupLocationId">
+<div class="booking-price-single padd_box" style="display:none;" id="expandSendEnuiryCheckRatePackage">
+    <h2 class="hed-bok-tex"><?php echo $send_enquiry_text; ?> for <span id="packagenamemodal"></span>  <a href="javascript://" id="mSendEnuiryCheckRatePackageClose" class="pull-right close-btn mSendEnuiryCheckRatePackageClose"><span>X</span></a> </h2>
+    <div class="whbg table-responsive">
+
+        <form action="javascript://" method="post" class="submitSendEnquiryCheckRate form-pop"  autocomplete="off" >                      
+            <div class="detail-enquire-box">
+
+                <input type="hidden" name="leadsend" id="leadsends" value="1" />
+                <input type="hidden" name="IsBusRoutePackage" id="IsBusRoutePackage" value="<?php echo (isset($IsBusRoutePackage) && $IsBusRoutePackage != '') ? $IsBusRoutePackage : ''?>" />
+
+                <input type="hidden" name="modified" id="package_modifieds" value="<?php echo ($modulename == "detail") ? 1 : 0 ?>" />
+                <input type="hidden" name="package_sid" id="package_sids" value="" />
+                <input type="hidden" name="package_tpid" id="package_tpids" value="" />
+                <input type="hidden" name="packagesys_id" id="packagesys_ids" value="" />
+                <input type="hidden" name="packagetype_id" id="packagetype_ids" value="" />
+                <input type="hidden" name="package_tourtype" id="package_tourtype_ids" value="" />
+                <input type="hidden" name="package_hotelcategoryid" id="package_hotelcategoryids" value="" />
+                <input type="hidden" name="package_mealplantype" id="package_mealplantypeids" value="" />
+                <input type="hidden" name="packagedesname" id="packagedesname" value="" />
+                <input type="hidden" id="itinerary_inputs" value="1" />
+                <input type="hidden" id="itinerary_rooms" value="2" />
+                <input type="hidden" id="rao" value="1" name="raotravels"/>
+                <input type="hidden" id="dayItineraryArrayCount" value="<?php echo count($dayItineraryArray) ?>" name="dayItineraryArrayCount"/>
+                <div class="detail-enquire-content-box">
+
+
+                    <div class="col-md-9 checkout-page frt-mob-pad no-margin" >
+                        <fieldset class="checkout-checkbox animatedParent clearfix no-margin">
+                            <label class="animated fadeInUpShort">Select Category</label>
+                            <ul class="checkbox-radio-listing animated fadeInDownShort">
+                                <?php
+                                $count = 0;
+                                $counter = 0;
+                                foreach ($paramArray['CategoriesArray'] as $key => $value) {
+                                    if (count($paramArray['CategoriesArray']) > 0) {
+                                        if ($key == 'Budget') {
+                                            $active = 'deluxe1Active';
+                                            $i = 1;
+                                        }
+                                        if ($key == 'Standard') {
+                                            $active = 'deluxe2Active';
+                                            $i = 2;
+                                        }
+                                        if ($key == 'Deluxe') {
+                                            $active = 'deluxe3Active';
+                                            $i = 3;
+                                        }
+                                        if ($key == 'Luxury') {
+                                            $active = 'deluxe4Active';
+                                            $i = 4;
+                                        }
+                                        if ($key == 'Premium') {
+                                            $i = 5;
+                                            $active = 'deluxe5Active';
+                                        }
+                                        ?>   
+                                        <li>
+                                            <input type="checkbox" class="dcCategoryClass" id="dcCategory<?php echo $i; ?>" name="" onclick="addRemoveClass('<?php echo $i; ?>', '<?php echo $paramArray['CategoriesArray'][$key]['TPId'] ?>')">
+                                            <label for="dcCategory<?php echo $i; ?>"><span class="Categorybgcolor" id="Categorybgcolor<?php echo $i; ?>"></span><?php echo $key; ?> Category</label>
+                                        </li>      
+                                        <?php
+                                    } else {
+                                        ?>
+                                        <li>
+                                            <input type="checkbox" class="dcCategoryClass" id="dcCategory<?php echo $i; ?>" name="" onclick="addRemoveClass('<?php echo $i; ?>', '<?php echo $paramArray['CategoriesArray'][$key]['TPId'] ?>')">
+                                            <label for="dcCategory<?php echo $i; ?>"><span class="Categorybgcolor" id="Categorybgcolor<?php echo $i; ?>"></span><?php echo $key; ?> Category</label>
+                                        </li>   
+                                    <?php } ?>        
+
+                                    <?php
+                                }
+                                ?>
+
+                            </ul>
+                        </fieldset>
+                    </div>
+                    <!--                    <div class="col-md-3 frt-mob-pad" >
+                                            <a href="javascript://" class="btn btn-primary btn-width-1 pull-right">Request pvt packages</a>
+                                        </div>-->
+                    <div class="clearfix"></div>
+                    <div class="col-md-12" >
+                        <div class="col-md-4 form-group frt-mob-pad" >
+                            <label for="name">First Name</label>
+                            <?php if (isset($_SESSION['User']['session']) && !empty($_SESSION['User']['session'])) { ?>
+                                <input type="text" name="fname" class="en_customername inputBox form-control" placeholder="Enter name" aria-label="Enter first name" maxlength="50" readonly="" value="<?php echo (trim($_SESSION['User']['session']['FirstName'])) ? trim($_SESSION['User']['session']['FirstName']) : '' ?>" />
+                            <?php } else if (isset($_SESSION['TravelAgent']['session']) && !empty($_SESSION['TravelAgent']['session'])) { ?>
+                                <input type="text" name="fname" class="en_customername inputBox form-control" placeholder="Enter name" aria-label="Enter first name" maxlength="50" readonly="" value="<?php echo (trim($_SESSION['TravelAgent']['session']['FirstName']) ) ? trim($_SESSION['TravelAgent']['session']['FirstName']) : '' ?>" />
+                            <?php } else { ?>
+                                <input type="text" name="fname" class="en_customername inputBox form-control" placeholder="Enter name" aria-label="Enter first name" maxlength="50" value="<?php echo ($POPUPCOOKIES['fname']) ? $POPUPCOOKIES['fname'] : '' ?>" />
+                            <?php } ?>
+                            <div class="nameEnqMsg removwmsg"></div>
+                        </div>
+
+                        <div class="col-md-4 form-group frt-mob-pad" >
+                            <label for="name">Last Name</label>
+                            <?php if (isset($_SESSION['User']['session']) && !empty($_SESSION['User']['session'])) { ?>
+                                <input type="text" name="lname" class="en_customername inputBox form-control" placeholder="Enter name" aria-label="Enter last name" maxlength="50" readonly="" value="<?php echo (trim($_SESSION['User']['session']['LastName'])) ? trim($_SESSION['User']['session']['LastName']) : '' ?>" />
+                            <?php } else if (isset($_SESSION['TravelAgent']['session']) && !empty($_SESSION['TravelAgent']['session'])) { ?>
+                                <input type="text" name="lname" class="en_customername inputBox form-control" placeholder="Enter name" aria-label="Enter last name" maxlength="50" readonly="" value="<?php echo (trim($_SESSION['TravelAgent']['session']['LastName'])) ? trim($_SESSION['TravelAgent']['session']['LastName']) : '' ?>" />
+                            <?php } else { ?>
+                                <input type="text" name="lname" class="en_customername inputBox form-control" placeholder="Enter name" aria-label="Enter last name" maxlength="50" value="<?php echo ($POPUPCOOKIES['lname']) ? $POPUPCOOKIES['lname'] : '' ?>" />
+                            <?php } ?>
+                            <div class="nameEnqMsg removwmsg"></div>
+                        </div>
+
+
+                        <div class="col-md-4 form-group frt-mob-pad" >
+                            <label for="name">Email <strong class="text-danger">*</strong></label>
+                            <?php if (isset($_SESSION['User']['session']) && !empty($_SESSION['User']['session'])) { ?>
+                                <input type="text" name="email" class="en_customeremail inputBox form-control notSpace" placeholder="Enter email" aria-label="Enter email" maxlength="50" readonly="" value="<?php echo (trim($_SESSION['User']['session']['EmailId'])) ? trim($_SESSION['User']['session']['EmailId']) : '' ?>" onkeyup="removeErrorMsg()"/>
+                            <?php } else if (isset($_SESSION['TravelAgent']['session']) && !empty($_SESSION['TravelAgent']['session'])) { ?>
+                                <input type="text" name="email" class="en_customeremail inputBox form-control notSpace" placeholder="Enter email" aria-label="Enter email" maxlength="50" readonly="" value="<?php echo (trim($_SESSION['TravelAgent']['session']['EmailId'])) ? trim($_SESSION['TravelAgent']['session']['EmailId']) : '' ?>" onkeyup="removeErrorMsg()"/>
+                            <?php } else { ?>
+                                <input type="text" name="email" class="en_customeremail inputBox form-control notSpace" placeholder="Enter email" aria-label="Enter email" maxlength="50" value="<?php echo ($POPUPCOOKIES['email']) ? $POPUPCOOKIES['email'] : '' ?>" onkeyup="removeErrorMsg()"/>
+                            <?php } ?>
+                            <div class="emailEnqMsg removwmsg"></div>
+                        </div>
+                    </div>
+                    <div class="col-md-12" >
+
+                        <div class="col-md-4 form-group frt-mob-pad" >
+                            <label for="name">Mobile <strong class="text-danger">*</strong></label>
+                            <div class="txtfieldMain textfieldMain_mobile" style="border-radius: 0px !important;">
+                                <div class="country_details">
+                                    <div id="iti-flag1" class="iti-flag in"></div>
+                                    <div class="iti-arrow"></div>   
+                                </div>
+                                <div class="country_dropdown">
+                                    <div class="search_country">
+                                        <input type="text" name="" class="txtfield form-control countries_list" placeholder="Search countries" id="countries_list">
+                                        <div class="search_icon"></div>
+                                    </div>
+                                    <ul class="allcountries"></ul>
+                                </div> 
+                                <input type="text" class="txtfield country_code" id="mobile_code" readonly="readonly" name="countrycode" value="+91">
+                                <?php if (isset($_SESSION['User']['session']) && !empty($_SESSION['User']['session'])) { ?>
+                                    <input type="text" name="mobile" class="en_customermobile inputBox notSpace" placeholder="Enter mobile" aria-label="Enter mobile" maxlength="10" readonly="" value="<?php echo (trim($_SESSION['User']['session']['ContactNo1'])) ? trim($_SESSION['User']['session']['ContactNo1']) : '' ?>" onkeyup="removeErrorMsg()" style="padding: 7px 0 !important;"/>
+                                <?php } else if (isset($_SESSION['TravelAgent']['session']) && !empty($_SESSION['TravelAgent']['session'])) { ?>
+                                    <input type="text" name="mobile" class="en_customermobile inputBox notSpace" placeholder="Enter mobile" aria-label="Enter mobile" maxlength="10" readonly="" value="<?php echo (trim($_SESSION['TravelAgent']['session']['ContactNo1'])) ? trim($_SESSION['TravelAgent']['session']['ContactNo1']) : '' ?>" onkeyup="removeErrorMsg()" style="padding: 7px 0 !important;"/>
+                                <?php } else { ?>
+                                    <input type="text" name="mobile" class="en_customermobile inputBox notSpace" placeholder="Enter mobile" aria-label="Enter mobile" maxlength="10" value="<?php echo ($POPUPCOOKIES['mobile']) ? $POPUPCOOKIES['mobile'] : '' ?>" onkeyup="removeErrorMsg()" style="padding: 7px 0 !important;"/>
+                                <?php } ?>
+                            </div>
+
+                            <div class="mobileEnqMsg removwmsg"></div>
+                        </div>
+
+
+                        <div class="col-md-4 form-group">
+                            <label for="date" class="Lable">Travel Date <strong class="text-danger">*</strong></label>
+                            <?php if (isset($_SESSION['TravelAgent']['session']) && !empty($_SESSION['TravelAgent']['session'])) { ?>
+                                <input type="text" name="date" class="en_customertripdate txtField form-control" id="travelerDatePicker" placeholder="From Date" aria-label="From Date" maxlength="10" value="" />
+                            <?php } else { ?>
+                                <input type="text" name="date" class="en_customertripdate txtField form-control" id="travelerDatePicker" placeholder="From Date" aria-label="From Date" maxlength="10" value="<?php echo ($POPUPCOOKIES['date']) ? $POPUPCOOKIES['date'] : '' ?>" />
+                            <?php } ?>
+                            <div class="travelEnqMsg removwmsg"></div>
+                        </div>
+                       
+                    </div>
+                    <div class="col-md-12 ">
+                    
+                     <?php if(isset($IsBusRoutePackage) && $IsBusRoutePackage != 0 && isset($BuspickupLocation) && $BuspickupLocation != ''){?>
+                        <div class="col-md-4 form-group">
+                            <label for="date" class="Lable">Pick Up Location</label>
+                            <select id="pick_up_locations" name="pick_up_locations[]"  class="demo-default select-theme form-control" onchange="getLocationTime(this)" >
+                                <option value="">select</option>
+                                <?php foreach ($BuspickupLocation as $pkey => $pvalue) { 
+                                    foreach($pvalue as $bKey => $bValue){
+                                    ?>
+                                <option value="<?php echo $bKey+1;?>"><?php echo $bValue['pickupLocation'];?></option>
+                                 <?php
+                                
+                                
+                                } }?>
+                            </select>
+                            <div class="locationEnqMsg removwmsg"></div>
+                        </div>
+                         <?php foreach ($BuspickupLocation as $pkey => $pvalue) { 
+                                    foreach($pvalue as $bKey => $bValue){
+                                    ?>
+                         <input class="pickupLocationNameAll" type="hidden" name="pickupLocationName[]" id="pickupLocationName<?php echo $bKey+1;?>" value="<?php echo $bValue['pickupLocation'];?>" disabled="disabled">
+                                  
+                        <?php
+                                
+                                
+                                } }?>
+                        <?php foreach ($BuspickupLocation as $pkey => $pvalue) {
+                             foreach($pvalue as $bKey => $bValue){
+                            ?>
+                        <div class="col-md-2 form-group hideTime" id="<?php echo $bKey +1;?>" style="display:none" disabled="disabled">
+                                <label for="date" class="Lable">Pick Up Time</label>
+                                    <select name="pick_up_time" id="pick_up_time<?php echo $bKey +1;?>" class="demo-default select-theme form-control" disabled="disabled"> 
+                                       <?php foreach($bValue['PickupTime'] as $key => $value){
+                                        $originalDate = $value['date'];
+                                        $newDate = date("H:i", strtotime($originalDate));
+                                           ?>
+                                        <option value="<?php echo $newDate?>"><?php echo $newDate?></option>
+                                           <?php } ?>
+                                    </select>
+                            </div>
+                        
+                             <?php } } ?>
+                        
+                        
+                        <?php }?>
+                    </div>
+                    <div class="cl"></div>
+
+                    <div class="detail-enquire-bot-box">
+                        <div class="col-md-12 table-responsive no-margin">
+                            <table width="100%" border="0" cellspacing="0" cellpadding="0" class="table book-collps-table no-margin">
+                                <tr>
+                                    <th width="40%" class="table-info">&nbsp;</th>
+                                    <th width="20%" class="table-info" align="center" style="text-align:center;">Price (Per Person)</th>
+                                    <th  width="20%" class="table-info" align="center" style="text-align:center;">No. of Person</th>
+                                    <th width="20%" class="table-info" align="center" style="text-align:center;">Calculate Amount</th>
+                                </tr>
+                                <tr id="hideIfpriceIsZeroTwin">
+                                    <td align="left">Adult <?php if (count($dayItineraryArray) > 1) { ?> on twin sharing basis<?php } ?> <a href="javascript://" data-toggle="tooltip" data-placement="top" title="" class="tooltipLink infor-cont" >i </a></td>
+                                    <td align="center"><strong>INR <span id="putPriceDoubleOccVal"></span></strong></td>
+                                    <td  align="center"><input type="text" class="form-control" id="adultTwinSharing" value="" name='adultTwinSharing' onkeyup="updatePricePerson(this, 'putPriceDoubleOccVal')" placeholder="Mul. of <?php if (count($dayItineraryArray) > 1) { ?>2<?php }else{?>1<?php }?>"></td>
+                                    <td  align="center"><strong>INR <span id="CalculatedputPriceDoubleOccVal">0</span></strong></td>
+                                </tr>
+
+                                <tr id="hideIfpriceIsZeroTriple"  <?php if (count($dayItineraryArray) == 1) { ?> style="display:none;" <?php } ?>>
+                                    <td align="left">Adult on triple sharing basis <a href="javascript://" data-toggle="tooltip" data-placement="top" title="" class="tooltipLink infor-cont" >i </a></td>
+                                    <td align="center"><strong>INR <span id="putPriceTripleOccVal"></span></strong></td>
+                                    <td  align="center"><input type="text" class="form-control" id="adultTripleSharing" value="" name="adultTripleSharing" onkeyup="updatePricePerson(this, 'putPriceTripleOccVal')" placeholder="Mul. of 3"></td>
+                                    <td  align="center"><strong>INR <span id="CalculatedputPriceTripleOccVal">0</span></strong></td>
+                                </tr>
+                                <tr id="hideIfpriceIsZeroSingle" <?php if (count($dayItineraryArray) == 1) { ?> style="display:none;" <?php } ?>>
+                                    <td align="left">Adult on single sharing basis <a href="javascript://" data-toggle="tooltip" data-placement="top" title="" class="tooltipLink infor-cont" >i </a></td>
+                                    <td align="center"><strong>INR <span id="putPriceSingleOccVal"></span></strong></td>
+                                    <td  align="center"><input type="text" class="form-control" id="adultSingleSharing" value="" name="adultSingleSharing" onkeyup="updatePricePerson(this, 'putPriceSingleOccVal')" placeholder="Mul. of 1"></td>
+                                    <td  align="center"><strong>INR <span id="CalculatedputPriceSingleOccVal">0</span></strong></td>
+                                </tr>
+                                <tr id="hideIfpriceIsZeroChild">
+                                    <td align="left"> Child (5-11) years <?php if (count($dayItineraryArray) > 1) { ?>without bed<?php } ?> <a href="javascript://" data-toggle="tooltip" data-placement="top" title="" class="tooltipLink infor-cont" >i </a></td>
+                                    <td align="center"><strong>INR <span id="putPriceWithoutBedVal"></span></strong></td>
+                                    <td  align="center"><input type="text" class="form-control" id="childSharing" value="" name='childSharing' onkeyup="updatePricePerson(this, 'putPriceWithoutBedVal')" placeholder="Mul. of 1"></td>
+                                    <td  align="center"><strong>INR <span id="CalculatedputPriceWithoutBedVal">0</span></strong></td>
+                                </tr>
+                                
+
+                                <tr>
+                                    <td colspan="2" align="right" class="alert alert-info"><strong class="table-large-text">Total</strong><strong></strong></td>
+                                    <td  align="center" class="alert alert-info"><strong class="table-large-text"><span id="totalNoofPerson">0</span></strong></td>
+                                    <td  align="center" class="alert alert-info"><strong class="table-large-text">INR <span id="totalCalculatedAmount">0</span></strong></td>
+                                </tr>
+
+                            </table>
+
+                        </div>
+                        <div class="cl"></div>
+
+                    </div>
+                    <div class="cl"></div>
+                    <div class="detail-enquire-bot-box" id="getEnquiryPriceDetail" style="display:none;">
+
+                    </div>
+                    <div class="cl"></div>
+                    <div class="detail-enquire-bot-box-left">
+                        <input type="hidden" id="continueTOPayVal" val="">
+                        <div class="col-md-12 btn-center frt-mob-pad">
+                            <div class="btn-space-top" id='continueTOPayAppend'><span class="errorMsg" style="padding-right:20px"></span><span class="enqmsgs1" style="padding-right:20px"></span> <div class="clearfix"></div>
+                                <a class="btn btn-black modifySendEnquiryCheckRateBtn no-margin" href="javascript://" onclick="modifyPackageDetail()">Modify</a>
+                                <a class="btn btn-danger submitSendEnquiryCheckRateBtn" >Check Rate &amp; Continue</a>  
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="cl"></div>
+                </div>
+            </div>
+
+        </form>           
+
+
+
+    </div>
+
+</div>
+<script>
+    function addRemoveClass(catId, TPId) {
+        $('#package_tpids').val(TPId);
+        $('#package_hotelcategoryids').val(catId);
+
+        var priceTripleOccVal = $('#priceTripleOccVal' + catId).val();
+        var priceDoubleOccVal = $('#priceDoubleOccVal' + catId).val();
+        var priceSingleOccVal = $('#priceSingleOccVal' + catId).val();
+        var priceExtraBedVal = $('#priceExtraBedVal' + catId).val();
+        var priceWithoutBedVal = $('#priceWithoutBedVal' + catId).val();
+        $('#putPriceDoubleOccVal').html(priceDoubleOccVal);
+        $('#putPriceTripleOccVal').html(priceTripleOccVal);
+        $('#putPriceSingleOccVal').html(priceSingleOccVal);
+        $('#putPriceExtraBedVal').html(priceExtraBedVal);
+        $('#putPriceWithoutBedVal').html(priceWithoutBedVal);
+
+
+        $('.Categorybgcolor').css({'background': 'url("public/images/radio-button-min.png") center no-repeat'});
+        $('#Categorybgcolor' + parseInt(catId)).css({'background': 'url("public/images/radio-button-checked-min.png") center no-repeat'});
+    }
+    function removeErrorMsg() {
+        $('.removwmsg').html('');
+    }
+
+
+    function updatePricePerson(that, type) {
+        $('.submitSendEnquiryCheckRateBtn').attr('disabled', true);
+        $('.errorMsg').html('');
+        $('.enqmsgs1').html('');
+        var dataVal1 = $(that).val();
+        if (dataVal1 != '') {
+            if (!$.isNumeric(dataVal1)) {
+                $('.errorMsg').html('Please enter numeric Value').css({'color': 'red'});
+                $(that).val('');
+            }
+        }
+        if($('#dayItineraryArrayCount').val() > 1){
+        if (type == 'putPriceDoubleOccVal' && ((dataVal1 % 2) != 0)) {
+            $('.errorMsg').html('Please enter Adults on twin sharing basis in multiple of 2').css({'color': 'red'});
+            $(that).val(2);
+
+        }
+        }
+        if (type == 'putPriceTripleOccVal' && ((dataVal1 % 3) != 0)) {
+            $('.errorMsg').html('Please enter Adults on triple sharing basis in multiple of 3').css({'color': 'red'});
+            $(that).val(3);
+
+        }
+
+        var dataVal = $(that).val();
+
+        var typeVal = $('#' + type).html();
+        var calculateAmount = parseInt(dataVal) * parseInt(typeVal);
+        $('#Calculated' + type).html(calculateAmount);
+
+
+        var childSharing = ($('#childSharing').val() != '') ? $('#childSharing').val() : 0;
+        var adultTwinSharing = ($('#adultTwinSharing').val() != '') ? $('#adultTwinSharing').val() : 0;
+        var adultTripleSharing = ($('#adultTripleSharing').val() != '') ? $('#adultTripleSharing').val() : 0;
+        var adultSingleSharing = ($('#adultSingleSharing').val() != '') ? $('#adultSingleSharing').val() : 0;
+
+        var CalculatedputPriceWithoutBedVal = ($('#CalculatedputPriceWithoutBedVal').html()) ? $('#CalculatedputPriceWithoutBedVal').html() : 0;
+        var CalculatedputPriceDoubleOccVal = ($('#CalculatedputPriceDoubleOccVal').html()) ? $('#CalculatedputPriceDoubleOccVal').html() : 0;
+        var CalculatedputPriceTripleOccVal = ($('#CalculatedputPriceTripleOccVal').html()) ? $('#CalculatedputPriceTripleOccVal').html() : 0;
+        var CalculatedputPriceSingleOccVal = ($('#CalculatedputPriceSingleOccVal').html()) ? $('#CalculatedputPriceSingleOccVal').html() : 0;
+
+
+        var totalNoofPerson = parseInt(childSharing) + parseInt(adultTwinSharing) + parseInt(adultTripleSharing) + parseInt(adultSingleSharing);
+
+        var totalCalculatedAmount = parseInt(CalculatedputPriceWithoutBedVal) + parseInt(CalculatedputPriceDoubleOccVal) + parseInt(CalculatedputPriceTripleOccVal) + parseInt(CalculatedputPriceSingleOccVal);
+        $('#totalNoofPerson').html(totalNoofPerson);
+        $('#totalCalculatedAmount').html(totalCalculatedAmount);
+
+        if ((parseInt(adultTwinSharing) > 0 || parseInt(adultTripleSharing) > 0 || parseInt(adultSingleSharing) > 0)) {
+            $('.submitSendEnquiryCheckRateBtn').attr('disabled', false);
+        }
+    }
+
+    function modifyPackageDetail() {
+        $('.submitSendEnquiryCheckRateBtn').show().attr('disabled', false);
+        $('.modifySendEnquiryCheckRateBtn').hide();
+        $('.continueTOPay').hide();
+    }
+    
+    function getLocationTime(that){
+        $('.removwmsg').html('');
+        var id = $(that).val();
+        $('.hideTime').hide();
+        $('.pickupLocationNameAll').attr('disabled',true);
+        $('#pick_up_time'+parseInt(id)).attr('disabled',false);
+        $('#'+parseInt(id)).show().attr('disabled',false);
+        $('#pickupLocationName'+parseInt(id)).attr('disabled',false);
+    }
+    
+</script>

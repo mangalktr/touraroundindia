@@ -1,0 +1,236 @@
+<?php
+$baseUrl = $this->baseUrl;
+$options = Zend_Controller_Front::getInstance()->getParam('bootstrap')->getOption('bootstrap');
+$packTypeForFooterLink = Zend_Controller_Action_HelperBroker::getStaticHelper('Custom')->selectPackTypeForFooterLink();
+$callusnumber = $options['callusnumber'];
+$tollfreenumber = $options['tollfreenumber'];
+$hcode = $this->hcode;
+$cityid = $this->cityid;
+$strcat = $this->strcat;
+$citytxt = $this->citytxt;
+$priceRange = $this->priceRange;
+$getData = $this->getData;
+$category = $_GET['cat'];
+$filterDurationListArr = $this->filterDurationListArr;
+$CONST_PACKAGE_TRAVELER_MAX_ROOM = $this->CONST_PACKAGE_TRAVELER_MAX_ROOM;
+$CONST_PACKAGE_TRAVELER_MAX_ADULT_IN_ROOM = $this->CONST_PACKAGE_TRAVELER_MAX_ADULT_IN_ROOM;
+$CONST_PACKAGE_TRAVELER_MAX_CHILD_IN_ROOM = $this->CONST_PACKAGE_TRAVELER_MAX_CHILD_IN_ROOM;
+$CONST_PACKAGE_TRAVELER_MAX_INFANT_IN_ROOM = $this->CONST_PACKAGE_TRAVELER_MAX_INFANT_IN_ROOM;
+$defaultTourListingImage = $this->defaultTourListingImage;
+$mydevice = $this->mydevice;
+$bannerImage = $this->bannerImage;
+$themeImage = $this->themeImage;
+
+?>  
+<div ng-controller="PackageListingController" id="content" class="site-content ma-bot">
+    <div id="tropical-banner" class=" text-center clearfix ">
+        
+         <?php if ($getData['destination'] == 'Central Asia') { ?>
+         <img src="<?php echo $baseUrl; ?>public/images/central_asia_des.jpg" alt="banner" style="height: 320px !important; min-width: 100%;"/>
+         <?php }else if($getData['destination'] == 'Eastern Europe'){ ?>
+         <img src="<?php echo $baseUrl; ?>public/images/europeee.jpg" alt="banner" style="height: 320px !important; min-width: 100%;"/>
+          <?php }else if($getData['destination'] == 'Eurasia'){ ?>
+         
+         <img src="<?php echo $baseUrl; ?>public/images/resion-caucusus.jpg" alt="banner" style="height: 320px !important; min-width: 100%;"/>
+         
+         <?php }else{ ?>
+        <?php if (($getData['destination'] != "" ) && ($this->bannerImage)) { ?>
+        <img src="<?php echo $baseUrl ?>public/upload/destinations/<?php echo $this->DesSysId ?>/banner/large/<?php echo $bannerImage ?>" alt="<?php echo $getData['destination']; ?>" style="height: 320px !important;"/>
+        <?php } else if(isset ($themeImage[0]['banner_image']) && !empty ($themeImage[0]['banner_image'])){ ?>
+        <img src="<?php echo $baseUrl ?>public/upload/pack/<?php echo $themeImage[0]['packType'] ?>/large/<?php echo $themeImage[0]['banner_image'] ?>" alt="<?php echo $getData['destination']; ?>" style="height: 320px !important;"/>    
+        <?php } else { ?>
+        <img src="<?php echo $baseUrl; ?>public/images/central/blog_banner.jpg" alt="banner" style="height: 320px !important;width: 1349px;"/>
+        <?php } ?>
+        <?php } ?>
+        
+        
+        <div class="container banner-contents clearfix">
+            <h2 class="template-title p-name"><strong>
+                <?php 
+                if($getData['destination'] == 'INT'){
+                    echo 'International';
+                } 
+                else if($getData['destination'] == 'DOM'){
+                    echo 'Domestic';
+                }
+                else if($getData['destination'] == 'FIX'){
+                    echo 'Group Tours';
+                }
+                 else if($getData['destination'] == 'PRIVATE'){
+                    echo 'Private Tours';
+                }
+                else if($category){
+                    echo $category.' Theme';
+                }
+                else {
+                    echo $getData['destination'];
+                }
+                ?> 
+                    Packages</strong></h2>
+        </div>
+        <?php if ($mydevice === 'desktop') { 
+            echo $this->partial('package/filter-packages.phtml', ['baseUrl' => $baseUrl]);
+        }
+        ?>
+        <span class="overlay"></span>
+    </div>
+
+    <section class="tour-page special-offers clearfix">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12 col-sm-8">
+                    <div class="row">
+                        <?php
+                        for ($r = 1; $r <= 4; $r++) {
+                            echo $this->partial('package/loader-rows.phtml', ['baseUrl' => $baseUrl]);
+                        }
+                        ?>
+                        <div class="col-md-3 col-xs-6 animatedParent" ng-cloak ng-if="loading == false" ng-repeat="row in searchresults = (resultset| orderObjectBy:orderby:orderval | limitTo: limitToResult) ">
+                            <article class="tour-post animated fadeInUpShort go">
+                                <header class="tour-post-header clearfix">
+                                    <a style="color: #333;" target="_blank" class="detail_link_{{row.PkgSysId}}"
+                                       href="<?php echo $baseUrl; ?>detail/tour-package-for-{{rvGetSeoUrl(row.Countries)}}/{{rvGetSeoUrl(row.package.Name)}}-{{row.PkgSysId}}-{{row.defaultCategoryId}}-{{row.GTXPkgId}}-{{row.defaultTourType}}-{{row.mp}}.html"
+                                       title="{{row.package.Name}}">
+                                        <?php if ($mydevice == 'desktop') { ?>
+                                            <span style="font-size:14px;" ng-cloak title="{{row.package.Name}}" class="tour-price pull-left">{{row.package.Name| limitChar:27}}</span>
+                                        <?php } else { ?>
+                                            <span style="font-size:14px;" ng-cloak title="{{row.package.Name}}" class="tour-price pull-left">{{row.package.Name| limitChar:30}}</span>
+                                        <?php }
+                                        ?>
+
+                                    </a>
+<!--                                    <span ng-cloak class="tour-price-off pull-right">  </span>-->
+                                </header>
+                                <div class="tour-contents clearfix">
+                                    <figure class="tour-feature-img">
+                                        
+                                        <div class="package_box_hotdeal" ng-if="row.deal">{{row.deal}}</div>
+                                        <div class="tour-feature-title" ng-if="row.Duration>0">{{row.Duration}}N/{{summ(row.Duration, 1)}}D</div>
+                                        <div class="tour-feature-title" ng-if="row.Duration==0">{{summ(row.Duration, 1)}}D</div>
+                                        <a style="color: #333;" target="_blank" class="detail_link_{{row.PkgSysId}}"
+                                       href="<?php echo $baseUrl; ?>detail/tour-package-for-{{rvGetSeoUrl(row.Countries)}}/{{rvGetSeoUrl(row.package.Name)}}-{{row.PkgSysId}}-{{row.defaultCategoryId}}-{{row.GTXPkgId}}-{{row.defaultTourType}}-{{row.mp}}.html"
+                                       title="{{row.package.Name}}">
+                                            <img ng-cloak style="width:100%;height:154px;" src="<?php echo $baseUrl; ?>public/upload/tours/<?php echo $defaultTourListingImage ?>" alt="" ng-src="{{row.ImgThumbnail}}"
+                                                 onerror="this.src='<?php echo $baseUrl; ?>public/upload/tours/<?php echo $defaultTourListingImage ?>'" /> </a>
+                                        
+                                        <div class="tour-feature-price left_side">
+                        <div class="caption_price"><span class="WebRupee">Rs</span> <span ng-cloak ng-bind="outerforloop.Price[row.PkgSysId] || moneyformatinrhtml(row.Price)"></span></div>
+                      </div>
+                                            <div ng-if="row.isFixedDeparturesPackage==1" style="font-size:13px;" class="package_box_hotdeal">Group Tours</div>
+                                    </figure>
+                                    <div class="includes-dead"><h3>Package Includes</h3></div>
+                                    <div class="txt1-includes clearfix">                 
+                                        <div class="col-md-12 no-padding" style="height:40px;">
+                                            <ul ng-show="row.inclusionsArr.length > 0">
+                                                <li ng-cloak ng-repeat="inc in row.inclusionsArr| limitTo :6 track by $index">
+                                                    <img style="cursor:pointer;" title="{{inc}}" src="<?php echo $baseUrl; ?>public/images/{{inc| lowercase}}.png" alt="">
+                                                    
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-7"> <div class="entry-title1"> 
+                                                 <!--<span>Starting From</span>-->
+                                                 <h5 class="no-margin">
+<!--                                                    <a class="WebRupee">Rs</a> <a ng-cloak ng-bind="outerforloop.Price[row.PkgSysId] || moneyformatinrhtml(row.Price)"></a>
+                                                    <br/>-->
+                                                    <span>Price Per Person</span>
+                                                </h5>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-5">
+                                            <a target="_blank" href="<?php echo $baseUrl; ?>detail/tour-package-for-{{rvGetSeoUrl(row.Countries)}}/{{rvGetSeoUrl(row.package.Name)}}-{{row.PkgSysId}}-{{row.defaultCategoryId}}-{{row.GTXPkgId}}-{{row.defaultTourType}}-{{row.mp}}.html" class="btn btn-danger btn-sm pull-right">
+                                                Enquiry
+                                            </a>
+                                        </div>
+                                    </div>                                                                             
+                                </div>
+                            </article>
+                        </div>
+                        <div class="clearfix"></div>                            
+                    </div>
+                    <div ng-cloak class="container-fluid center" style="text-align:center;display:none;" ng-show="loading == false && (searchresults.length) && (searchresults.length != resultsetFull.length) && (resultsetFull.length > limitToResult)">
+                        <div id="pagging_loader">
+                            <input type="button" ng-click="loadmore();" value="Load More" class="btn btn-danger" id="loadmore"/>
+                        </div>
+                    </div>
+                    <div ng-cloak class="animate-repeat" ng-if="searchresults.length === 0 && loading == false" >
+                        <div class="col-md-12">
+                            <div class="list-container">
+                                <h4 class="text-center"><strong style="color: red;">No results found...</strong></h4>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <?php  if($mydevice === 'mobile'){ ?>
+<div class="modal fade" id="myModa1Filter" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header label-primary white">
+                <h4 class="modal-title" style="color:#FFF;">Filter <button type="button" class="close pull-right close-pop-timeout button-close" data-dismiss="modal" aria-hidden="true">×</button></h4>
+
+            </div>
+            <div class="modal-body">
+                <div class="panel-body no-padding" >
+                    <div class="top_filter">
+                        <div class="filterByScroll">
+                            <div class="filterByMain">
+                                <div class="filterByIn filterbyTxt">
+                                    <div class="filterbyDrop">
+                                        <div class="nav filter-box">
+                                            <ul>
+                                                <li class="firstLi"><a href="javascript:void(0);"><span class="checkIcon-active"></span> No. Of Night </a>
+                                                    <ul class="fallback">
+                                                        <li ng-repeat="res in filterNight track by $index" ng-cloak ng-init="applyFilterBoxSize('package', 'night', filterNight.length, $index);">
+                                                            <label>                                                                             
+                                                                <input class="filter-nn" type="checkbox"  ng-click="filterData();" value="{{res}}">
+                                                                <span class="checktxt">{{res}} Nights</span>
+                                                            </label>
+                                                        </li>
+                                                    </ul>
+                                                </li>
+                                                <li class="firstLi"><a href="javascript:void(0);"><span class="checkIcon-active"></span> Category </a>
+                                                    <ul class="fallback">
+                                                        <li>
+                                                            <label ng-repeat="res in filterCat track by $index" ng-cloak ng-init="applyFilterBoxSize('package', 'cat', filterCat.length, $index);" >
+                                                                <input class="filter-cat" type="checkbox" ng-click="filterData();" value="{{res}}" /> 
+                                                                <span class="checktxt">{{res}}</span>
+                                                            </label>
+                                                        </li>                                                                           
+                                                    </ul>
+                                                </li>
+                                                <li class="firstLi"><a href="javascript:void(0);"><span class="checkIcon-active"></span> Destination </a>
+                                                    <ul class="fallback">
+                                                        <li>
+                                                            <label ng-repeat="res in filterDest track by $index" ng-cloak ng-init="applyFilterBoxSize('package', 'dest', filterDest.length, $index);">
+                                                                <input class="filter-destination" type="checkbox"ng-click="filterData();"  ng-model="fiterRS.destination" title="{{res}}" value="{{res}}" >
+                                                                <span class="checktxt">{{res}}</span></label> 
+                                                            </label>
+                                                        </li>                                                                           
+                                                    </ul>
+                                                </li>
+                                            </ul>
+                                            <div class="cl"></div>
+                                        </div>
+                                    </div>
+                                    <div class="cl"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div> 
+                    <div class="clearfix"></div>
+                    <div> </div>
+                </div>
+                <div class="clear"></div>
+            </div>
+        </div>
+    </div>
+</div>
+<?php 
+}
+?>
+</div>

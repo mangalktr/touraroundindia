@@ -1,0 +1,141 @@
+<?php 
+$options = Zend_Controller_Front::getInstance()->getParam('bootstrap')->getOption('bootstrap');
+//print_r($this->editdata);die;
+?>
+ 
+<div class="content">
+        
+<div class="header">
+    <h1 class="page-title">Manage Promotion </h1>
+</div>
+
+<ul class="breadcrumb">
+    <li><a href="<?php echo $options['siteUrl'];?>admin/dashboard/index">Home</a> <span class="divider">/</span></li>
+    <li class="active"><a href="<?php echo $options['siteUrl'];?>admin/homepromotion/index">Manage Promotion</a> </li>
+    <li><span class="divider">/</span>Edit Home Page </li>
+</ul>
+
+<div class="container-fluid">
+    <div class="row-fluid">
+                    
+
+<div class="col-md-12">
+    <?php if (count($this->messages)) { ?>
+     <div class="alert alert-success" >
+         <button data-dismiss="alert" class="close" type="button">x</button>
+         <?php foreach ($this->messages as $message) {  ?>
+         <?php echo $this->escape($message); ?>
+         <?php } ?>
+     </div>
+    <?php } ?>
+</div>
+        <div class="well">
+    <ul class="nav nav-tabs">
+      <li class="active"><a href="#edit_page" data-toggle="tab">Add Home Page Promotion</a></li>
+    </ul>
+
+    <div id="myTabContent" class="tab-content">
+      <div class="tab-pane active in" id="add_page">
+          <form id="edit_promotion" class="edit_promotion" method="POST" action="admin/homepromotion/editpromotion" name="edit_promotion" enctype="multipart/form-data">
+            <label> Template Type</label>
+            <select name="templatetype" id="templatetype" class="input-xlarge" onchange="changeTemplateType(this)" disabled="disabled">
+                <option value="1" label="<?php echo $this->resultCategory->prom_cat_one;?>">" <?php echo ($this->templatetype ==1 ) ? 'selected' : ''?>><?php echo $this->resultCategory->prom_cat_one;?>"></option>
+                <option value="2" label="<?php echo $this->resultCategory->prom_cat_two;?>" <?php echo ($this->templatetype ==2 ) ? 'selected' : ''?>><?php echo $this->resultCategory->prom_cat_two;?></option>
+                <option value="3" label="<?php echo $this->resultCategory->prom_cat_three;?>" <?php echo ($this->templatetype == 3) ? 'selected' : ''?>><?php echo $this->resultCategory->prom_cat_three;?></option>
+            </select>
+            <input type="hidden" name="id" value="<?php echo $this->promotionId;?>">
+            <?php if($this->templatetype == 1){?>
+            <div id="templateType1" class="templateType" >
+                <input type="hidden" name="templatetype" value="<?php echo $this->templatetype;?>">
+                <label>Image <b>(Min W :580 , Min H : 350)</b></label>
+                <input type="file" name="promotion_image1" id="promotion_image1" value="" class="input-xlarge">
+                <?php if($this->promotion_image!="") { ?>
+                    <img src="public/upload/homepromotion/small/<?php echo $this->promotion_image;?>" style="width:80px;height:80px;" border="0" alt="background image" />
+                <?php } ?>
+                <label>Promotion Name</label>
+                <input type="text" name="promotion_name1" id="promotion_name1" value="<?php echo $this->editdata['promotion_name'];?>" class="input-xlarge">
+                
+                <label>Promotion Description</label>
+                <textarea name="promotion_description" id="promotion_description" class="input-xlarge"><?php echo $this->editdata['promotion_description'];?></textarea>
+                
+                <label>Promotion Url</label>
+                <input type="text" name="promotion_url1" id="promotion_url1" value="<?php echo $this->editdata['promotion_url'];?>" class="input-xlarge">
+
+                <label>Open url in new tab &nbsp; 
+                <input type="checkbox" name="opt1" id="opt1" value="1" class="option" <?php echo ($this->editdata['tab_type'] == 1) ? 'checked': '';?>></label>
+            </div>  
+            <?php }else if($this->templatetype == 2){ ?>  
+            <div id="templateType2" class="templateType" >
+                <input type="hidden" name="templatetype" value="<?php echo $this->templatetype;?>">
+                <label>Upload Image <b>(Min W :360 , Min H : 350)</b></label>
+                <input type="file" name="promotion_image2" id="promotion_image" value="" class="input-xlarge">
+                 <?php if($this->promotion_image!="") { ?>
+                    <img src="public/upload/homepromotion/small/<?php echo $this->promotion_image;?>" style="width:80px;height:80px;" border="0" alt="background image" />
+                <?php } ?>
+                <label>Tag 1</label>
+                <input type="text" name="promotion_tag1" id="promotion_url21" value="<?php echo $this->editdata['promotion_tag1'];?>" class="input-xlarge">
+                <label>Url</label>
+                <input type="text" name="promotion_tag_url1" id="promotion_url21" value="<?php echo $this->editdata['promotion_tag_url1'];?>" class="input-xlarge">
+                <span>Open url in new tab &nbsp; 
+                <input type="checkbox" name="tagopt1" id="opt21" value="1" class="option" <?php echo ($this->editdata['tagopt1'] == 1) ? 'checked': '';?>></span>
+                
+                <label>Tag 2</label>
+                <input type="text" name="promotion_tag2" id="promotion_url22" value="<?php echo $this->editdata['promotion_tag2'];?>" class="input-xlarge">
+                <label>Url</label>
+                <input type="text" name="promotion_tag_url2" id="promotion_url21" value="<?php echo $this->editdata['promotion_tag_url2'];?>" class="input-xlarge">
+                <span>Open url in new tab &nbsp; 
+                <input type="checkbox" name="tagopt2" id="opt22" value="1" class="option" <?php echo ($this->editdata['tagopt2'] == 1) ? 'checked': '';?>></span>
+                
+                <label>Tag 3</label>
+                <input type="text" name="promotion_tag3" id="promotion_url23" value="<?php echo $this->editdata['promotion_tag3'];?>" class="input-xlarge">
+                <label>Url</label>
+                <input type="text" name="promotion_tag_url3" id="promotion_url21" value="<?php echo $this->editdata['promotion_tag_url3'];?>" class="input-xlarge">
+                <span>Open url in new tab &nbsp; 
+                <input type="checkbox" name="tagopt3" id="opt23" value="1" class="option" <?php echo ($this->editdata['tagopt3'] == 1) ? 'checked': '';?>></span>
+                
+                <label>Tag 4</label>
+                <input type="text" name="promotion_tag4" id="promotion_url24" value="<?php echo $this->editdata['promotion_tag4'];?>" class="input-xlarge">
+                <label>Url</label>
+                <input type="text" name="promotion_tag_url4" id="promotion_url21" value="<?php echo $this->editdata['promotion_tag_url4'];?>" class="input-xlarge">
+                <span>Open url in new tab &nbsp; 
+                <input type="checkbox" name="tagopt4" id="opt24" value="1" class="option" <?php echo ($this->editdata['tagopt4'] == 1) ? 'checked': '';?>></span>
+            </div>  
+              <?php }else if($this->templatetype == 3){ ?>   
+            <input type="hidden" name="templatetype" value="<?php echo $this->templatetype;?>">
+                <div id="templateType3" class="templateType" >
+                
+                <label>Upload Image <b>(Min W :200 , Min H : 350)</b></label>
+                <input type="file" name="promotion_image3" id="promotion_image3" value="" class="input-xlarge">
+                <?php if($this->promotion_image!="") { ?>
+                    <img src="public/upload/homepromotion/small/<?php echo $this->promotion_image;?>" style="width:80px;height:80px;" border="0" alt="background image" />
+                <?php } ?>
+                <label>Promotion Url</label>
+                <input type="text" name="promotion_url3" id="promotion_url3" value="<?php echo $this->editdata['promotion_url'];?>" class="input-xlarge">
+
+                <label>Open url in new tab &nbsp; 
+                <input type="checkbox" name="opt3" id="opt3" value="1" class="option" <?php echo ($this->editdata['tab_type'] == 1) ? 'checked': '';?>></label>
+            </div>
+              <?php } ?>
+        <div style="padding-top:20px;">
+            <p class="msg" style="color:#ff0000;"></p>
+            <input type="submit" name="save" value="Save" class="btn btn-primary">
+            <button class="btn btn-primary" type="button" onclick="window.location.href='admin/homepromotion/index'">Cancel</button>
+        </div>
+        
+    </form>
+      </div>
+  </div>
+
+</div>                    
+    </div>
+</div>
+</div>
+
+<script>
+function changeTemplateType(that){
+ var type = $(that).val();
+    $('.templateType').hide();
+    $('#templateType'+parseInt(type)).show();
+}
+
+</script>

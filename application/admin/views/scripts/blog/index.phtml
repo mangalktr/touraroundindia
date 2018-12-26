@@ -1,0 +1,96 @@
+<?php 
+$options = Zend_Controller_Front::getInstance()->getParam('bootstrap')->getOption('bootstrap');
+$resultset = $this->resultset; 
+$result_destination = $this->result_destination; 
+//echo "<pre>";print_r($result_destination);die;  
+$objHelper = Zend_Controller_Action_HelperBroker::getStaticHelper('General');
+?>
+
+<div class="content">        
+<div class="header">
+    <h1 class="page-title">Manage Blog</h1>
+</div>
+<ul class="breadcrumb">
+    <li><a href="<?php echo $options['siteUrl'];?>admin/dashboard/index">Home</a> <span class="divider">/</span></li>
+    <li class="active">Manage Blog<span class="divider">/</span></li>
+    <li><a href="<?php echo $options['siteUrl'];?>admin/blog/addblog">Add Blog</a> </li>
+</ul>
+
+<div class="container-fluid">
+    <div class="row-fluid">
+                    
+
+<div class="col-md-12">
+    <?php if (count($this->messages)) { ?>
+     <div class="alert alert-success" >
+         <button data-dismiss="alert" class="close" type="button">x</button>
+         <?php foreach ($this->messages as $message) {  ?>
+         <?php echo $this->escape($message); ?>
+         <?php } ?>
+     </div>
+    <?php } ?>
+</div>
+       
+<div class="well">
+    <table class="table display" id="example">
+      <thead>
+        <tr>
+          <th>S.No.</th>
+          <th >Title</th>
+          <th >Date</th>
+          <th >Posted By</th>
+          <th >Image</th>      
+          <th >Status</th>      
+          <th >Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        <?php
+        if(count($resultset) >0) {
+            foreach($resultset as $key=>$val){ 
+//                echo "<pre>";print_r($val);
+        ?>
+        <tr <?php echo ( $val['status'] == 0 ) ? 'style="background:#ffeeea"' : "";?>>
+          <td ><?php echo ($this->per_page_record * ($this->page-1) + ++$key) ; ?></td>
+          <td title="<?php echo $val['BlogTitle'];?>"><?php echo $val['BlogTitle'];?></td>
+          
+          <td ><?php echo date('d-m-Y' , strtotime($val['BlogDate']));?></td>
+          <td ><?php echo $val['PostedBy'];?> </td>         
+            
+          <td> <img src="<?php echo $baseUrl;?>public/upload/blog/<?php echo $val['BlogImage'];?>" border="0" alt="image" width="40"/></td>
+          <td ><?php echo ($val['status'] ==1 ) ? "Active" : "Deactive";?> </td>      
+          <td > 
+              <a href="<?php echo $options['siteUrl'];?>admin/blog/editblog/id/<?php echo $val['BlogId'];?>" title="Edit"><i class="icon-pencil"></i></a>                           
+              <a href="<?php echo $options['siteUrl'];?>admin/blog/deleteblog/id/<?php echo $val['BlogId'];?>" class="Delete" title="delete"><i class="icon-trash"></i></a>                 
+          </td>
+                   
+        </tr>
+        <?php }
+        }
+        else {
+        ?>
+        <tr>
+          <td colspan="6">No data found.</td>
+        </tr>
+        <?php } ?>
+        
+      </tbody>
+    </table>
+</div>
+
+<!--Pagingnation Start-->
+<?php
+echo $this->paginationControl($this->resultset, 'Sliding', 'pagination.phtml');
+?>
+<!--Pagingnation End-->
+          
+   </div>
+</div>
+</div>
+<script>
+$('.Delete').click(function(){
+    if (!confirm('Are you sure you want to delete?')) {
+        return false;
+    }
+    });
+</script>

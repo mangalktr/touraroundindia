@@ -1,0 +1,112 @@
+<?php 
+$options = Zend_Controller_Front::getInstance()->getParam('bootstrap')->getOption('bootstrap');
+$baseUrl = $options['siteUrl'];
+//echo"<pre>";print_r($this->form->getName());die;
+?>
+<style type="text/css">
+    li{list-style:none; color:#ed3237; font-size:13px;}
+    ul{margin:0px; padding:0px;}
+</style>
+
+
+<div class="content">
+<?php  if(trim($this->form->getName())==="add_testimonial"){?>
+   <div class="header">
+    <h1 class="page-title">Add Testimonial</h1>
+</div>
+
+<ul class="breadcrumb">
+    <li><a href="<?php echo $options['siteUrl'];?>admin/dashboard/index">Home</a> <span class="divider">/</span></li>
+    <li><a href="<?php echo $options['siteUrl'];?>admin/testimonial/index">Manage</a> <span class="divider">/</span></li>
+    <li class="active">Add Testimonial</li>
+</ul> 
+<?php } else{     ?> 
+    <div class="header">
+    <h1 class="page-title">Update Testimonial</h1>
+</div>
+
+<ul class="breadcrumb">
+    <li><a href="<?php echo $options['siteUrl'];?>admin/dashboard/index">Home</a> <span class="divider">/</span></li>
+    <li><a href="<?php echo $options['siteUrl'];?>admin/testimonial/index">Manage</a> <span class="divider">/</span></li>
+    <li class="active">Update Testimonial</li>
+</ul>
+    <?php }?>
+
+
+<div class="container-fluid">
+    <div class="row-fluid">       
+   
+    <?php if($this->successMessage) { ?>
+        <div class="alert alert-info">
+        <button data-dismiss="alert" class="close" type="button">×</button>
+        <?php echo $this->successMessage; ?>
+        </div> 
+    <?php } ?>
+        
+   <?php if($this->errorMessage) { ?>
+       <div class="alert alert-error">
+           <button data-dismiss="alert" class="close" type="button">×</button>
+           <?php echo $this->errorMessage; ?>
+       </div>
+   <?php } ?>
+      
+   <?php if($this->error1Message) { ?>
+       <div class="alert alert-error">
+           <button data-dismiss="alert" class="close" type="button">×</button>
+           <?php echo $this->error1Message; ?>
+       </div>
+   <?php } ?>   
+        
+<div class="well">
+    <ul class="nav nav-tabs">
+        <?php  if(trim($this->form->getName())==="add_testimonial"){?>
+      <li class="active"><a href="#edit_page" data-toggle="tab">Add Testimonial</a></li>
+      <?php }
+      else{ ?>
+       <li class="active"><a href="#edit_page" data-toggle="tab">Update Testimonial</a></li>
+      <?php } ?>
+    </ul>
+     <?php $form = $this->form;?>
+    <div id="myTabContent" class="tab-content">
+      <div class="tab-pane active in" id="add_page">
+          <form id="add_testimonial" class="add_testimonial" method="<?php echo $this->form->getMethod();?>" action="<?php echo $this->form->getAction();?>" name="<?php echo $this->form->getName();?>" enctype="multipart/form-data">
+        <?php echo $form->id;?>
+               
+        <label>Name</label>
+        <?php echo $form->name;?>
+        
+        <label>Image</label>
+        <?php echo $form->TestiImage;?>
+        <?php if(isset($this->TestiImage) && !empty($this->TestiImage)){
+            ?>
+            <img src="public/upload/testimonial/<?php echo $this->TestiImage;?>" border="0" alt="image" width="60" height="60">
+       <?php } ?>
+        
+        
+        
+        <label>Message</label>
+        <?php echo $form->message;?>
+        
+        
+        
+        <label style="padding-top:10px;">Status</label>
+        <?php echo $form->status;?>
+        
+        <div style="padding-top:20px;">
+            <p class="msg" style="color:#ff0000;"></p>
+            <input type="submit" name="save" value="Save" class="btn btn-primary">
+            <button class="btn btn-primary" type="button" onclick="window.location.href='<?php echo $baseUrl; ?>admin/testimonial/index'">Cancel</button>
+        </div>
+        
+    </form>
+      </div>
+  </div>
+
+</div>                    
+    </div>
+</div>
+</div>
+
+<script>
+    CKEDITOR.replace('message',{});
+</script>

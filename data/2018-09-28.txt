@@ -1,0 +1,75 @@
+2018-09-28 16:33:44 - 127.0.0.1 - {"status":"success","mobilenumber":"7727052691","fname":"mangal","lname":""}
+2018-09-28 16:48:13 - 127.0.0.1 - {"status":"success","mobilenumber":"7727052691","fname":"mangal","lname":""}
+2018-09-28 16:48:30 - 127.0.0.1 - <br />
+<b>Notice</b>:  Undefined offset: 0 in <b>D:\xampp\htdocs\b2bzend\application\modules\gtxwebservices\controllers\QueryController.php</b> on line <b>62</b><br />
+<br />
+<b>Notice</b>:  Undefined offset: 0 in <b>D:\xampp\htdocs\b2bzend\application\modules\gtxwebservices\controllers\QueryController.php</b> on line <b>63</b><br />
+<br />
+<b>Notice</b>:  Undefined offset: 0 in <b>D:\xampp\htdocs\b2bzend\application\modules\gtxwebservices\controllers\QueryController.php</b> on line <b>296</b><br />
+<br />
+<b>Notice</b>:  Undefined offset: 0 in <b>D:\xampp\htdocs\b2bzend\application\modules\gtxwebservices\controllers\QueryController.php</b> on line <b>297</b><br />
+<br />
+<b>Notice</b>:  Undefined offset: 0 in <b>D:\xampp\htdocs\b2bzend\application\modules\gtxwebservices\controllers\QueryController.php</b> on line <b>298</b><br />
+<br />
+<b>Notice</b>:  Undefined offset: 0 in <b>D:\xampp\htdocs\b2bzend\application\modules\gtxwebservices\controllers\QueryController.php</b> on line <b>315</b><br />
+<br />
+<b>Notice</b>:  Undefined offset: 0 in <b>D:\xampp\htdocs\b2bzend\application\modules\gtxwebservices\controllers\QueryController.php</b> on line <b>316</b><br />
+<br />
+<b>Notice</b>:  Undefined offset: 0 in <b>D:\xampp\htdocs\b2bzend\application\modules\gtxwebservices\controllers\QueryController.php</b> on line <b>317</b><br />
+<br />
+<b>Notice</b>:  Undefined offset: 0 in <b>D:\xampp\htdocs\b2bzend\application\modules\gtxwebservices\controllers\QueryController.php</b> on line <b>318</b><br />
+<br />
+<b>Notice</b>:  Undefined offset: 0 in <b>D:\xampp\htdocs\b2bzend\application\modules\gtxwebservices\controllers\QueryController.php</b> on line <b>320</b><br />
+<br />
+<b>Notice</b>:  Undefined offset: 0 in <b>D:\xampp\htdocs\b2bzend\application\modules\gtxwebservices\controllers\QueryController.php</b> on line <b>322</b><br />
+<br />
+<b>Notice</b>:  Undefined offset: 0 in <b>D:\xampp\htdocs\b2bzend\application\modules\gtxwebservices\controllers\QueryController.php</b> on line <b>323</b><br />
+<br />
+<b>Notice</b>:  Undefined offset: 0 in <b>D:\xampp\htdocs\b2bzend\application\modules\gtxwebservices\controllers\QueryController.php</b> on line <b>326</b><br />
+<br />
+<b>Notice</b>:  Undefined offset: 0 in <b>D:\xampp\htdocs\b2bzend\application\modules\gtxwebservices\controllers\QueryController.php</b> on line <b>327</b><br />
+<br />
+<b>Notice</b>:  Undefined offset: 0 in <b>D:\xampp\htdocs\b2bzend\application\modules\gtxwebservices\controllers\QueryController.php</b> on line <b>328</b><br />
+<br />
+<b>Notice</b>:  Undefined offset: 0 in <b>D:\xampp\htdocs\b2bzend\application\modules\gtxwebservices\controllers\QueryController.php</b> on line <b>329</b><br />
+<br />
+<b>Notice</b>:  Undefined offset: 0 in <b>D:\xampp\htdocs\b2bzend\application\modules\gtxwebservices\controllers\QueryController.php</b> on line <b>330</b><br />
+<br />
+<b>Notice</b>:  Undefined offset: 0 in <b>D:\xampp\htdocs\b2bzend\application\modules\gtxwebservices\controllers\QueryController.php</b> on line <b>331</b><br />
+<br />
+<b>Notice</b>:  Undefined offset: 0 in <b>D:\xampp\htdocs\b2bzend\application\modules\gtxwebservices\controllers\QueryController.php</b> on line <b>334</b><br />
+<br />
+<b>Notice</b>:  Undefined offset: 0 in <b>D:\xampp\htdocs\b2bzend\application\modules\gtxwebservices\controllers\QueryController.php</b> on line <b>338</b><br />
+<br />
+<b>Notice</b>:  Undefined offset: 0 in <b>D:\xampp\htdocs\b2bzend\application\modules\gtxwebservices\controllers\QueryController.php</b> on line <b>339</b><br />
+<br />
+<b>Notice</b>:  Undefined offset: 0 in <b>D:\xampp\htdocs\b2bzend\application\modules\gtxwebservices\controllers\QueryController.php</b> on line <b>340</b><br />
+<br />
+<b>Notice</b>:  Undefined offset: 0 in <b>D:\xampp\htdocs\b2bzend\application\modules\gtxwebservices\controllers\QueryController.php</b> on line <b>341</b><br />
+<br />
+<b>Notice</b>:  Undefined offset: 0 in <b>D:\xampp\htdocs\b2bzend\application\modules\gtxwebservices\controllers\QueryController.php</b> on line <b>342</b><br />
+<br />
+<b>Notice</b>:  Undefined offset: 0 in <b>D:\xampp\htdocs\b2bzend\application\modules\gtxwebservices\controllers\QueryController.php</b> on line <b>343</b><br />
+<br />
+<b>Notice</b>:  Undefined offset: 0 in <b>D:\xampp\htdocs\b2bzend\application\modules\gtxwebservices\controllers\QueryController.php</b> on line <b>344</b><br />
+<br />
+<b>Notice</b>:  Undefined offset: 0 in <b>D:\xampp\htdocs\b2bzend\application\modules\gtxwebservices\controllers\QueryController.php</b> on line <b>349</b><br />
+<br />
+<b>Notice</b>:  Undefined offset: 0 in <b>D:\xampp\htdocs\b2bzend\application\modules\gtxwebservices\controllers\QueryController.php</b> on line <b>350</b><br />
+<br />
+<b>Notice</b>:  Undefined offset: 0 in <b>D:\xampp\htdocs\b2bzend\application\modules\gtxwebservices\controllers\QueryController.php</b> on line <b>351</b><br />
+<br />
+<b>Notice</b>:  Undefined offset: 0 in <b>D:\xampp\htdocs\b2bzend\application\modules\gtxwebservices\controllers\QueryController.php</b> on line <b>352</b><br />
+<br />
+<b>Notice</b>:  Undefined offset: 0 in <b>D:\xampp\htdocs\b2bzend\application\modules\gtxwebservices\controllers\QueryController.php</b> on line <b>359</b><br />
+<br />
+<b>Notice</b>:  Undefined offset: 0 in <b>D:\xampp\htdocs\b2bzend\application\modules\gtxwebservices\controllers\QueryController.php</b> on line <b>360</b><br />
+<br />
+<b>Notice</b>:  Undefined offset: 0 in <b>D:\xampp\htdocs\b2bzend\application\modules\gtxwebservices\controllers\QueryController.php</b> on line <b>369</b><br />
+<br />
+<b>Notice</b>:  Undefined offset: 0 in <b>D:\xampp\htdocs\b2bzend\application\modules\gtxwebservices\controllers\QueryController.php</b> on line <b>371</b><br />
+<br />
+<b>Notice</b>:  Undefined variable: gettplandataforcustomer in <b>D:\xampp\htdocs\b2bzend\application\modules\gtxwebservices\controllers\QueryController.php</b> on line <b>397</b><br />
+<br />
+<b>Notice</b>:  Undefined variable: gettplandataforcustomer in <b>D:\xampp\htdocs\b2bzend\application\modules\gtxwebservices\controllers\QueryController.php</b> on line <b>398</b><br />
+

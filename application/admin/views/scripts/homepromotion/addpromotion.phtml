@@ -1,0 +1,130 @@
+<?php 
+$options = Zend_Controller_Front::getInstance()->getParam('bootstrap')->getOption('bootstrap');
+$resultset = $this->resultset; 
+?>
+ 
+<div class="content">
+        
+<div class="header">
+    <h1 class="page-title">Manage Promotion </h1>
+</div>
+
+<ul class="breadcrumb">
+    <li><a href="<?php echo $options['siteUrl'];?>admin/dashboard/index">Home</a> <span class="divider">/</span></li>
+    <li class="active"><a href="<?php echo $options['siteUrl'];?>admin/homepromotion/index">Manage Promotion</a> </li>
+    <li><span class="divider">/</span>Add Home Page </li>
+</ul>
+
+<div class="container-fluid">
+    <div class="row-fluid">
+                    
+
+<div class="col-md-12">
+    <?php if (count($this->messages)) { ?>
+     <div class="alert alert-success" >
+         <button data-dismiss="alert" class="close" type="button">x</button>
+         <?php foreach ($this->messages as $message) {  ?>
+         <?php echo $this->escape($message); ?>
+         <?php } ?>
+     </div>
+    <?php } ?>
+</div>
+        <div class="well">
+    <ul class="nav nav-tabs">
+      <li class="active"><a href="#edit_page" data-toggle="tab">Add Home Page Promotion</a></li>
+    </ul>
+
+    <div id="myTabContent" class="tab-content">
+      <div class="tab-pane active in" id="add_page">
+          <form id="add_promotion" class="add_promotion" method="POST" action="admin/homepromotion/addpromotion" name="add_promotion" enctype="multipart/form-data">
+            <label>Select Template Type</label>
+            <select name="templatetype" id="templatetype" class="input-xlarge" onchange="changeTemplateType(this)">
+                <option value="1" label="<?php echo $this->resultCategory->prom_cat_one;?>"><?php echo $this->resultCategory->prom_cat_one;?></option>
+                <option value="2" label="<?php echo $this->resultCategory->prom_cat_two;?>"><?php echo $this->resultCategory->prom_cat_two;?></option>
+                <option value="3" label="<?php echo $this->resultCategory->prom_cat_three;?>"><?php echo $this->resultCategory->prom_cat_three;?></option>
+            </select>
+            <div id="templateType1" class="templateType" >
+               
+                <label>Image <b>(Min W :580 , Min H : 350)</b></label>
+                <input type="file" name="promotion_image1" id="promotion_image1" value="" class="input-xlarge">
+
+                <label>Promotion Name</label>
+                <input type="text" name="promotion_name1" id="promotion_name1" value="" class="input-xlarge">
+                <label>Promotion Description</label>
+                <textarea name="promotion_description" id="promotion_description" class="input-xlarge"></textarea>
+
+                <label>Promotion Url</label>
+                <input type="text" name="promotion_url1" id="promotion_url1" value="" class="input-xlarge">
+
+                <label>Open url in new tab &nbsp; 
+                <input type="checkbox" name="opt1" id="opt1" value="1" class="option"></label>
+            </div>  
+                
+            <div id="templateType2" class="templateType"  style="display:none">
+               
+                <label>Upload Image <b>(Min W :360 , Min H : 350)</b></label>
+                <input type="file" name="promotion_image2" id="promotion_image" value="" class="input-xlarge">
+
+                <label>Tag 1</label>
+                <input type="text" name="promotion_tag1" id="promotion_url21" value="" class="input-xlarge">
+                <label>Url</label>
+                <input type="text" name="promotion_tag_url1" id="promotion_url21" value="" class="input-xlarge">
+                <span>Open url in new tab &nbsp; 
+                <input type="checkbox" name="tagopt1" id="opt21" value="1" class="option"></span>
+                
+                <label>Tag 2</label>
+                <input type="text" name="promotion_tag2" id="promotion_url22" value="" class="input-xlarge">
+                <label>Url</label>
+                <input type="text" name="promotion_tag_url2" id="promotion_url21" value="" class="input-xlarge">
+                <span>Open url in new tab &nbsp; 
+                <input type="checkbox" name="tagopt2" id="opt22" value="1" class="option"></span>
+                
+                <label>Tag 3</label>
+                <input type="text" name="promotion_tag3" id="promotion_url23" value="" class="input-xlarge">
+                <label>Url</label>
+                <input type="text" name="promotion_tag_url3" id="promotion_url21" value="" class="input-xlarge">
+                <span>Open url in new tab &nbsp; 
+                <input type="checkbox" name="tagopt3" id="opt23" value="1" class="option"></span>
+                
+                <label>Tag 4</label>
+                <input type="text" name="promotion_tag4" id="promotion_url24" value="" class="input-xlarge">
+                <label>Url</label>
+                <input type="text" name="promotion_tag_url4" id="promotion_url21" value="" class="input-xlarge">
+                <span>Open url in new tab &nbsp; 
+                <input type="checkbox" name="tagopt4" id="opt24" value="1" class="option"></span>
+            </div>  
+                
+                <div id="templateType3" class="templateType"  style="display:none">
+                
+                <label>Upload Image <b>(Min W :200 , Min H : 350)</b></label>
+                <input type="file" name="promotion_image3" id="promotion_image3" value="" class="input-xlarge">
+
+                <label>Promotion Url</label>
+                <input type="text" name="promotion_url3" id="promotion_url3" value="" class="input-xlarge">
+
+                <label>Open url in new tab &nbsp; 
+                <input type="checkbox" name="opt3" id="opt3" value="1" class="option"></label>
+            </div>  
+        <div style="padding-top:20px;">
+            <p class="msg" style="color:#ff0000;"></p>
+            <input type="submit" name="save" value="Save" class="btn btn-primary">
+            <button class="btn btn-primary" type="button" onclick="window.location.href='admin/homepromotion/index'">Cancel</button>
+        </div>
+        
+    </form>
+      </div>
+  </div>
+
+</div>                    
+    </div>
+</div>
+</div>
+
+<script>
+function changeTemplateType(that){
+ var type = $(that).val();
+    $('.templateType').hide();
+    $('#templateType'+parseInt(type)).show();
+}
+
+</script>

@@ -1,0 +1,133 @@
+<?php 
+$options = Zend_Controller_Front::getInstance()->getParam('bootstrap')->getOption('bootstrap');
+$resultset = $this->resultset; 
+$result_destination = $this->result_destination; 
+//echo "<pre>";print_r($result_destination);die;  
+$objHelper = Zend_Controller_Action_HelperBroker::getStaticHelper('General');
+?>
+
+<div class="content">        
+<div class="header">
+    <h1 class="page-title">Manage Travelogues</h1>
+</div>
+<ul class="breadcrumb">
+    <li><a href="<?php echo $options['siteUrl'];?>admin/dashboard/index">Home</a> <span class="divider">/</span></li>
+    <li class="active">Manage Travelogues<span class="divider">/</span></li>
+    <li><a href="<?php echo $options['siteUrl'];?>admin/travelogues/addtravelogues">Add Travelogues</a> </li>
+</ul>
+
+<div class="container-fluid">
+    <div class="row-fluid">
+                    
+
+<div class="col-md-12">
+    <?php if (count($this->messages)) { ?>
+     <div class="alert alert-success" >
+         <button data-dismiss="alert" class="close" type="button">x</button>
+         <?php foreach ($this->messages as $message) {  ?>
+         <?php echo $this->escape($message); ?>
+         <?php } ?>
+     </div>
+    <?php } ?>
+</div>
+      
+        <div class="well">
+                <table id="tt" class="easyui-datagrid" style="width:100%;" url="admin/staticpage/index"
+                       iconCls="icon-save" toolbar="#tb" rownumbers="true" pagination="true" fitColumns="true" view="scrollview" nowrap="false" >
+                    <thead>
+                        <tr>
+                            <th field="TravTitle" data-options="width:100">Title</th>
+                            <th field="TravTitle" data-options="width:100">Blog Image</th>
+                            <th field="TravUploadedBy" data-options="width:150">Uploaded By</th>
+                            <th field="TravUploadedBy" data-options="width:150">Banner Image</th>
+                            <th field="tags" data-options="width:150">Tag</th>
+                            <th field="updatedOn" data-options="width:150">Comments</th>
+                            <th data-options="field:'firma1',width:80,align:'center',formatter:formatStaticAction">Action</th>
+                        </tr>
+                    </thead>
+                </table>
+                <div id="tb" style="padding:3px;">
+                    <span>Page Title:</span>
+                    <input id="Title" onkeyup="doSearch()" style="line-height:26px;border: 1px solid #ccc">
+                </div>
+            </div>
+        
+       
+<div class="well">
+    <table class="table display" id="example">
+    
+      <tbody>
+        <?php
+        if(count($resultset) >0) {
+            foreach($resultset as $key=>$val){ 
+             //echo "<pre>";print_r($val);
+        ?>
+        <tr <?php echo ( $val['status'] == 0 ) ? 'style="background:#ffeeea"' : "";?>>
+          <td ><?php echo ($this->per_page_record * ($this->page-1) + ++$key) ; ?></td>
+          <td title="<?php echo ucfirst($val['TravTitle']);?>"><?php echo $objHelper->trimContent(ucfirst($val['TravTitle']), 30);?></td>
+           <?php if(isset($val['TravImage']) && !empty($val['TravImage']) && (file_exists('public/upload/travelogues/'.$val['TravImage']))){
+                  ?>
+           <td> <img src="<?php echo $baseUrl;?>public/upload/travelogues/<?php echo $val['TravImage'];?>" border="0" alt="banner image" width="60"></td>          
+          <?php }else{ ?>
+              
+              <td><img src="<?php echo $baseUrl;?>public/images/no-image.jpg" border="0" alt="No image"  width="60" /></td>
+             <?php }?>
+         
+          <td ><?php echo $val['TravUploadedBy'];?></td>
+         
+           <?php if(isset($val['TravBannerImage']) && !empty($val['TravBannerImage']) && (file_exists('public/upload/travelogues/'.$val['TravBannerImage']))){
+                  ?>
+           <td> <img src="<?php echo $baseUrl;?>public/upload/travelogues/<?php echo $val['TravBannerImage'];?>" border="0" alt="banner image" width="60"></td>          
+          <?php }else{ ?>
+              
+              <td><img src="<?php echo $baseUrl;?>public/images/no-image.jpg" border="0" alt="No image"  width="60" /></td>
+             <?php }?>
+           <td ><?php echo $val['tags'];?></td>
+           <td><a href="<?php echo $options['siteUrl'];?>admin/travelogues/comments/id/<?php echo $val['TravId'];?>">View (<?php echo $val['cc'];?>)</a></td>
+           <td > 
+              <a href="<?php echo $options['siteUrl'];?>admin/travelogues/edittravelogues/id/<?php echo $val['TravId'];?>" title="Edit"><i class="icon-pencil"></i></a>                           
+              <a href="<?php echo $options['siteUrl'];?>admin/travelogues/deletetravelogues/id/<?php echo $val['TravId'];?>" class="Delete" title="delete"><i class="icon-trash"></i></a>                 
+          </td>
+                   
+        </tr>
+        <?php }
+        }
+        else {
+        ?>
+        <tr>
+          <td colspan="6">No data found.</td>
+        </tr>
+        <?php } ?>
+        
+      </tbody>
+    </table>
+</div>
+
+<!--Pagingnation Start-->
+<?php
+echo $this->paginationControl($this->resultset, 'Sliding', 'pagination.phtml');
+?>
+<!--Pagingnation End-->
+          
+   </div>
+</div>
+</div>
+<script>
+$('.Delete').click(function(){
+    if (!confirm('Are you sure you want to delete?')) {
+        return false;
+    }
+    });
+</script>
+<script type="text/javascript">
+    function doSearch() {
+                            $('#tt').datagrid('load', {
+                                Title: $('#Title').val(),
+//                                packagenumber: $('#packagenumber').val(),
+                            });
+                        }
+    function formatStaticAction(val, row) {
+                            var href = 'admin/staticpage/editpage/id/' + row.sid;
+                            return '<a href="' + href + '" title="Edit"><i class="icon-pencil"></i></a>';
+                        }
+</script>

@@ -1,0 +1,102 @@
+<?php 
+$options = Zend_Controller_Front::getInstance()->getParam('bootstrap')->getOption('bootstrap');
+$authStorage = Zend_Auth::getInstance()->getStorage();
+
+$admin_type = $authStorage->read()->role;
+$front = Zend_Controller_Front::getInstance();
+$controller = $front->getRequest()->getControllerName(); 
+$action = $front->getRequest()->getActionName(); 
+?>
+
+<div class="sidebar-nav">
+    
+    <a href="<?php echo $options['siteUrl'];?>admin/dashboard/index" class="nav-header"><i class="icon-dashboard"></i>Dashboard</a>
+    
+    <?php if($admin_type=="superadmin"){ ?>
+
+    <a href="#page" class="nav-header" data-toggle="collapse"><i class="icon-briefcase"></i>Manage Static Pages</a>
+    <ul id="page" <?php if($controller=="staticpage" && ($action=="edit" || $action=="index" )){?> class="nav nav-list in collapse" <?php }else{?>class="nav nav-list collapse"<?php }?> >
+        <li><a href="<?php echo $options['siteUrl'];?>admin/staticpage/index" <?php if($controller=="staticpage" && $action=="index"){?> class="selected_div" <?php }?>>Manage Static Pages</a></li>
+    </ul>
+    
+    <a href="#contact" class="nav-header" data-toggle="collapse"><i class="icon-briefcase"></i>Manage Contact Us</a>
+    <ul id="contact" <?php if($controller=="contactus" && ( $action=="index" )){?> class="nav nav-list in collapse" <?php }else{?>class="nav nav-list collapse"<?php }?> >
+        <li><a href="<?php echo $options['siteUrl'];?>admin/contactus/index" <?php if($controller=="contactus" && $action=="index"){?> class="selected_div" <?php }?>>Manage Contact Queries</a></li>
+    </ul>
+    
+    <?php } else if($admin_type=="admin") { ?>
+
+    <a href="#page" class="nav-header" data-toggle="collapse"><i class="icon-briefcase"></i>Manage Static Pages</a>
+    <ul id="page" <?php if($controller=="staticpage" && ($action=="edit" || $action=="index" )){?> class="nav nav-list in collapse" <?php }else{?>class="nav nav-list collapse"<?php }?> >
+        <li><a href="<?php echo $options['siteUrl'];?>admin/staticpage/index" <?php if($controller=="staticpage" && $action=="index"){?> class="selected_div" <?php }?>>Manage</a></li>
+    </ul>
+    
+    <a href="#home" class="nav-header" data-toggle="collapse"><i class="icon-briefcase"></i>Manage Home Page</a>
+    <ul id="home" <?php if($controller=="staticpage" && $action=="home" ){?> class="nav nav-list in collapse" <?php }else{?>class="nav nav-list collapse"<?php }?> >
+        <li><a href="<?php echo $options['siteUrl'];?>admin/staticpage/home" <?php if($controller=="staticpage" && $action=="home"){?> class="selected_div" <?php }?>>Manage</a></li>
+    </ul>
+    
+    <a href="#promotion" class="nav-header" data-toggle="collapse"><i class="icon-briefcase"></i>Manage Home Page Promotions</a>
+    <ul id="promotion" <?php if($controller=="homepromotion" && $action=="index" ){?> class="nav nav-list in collapse" <?php }else{?>class="nav nav-list collapse"<?php }?> >
+        <li><a href="<?php echo $options['siteUrl'];?>admin/homepromotion/index" <?php if($controller=="homepromotion" && $action=="index"){?> class="selected_div" <?php }?>>Manage Promotion</a></li>
+        <li><a href="<?php echo $options['siteUrl'];?>admin/homepromotion/promotioncategory" <?php if($controller=="homepromotion" && $action=="promotioncategory"){?> class="selected_div" <?php }?>>Manage Promotion Category</a></li>
+    </ul>
+
+    <a href="#contact" class="nav-header" data-toggle="collapse"><i class="icon-briefcase"></i>Manage Contact Us</a>
+    <ul id="contact" <?php if($controller=="staticpage" && ( $action=="query" )){?> class="nav nav-list in collapse" <?php }else{?>class="nav nav-list collapse"<?php }?> >
+        <!--<li><a href="<?php echo $options['siteUrl'];?>admin/contactus/index" <?php if($controller=="contactus" && $action=="index"){?> class="selected_div" <?php }?>>Manage</a></li>-->
+        <li><a href="<?php echo $options['siteUrl'];?>admin/staticpage/query" <?php if($controller=="staticpage" && $action=="query"){?> class="selected_div" <?php }?>>Manage contact query</a></li>
+    </ul>
+
+    
+     <a href="#Package" class="nav-header" data-toggle="collapse"><i class="icon-briefcase"></i>Manage Package</a>
+    <ul id="Package" <?php if($controller=="package" && ( $action=="index" )){?> class="nav nav-list in collapse" <?php }else{?>class="nav nav-list collapse"<?php }?> >
+        <li><a href="<?php echo $options['siteUrl'];?>admin/package/index" <?php if($controller=="package" && $action=="index"){?> class="selected_div" <?php }?>>Manage</a></li>
+    </ul>
+
+     
+    <a href="#Destination" class="nav-header" data-toggle="collapse"><i class="icon-briefcase"></i>Manage Destinations</a>
+    <ul id="Destination" <?php if($controller=="destination" ){?> class="nav nav-list in collapse" <?php }else{?>class="nav nav-list collapse"<?php }?> >
+        <li><a href="<?php echo $options['siteUrl'];?>admin/destination/region" <?php if($controller=="destination" && $action=="region"){?> class="selected_div" <?php }?>>Destination Regions List For Header</a></li>
+        <li><a href="<?php echo $options['siteUrl'];?>admin/destination/index" <?php if($controller=="destination" && $action=="index"){?> class="selected_div" <?php }?>>Destinations / Attractions</a></li>
+    </ul>
+    
+     <a href="#Social" class="nav-header" data-toggle="collapse"><i class="icon-briefcase"></i>Manage Social Link</a>
+    <ul id="Social" <?php if($controller=="social" && ( $action=="index" )){?> class="nav nav-list in collapse" <?php }else{?>class="nav nav-list collapse"<?php }?> >
+        <li><a href="<?php echo $options['siteUrl'];?>admin/social/index" <?php if($controller=="social" && $action=="index"){?> class="selected_div" <?php }?>>Manage</a></li>
+    </ul>
+     
+     <a href="#Testimonial" class="nav-header" data-toggle="collapse"><i class="icon-briefcase"></i>Manage Testimonial</a>
+    <ul id="Testimonial" <?php if($controller=="testimonial" && ( $action=="index" )){?> class="nav nav-list in collapse" <?php }else{?>class="nav nav-list collapse"<?php }?> >
+        <li><a href="<?php echo $options['siteUrl'];?>admin/testimonial/index" <?php if($controller=="testimonial" && $action=="index"){?> class="selected_div" <?php }?>>Manage</a></li>
+    </ul>
+         
+      <a href="#travelogues" class="nav-header" data-toggle="collapse"><i class="icon-briefcase"></i>Manage Blogs </a>
+    <ul id="travelogues" <?php if($controller=="travelogues" && ( $action=="index" || $action=='edittravelogues' || $action=="comments" || $action=="editcomment" )){?> class="nav nav-list in collapse" <?php }else{?>class="nav nav-list collapse"<?php }?> >
+        <li><a href="<?php echo $options['siteUrl'];?>admin/travelogues/index" <?php if($controller=="travelogues" && ($action=="index" || $action=='edittravelogues' || $action=="comments" || $action=="editcomment")){?> class="selected_div" <?php }?>>Manage</a></li>
+    </ul>
+
+      <a href="#pack" class="nav-header" data-toggle="collapse"><i class="icon-briefcase"></i>Manage Footer Themes</a>
+    <ul id="pack" <?php  if($controller=="pack" && ( $action=="index" )){?> class="nav nav-list in collapse" <?php  }else{?>class="nav nav-list collapse"<?php  }?> >
+        <li><a href="<?php  echo $options['siteUrl'];?>admin/pack/index" <?php  if($controller=="pack" && $action=="index"){?> class="selected_div" <?php  }?>>Manage</a></li>
+    </ul>
+      
+      <a href="#paper" class="nav-header" data-toggle="collapse"><i class="icon-briefcase"></i>Manage Newsletter Subscription</a>
+    <ul id="paper" <?php  if($controller=="newsletter" && ( $action=="index" )){?> class="nav nav-list in collapse" <?php  }else{?>class="nav nav-list collapse"<?php  }?> >
+        <li><a href="<?php  echo $options['siteUrl'];?>admin/newsletter/index" <?php  if($controller=="newsletter" && $action=="index"){?> class="selected_div" <?php  }?>>Manage</a></li>
+    </ul>
+      
+      <a href="#sync" class="nav-header" data-toggle="collapse"><i class="icon-briefcase"></i>Sync Items</a>
+    <ul id="sync" <?php  if($controller=="sync" && ( $action=="index" )){?> class="nav nav-list in collapse" <?php  }else{?>class="nav nav-list collapse"<?php  }?> >
+        <li><a href="<?php  echo $options['siteUrl'];?>admin/sync/index" <?php  if($controller=="sync" && $action=="index"){?> class="selected_div" <?php  }?>>Manage</a></li>
+    </ul>
+
+    <?php } ?>
+        
+    <a href="#error-menu" class="nav-header collapsed" data-toggle="collapse"><i class="icon-exclamation-sign"></i>Settings <i class="icon-chevron-up"></i></a>
+    <ul id="error-menu" <?php if($controller=="dashboard" && $action=="changepassword"){?> class="nav nav-list in collapse" <?php }else{?>class="nav nav-list collapse"<?php }?> >
+        <li ><a href="<?php echo $options['siteUrl'];?>admin/dashboard/changepassword" <?php if($controller=="dashboard" && $action=="changepassword"){?> class="selected_div" <?php }?>>Change Password</a></li>
+       
+    </ul>
+    
+</div>

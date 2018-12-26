@@ -1,0 +1,131 @@
+<?php 
+$options = Zend_Controller_Front::getInstance()->getParam('bootstrap')->getOption('bootstrap');
+//echo "<pre>";print_r($options);die;
+?>
+<style type="text/css">
+    li{list-style:none; color:#ed3237; font-size:13px;}
+    ul{margin:0px; padding:0px;}
+</style>
+
+
+<div class="content">        
+<div class="header">
+    <h1 class="page-title">Add Blog</h1>
+</div>
+
+<ul class="breadcrumb">
+    <li><a href="<?php echo $options['siteUrl'];?>admin/dashboard/index">Home</a> <span class="divider">/</span></li>
+    <li><a href="<?php echo $options['siteUrl'];?>admin/blog/index">Manage Blog</a> <span class="divider">/</span></li>
+    <li class="active">Add Blog</li>
+</ul>
+
+<div class="container-fluid">
+    <div class="row-fluid">       
+   
+    <?php if($this->successMessage) { ?>
+        <div class="alert alert-info">
+        <button data-dismiss="alert" class="close" type="button">×</button>
+        <?php echo $this->successMessage; ?>
+        </div> 
+    <?php } ?>
+        
+   <?php if($this->errorMessage) { ?>
+       <div class="alert alert-error">
+           <button data-dismiss="alert" class="close" type="button">×</button>
+           <?php echo $this->errorMessage; ?>
+       </div>
+   <?php } ?>
+      
+   <?php if($this->error1Message) { ?>
+       <div class="alert alert-error">
+           <button data-dismiss="alert" class="close" type="button">×</button>
+           <?php echo $this->error1Message; ?>
+       </div>
+   <?php } ?>   
+        
+<div class="well">
+    <ul class="nav nav-tabs">
+      <li class="active"><a href="#edit_page" data-toggle="tab">Add Blog</a></li>
+    </ul>
+     <?php $form = $this->form;?>
+    <div id="myTabContent" class="tab-content">
+      <div class="tab-pane active in" id="add_page">
+    <form id="add_blog" class="add_blog" method="<?php echo $this->form->getMethod();?>" action="<?php echo $this->form->getAction();?>" name="<?php echo $this->form->getName();?>" enctype="multipart/form-data">
+        <?php echo $form->BlogId;?>
+         
+        <label style="padding-top:10px;">Title</label>
+        <?php echo $form->BlogTitle;?>
+             
+        <label>Date</label>
+        <?php echo $form->BlogDate;?>
+        
+        <label>Posted By</label>
+        <?php echo $form->PostedBy;?>
+
+        
+        <label style="padding-top:5px;">Upload Image</label>
+        <?php echo $form->BlogImage;?>        
+       
+        <label>Description / Content</label>
+        <?php echo $form->BlogDescription;?>
+        
+         <label>Status</label>
+        <?php echo $form->status;?>
+              
+        <div style="padding-top:20px;">
+             <p class="msg" style="color:#ff0000;"></p>
+            <input type="submit" name="save" value="Save" class="btn btn-primary">
+            <button class="btn btn-primary" type="button" onclick="window.location.href='admin/blog/index'">Cancel</button>
+        </div>
+        
+    </form>
+      </div>
+  </div>
+
+</div>                    
+    </div>
+</div>
+</div>
+  <link href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/themes/base/jquery-ui.css" rel="stylesheet" type="text/css"/>
+  <script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/jquery-ui.min.js"></script>
+
+<script type="text/javascript">
+    $("#BlogDate").datepicker({
+//        format: "dd mm yyyy - hh:ii",
+        dateFormat: 'yy-mm-dd',
+        autoclose: true,
+        todayBtn: true,
+        startDate: "2016-01-01 10:00",
+        minuteStep: 10
+    });
+ 
+
+    $(document).ready(function() {
+        $( ".add_blog" ).on('submit',function(){
+            if($('.add_blog input[name="BlogTitle"]').val().trim() == ''){
+                $('.msg').html('Please enter Title');
+		$('.add_blog input[name="BlogTitle"]').focus();return false;
+            }
+            if($('.add_blog input[name="BlogDate"]').val().trim() == ''){
+                $('.msg').html('Please enter Date');
+		$('.add_blog input[name="BlogDate"]').focus();return false;
+            }
+            
+            if($('.add_blog input[name="PostedBy"]').val().trim() == ''){
+                $('.msg').html('Please enter Uploader name');
+		$('.add_blog input[name="PostedBy"]').focus();return false;
+            }
+             if($('.add_blog input[name="BlogImage"]').val().trim() == ''){
+                $('.msg').html('Please enter Image');
+		$('.add_blog input[name="BlogImage"]').focus();return false;
+            }
+            
+            if($('.add_blog select[name="status"]').val().trim() == ''){
+                $('.msg').html('Please enter status above');
+		$('.add_blog select[name="status"]').focus();return false;
+            }
+
+        });
+    });
+CKEDITOR.replace('BlogDescription',{});
+</script>

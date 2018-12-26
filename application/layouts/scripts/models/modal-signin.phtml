@@ -1,0 +1,94 @@
+<?php 
+$mydevice = Zend_Controller_Action_HelperBroker::getStaticHelper('General')->getDevice();
+?>
+<div class="modal fade" id="myModa1sign-in" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <h1 class="no-margin no-padding">
+                <div class="col-md-12">
+                    <button type="button" class="close pull-right" data-dismiss="modal" aria-hidden="true">×</button>
+                </div>
+            </h1>
+            <div class="modal-body">
+                <div class="panel-body login-pad" >
+                    <div class="col-md-6">
+                        <div class="sign-in-form">
+                            <h1> Sign Up</h1>
+                            <form method="post" id="user_signup" autocomplete="off">
+
+                                <input <?php if($mydevice == 'desktop'){?>style="display: inline-table !important;width: 50% !important;"<?php }?> class="form-control mr-sm-2 " id="firstName" name="firstName" placeholder="First Name" value="" type="text">
+                                <input <?php if($mydevice == 'desktop'){?>style="display: inline-table !important;width: 49% !important;"<?php } ?> class="form-control mr-sm-2 " id="lastName" name="lastName" placeholder="Last Name" type="text">
+                                <input class="form-control mr-sm-2" autocomplete="off" name="EmailId" placeholder="Email Id" type="text">
+                                <div class="txtfieldMain textfieldMain_mobile" style="border-radius: 0px !important;">
+                                    <div class="country_details">
+                                        <div id="iti-flag" class="iti-flag in"></div>
+                                        <div class="iti-arrow"></div>   
+                                    </div>
+                                    <div class="country_dropdown">
+                                        <div class="search_country">
+                                            <input type="text" name="" class="txtfield form-control countries_list" placeholder="Search countries" id="countries_list">
+                                            <div class="search_icon"></div>
+                                        </div>
+                                        <ul class="allcountries"></ul>
+                                    </div> 
+                                    <input style="display: inline-table !important;width: 10% !important;" class="form-control mr-sm-2 sign-in-form-input-width country_code" maxlength="5" id="mobile_code" name="countrycode" value="+91" type="text" readonly>
+                                    <input style="display: inline-table !important;width: 65% !important;" class="form-control numericonly mr-sm-2 sign-in-form-input-width1" autocomplete="off" name="mobilenum" maxlength="10" placeholder="Mobile" type="text" >
+                                </div>
+
+
+                                <input class="form-control mr-sm-2" autocomplete="off" name="password" placeholder="Password" type="password">
+                                <input class="form-control mr-sm-2" autocomplete="off" name="copassword" placeholder="Re-enter Password" type="password">
+                                <p style="color:red;" class="signuperror_msg"></p>
+                                <p style="color:green;" class="signupsuccess_msg"></p>
+                                <button class="btn btn-primary signup" type="submit">Sign Up</button>
+                            </form>
+                            <p class="small"> (by signing up, you agree to our terms and conditions)</p>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <form method="post" id="auth_login" action="">
+                            <div class="sign-in-form-left">
+                                <h1> Already a member?  Login</h1>
+                                <!--                                <div class="social-cont">
+                                                                    <div class="fb left">
+                                                                        <a href="javascript:void(0);">
+                                                                            <div class="fb-left "><i class="fa fa-facebook-f"></i></div>
+                                                                            <div class="fb-right">Sign up with <span>Facebook</span></div>
+                                                                        </a>
+                                                                    </div>
+                                                                    <div class="goole-plus right">
+                                                                        <a href="javascript:void(0);">
+                                                                            <div class="goole-plus-left"><i class="fa fa-google-plus"></i></div>
+                                                                            <div class="goole-plus-right">Sign up with <span>Google+</span></div>
+                                                                        </a>
+                                                                    </div>
+                                                                </div>
+                                                                <p class="space-bottom or-count" align="center">OR</p>-->
+                                <div id="loginPanel">    
+                                    <input class="form-control mr-sm-2" autocomplete="off" name="userName" placeholder="Email Id" type="text">
+                                    <input class="form-control mr-sm-2" autocomplete="off" name="userPassword" placeholder="Enter Password" type="password">
+                                    <span style="color:red;" class="login_msg"></span>
+                                    <button class="btn btn-primary loging" type="submit">Login</button>
+                                    <a href="javascript:void(0);" class="text-info forgotpass">Forgot your password ?</a>
+                                </div>
+                        </form>
+                        <form method="post" id="forgot_password" action="" autocomplete="off" style="display: none;">
+                            <div class="sign-in-form-left">
+                                <div id="successmsgforget">
+                                    <p class="space-bottom or-count" align="center">We will send a link to reset your password, on your registered email id. Never share this link with anyone.</p>
+                                    <input class="form-control mr-sm-2" placeholder="Enter Registered Email Id" autocomplete="off" name="forget" type="text">
+                                    <p style="color:red;" class="forgot_msg"></p>
+                                    <button type="submit" class="btn btn-primary forgot">Submit</button>
+                                </div>
+                                <a href="javascript:void(0);" class="text-info login">Login</a>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                <div> </div>
+            </div>
+            <div class="clear"></div>
+        </div>
+    </div>
+</div>
+</div>

@@ -1,0 +1,241 @@
+<?php 
+$options = Zend_Controller_Front::getInstance()->getParam('bootstrap')->getOption('bootstrap');
+$baseUrl = $options['siteUrl'];
+$resultset = $this->resultset; 
+?>
+  
+
+<div class="content">
+        
+<div class="header">
+    <h1 class="page-title">Destination Regions List For Header</h1>
+</div>
+
+<ul class="breadcrumb">
+    <li><a href="<?php echo $options['siteUrl'];?>admin/dashboard/index">Home</a> <span class="divider">/</span></li>
+    <li class="active">Manage Destination Regions List For Header<span class="divider">/</span></li>
+    <!--<li><a href="<?php echo $options['siteUrl'];?>admin/destination/addregion">Add Region For Header</a> </li>-->
+</ul>
+
+<div class="container-fluid">
+    <div class="row-fluid">
+   <div class="col-md-12">
+    <?php if (count($this->messages)) { ?>
+     <div class="alert alert-success" >
+         <button data-dismiss="alert" class="close" type="button">x</button>
+         <?php foreach ($this->messages as $message) {  ?>
+         <?php echo $this->escape($message); ?>
+         <?php } ?>
+     </div>
+    <?php } ?>
+</div> 
+        <div class="well">
+                        <table id="tt" class="easyui-datagrid" style="width:100%;" url="admin/destination/region"
+                       iconCls="icon-save" toolbar="#tb" rownumbers="true" pagination="true" fitColumns="true" view="scrollview" nowrap="false" >
+                    <thead>
+                        <tr>
+                            <th field="Title" data-options="align:'center',width:200">Title</th>
+                            <th field="IsActive" data-options="align:'center',width:200">Status</th>
+                            <th data-options="field:'firma',width:100,align:'center',formatter:formatRegionAction">Action</th>
+                        </tr>
+                    </thead>
+                </table>
+<!--                <div id="tb" style="padding:3px;">
+                    <span>Hotel Name:</span>
+                    <input id="name" onkeyup="doSearch()" style="line-height:26px;border: 1px solid #ccc">&nbsp;&nbsp;&nbsp;
+                    <span>Destination:</span>
+                    <input id="Destinations" onkeyup="doSearch()" style="line-height:26px;border: 1px solid #ccc">&nbsp;&nbsp;&nbsp;                                
+                </div>-->
+</div>   
+<!--<div class="well">
+    <table class="table display" id="example">
+      <thead>
+        <tr>
+          <th >S.No.</th>
+          <th >Title</th>
+          <th >Status</th>
+          <th >Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        <?php
+        if(count($resultset) >0) {
+            foreach($resultset as $key=>$val){ ?>
+        <tr <?php echo ($val['IsActive']==0) ? 'style="background:#ffeeea"' : "";?>>
+          <td><?php echo ($this->per_page_record * ($this->page-1) + ++$key) ; ?></td>
+          <td><?php echo $val['Title'];?></td>
+          <td><?php echo ($val['IsActive']) ? "Active" : "Deactive";?></td>
+          <td>
+              <a href="<?php echo $options['siteUrl'];?>admin/destination/editregion/id/<?php echo $val['sid'];?>" title="Edit"><i class="icon-pencil"></i></a>
+              <a href="<?php echo $options['siteUrl'];?>admin/destination/deleteregion/id/<?php echo $val['sid'];?>" class="Delete" title="Delete"><i class="icon-trash"></i></a>
+          </td>
+        </tr>
+        <?php }
+        }
+        else {
+        ?>
+        <tr>
+          <td colspan="6">No data found.</td>
+        </tr>
+        <?php } ?>
+        
+      </tbody>
+    </table>
+</div>-->
+
+
+
+
+          
+   </div>
+</div>
+</div>
+
+<script type="text/javascript">
+$('.Delete').click(function(){
+    if (!confirm('Are you sure you want to delete?')) {
+        return false;
+    }
+    });
+        function formatRegionAction(val, row) {
+                            var href = 'admin/destination/editregion/id/' + row.sid;
+                            var hrefDel = 'admin/destination/deleteregion/id/' + row.sid;
+
+                            return '<a href="' + href + '" title="Edit"><i class="icon-pencil"></i></a> &nbsp; <a href="' + hrefDel + '" onclick="return confirm(\'Are you sure you want to delete?\')" class="Delete" title="Delete"><i class="icon-trash"></i></a>';
+                        }
+    function Active(a){ 
+	var ele = $('#Active_'+a).prop("checked");
+        if($('#Active_'+a).prop("checked") == true){
+		var values = 1;
+		$('#rate_'+a).addClass("hide");
+	}else if($('#Active_'+a).prop("checked") == false){
+		var values = 0;
+		$('#rate_'+a).removeClass("hide");
+	}
+	//alert(values); return false;
+        $.ajax({
+		url:'<?php echo $options['siteUrl'];?>admin/destination/active/id/'+a+'/val/'+values,
+		type:'POST',
+		dataType:'json',
+		success:function(result){
+			if(result.status){
+				alert('Record Update successfully.');
+			}else{
+//                            if(result.message==='Limit Exceed!!'){
+                                alert(result.message);
+//                                $('#Active_'+a).prop("checked",false);
+//                            }
+				
+			}
+		},
+		error:function(result){
+			alert('Execution error activation!!');
+		}
+	});
+	
+}
+function DisplayOnFooter(a){ 
+	var ele = $('#DisplayActive_'+a).prop("checked");
+        if($('#DisplayActive_'+a).prop("checked") == true){
+		var values = 1;
+		$('#rate_'+a).addClass("hide");
+	}else if($('#DisplayActive_'+a).prop("checked") == false){
+		var values = 0;
+		$('#rate_'+a).removeClass("hide");
+	}
+	//alert(values); return false;
+        $.ajax({
+		url:'<?php echo $options['siteUrl'];?>admin/destination/display/id/'+a+'/val/'+values,
+		type:'POST',
+		dataType:'json',
+		success:function(result){
+			if(result.status){
+				alert('Record Update successfully.');
+			}else{
+                            if(result.message==='Limit Exceed!!'){
+                                alert(result.message);
+                                $('#DisplayActive_'+a).prop("checked",false);
+                                
+                            }
+				
+			}
+		},
+		error:function(result){
+			alert('Execution error activation!!');
+		}
+	});
+	
+}
+</script>
+
+<!--<script>
+$('.Delete').click(function(){
+    if (!confirm('Are you sure you want to delete?')) {
+        return false;
+    }
+    });
+    function Active(a){ 
+	var ele = $('#Active_'+a).prop("checked");
+        if($('#Active_'+a).prop("checked") == true){
+		var values = 1;
+		$('#rate_'+a).addClass("hide");
+	}else if($('#Active_'+a).prop("checked") == false){
+		var values = 0;
+		$('#rate_'+a).removeClass("hide");
+	}
+	//alert(values); return false;
+        $.ajax({
+		url:'<?php echo $options['siteUrl'];?>admin/destination/active/id/'+a+'/val/'+values,
+		type:'POST',
+		dataType:'json',
+		success:function(result){
+			if(result.status){
+				alert('Record Update successfully.');
+			}else{
+//                            if(result.message==='Limit Exceed!!'){
+                                alert(result.message);
+//                                $('#Active_'+a).prop("checked",false);
+//                            }
+				
+			}
+		},
+		error:function(result){
+			alert('Execution error activation!!');
+		}
+	});
+	
+}
+function DisplayOnFooter(a){ 
+	var ele = $('#DisplayActive_'+a).prop("checked");
+        if($('#DisplayActive_'+a).prop("checked") == true){
+		var values = 1;
+		$('#rate_'+a).addClass("hide");
+	}else if($('#DisplayActive_'+a).prop("checked") == false){
+		var values = 0;
+		$('#rate_'+a).removeClass("hide");
+	}
+	//alert(values); return false;
+        $.ajax({
+		url:'<?php echo $options['siteUrl'];?>admin/destination/display/id/'+a+'/val/'+values,
+		type:'POST',
+		dataType:'json',
+		success:function(result){
+			if(result.status){
+				alert('Record Update successfully.');
+			}else{
+                            if(result.message==='Limit Exceed!!'){
+                                alert(result.message);
+                                $('#DisplayActive_'+a).prop("checked",false);
+                                
+                            }
+				
+			}
+		},
+		error:function(result){
+			alert('Execution error activation!!');
+		}
+	});
+	
+}
+</script>-->
+

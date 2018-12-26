@@ -1,0 +1,176 @@
+<?php 
+$options = Zend_Controller_Front::getInstance()->getParam('bootstrap')->getOption('bootstrap');
+?>
+<style type="text/css">
+    li{list-style:none; color:#ed3237; font-size:13px;}
+    ul{margin:0px; padding:0px;}
+</style>
+
+
+<div class="content">        
+<div class="header">
+    <h1 class="page-title">Edit Blog</h1>
+</div>
+
+<ul class="breadcrumb">
+    <li><a href="<?php echo $options['siteUrl'];?>admin/dashboard/index">Home</a> <span class="divider">/</span></li>
+    <li><a href="<?php echo $options['siteUrl'];?>admin/travelogues/index">Manage Blog</a> <span class="divider">/</span></li>
+    <li class="active">Edit Blog</li>
+</ul>
+
+<div class="container-fluid">
+    <div class="row-fluid">       
+   
+    <?php if($this->successMessage) { ?>
+        <div class="alert alert-info">
+        <button data-dismiss="alert" class="close" type="button">×</button>
+        <?php echo $this->successMessage; ?>
+        </div> 
+    <?php } ?>
+        
+   <?php if($this->errorMessage) { ?>
+       <div class="alert alert-error">
+           <button data-dismiss="alert" class="close" type="button">×</button>
+           <?php echo $this->errorMessage; ?>
+       </div>
+   <?php } ?>
+      
+   <?php if($this->error1Message) { ?>
+       <div class="alert alert-error">
+           <button data-dismiss="alert" class="close" type="button">×</button>
+           <?php echo $this->error1Message; ?>
+       </div>
+   <?php } ?>   
+        
+<div class="well">
+    <ul class="nav nav-tabs">
+      <li class="active"><a href="#edit_page" data-toggle="tab">Edit Blog</a></li>
+    </ul>
+     <?php $form = $this->form;?>
+    <div id="myTabContent" class="tab-content">
+      <div class="tab-pane active in" id="add_page">
+    <form id="edit_travelogues" class="edit_travelogues" method="<?php echo $this->form->getMethod();?>" action="<?php echo $this->form->getAction();?>" name="<?php echo $this->form->getName();?>" enctype="multipart/form-data">
+       <?php echo $form->TravId;?>
+         
+        <label style="padding-top:10px;">Blog Title</label>
+        <?php echo $form->TravTitle;?>
+        <label style="padding-top:10px;">Upload Blog Image <b>(Size approx(870px * 580px) )</b></label>
+        <?php echo $form->TravBlogImage;?>
+         <?php if($this->TravBlogImage!="") { ?>
+        <img src="public/upload/travelogues/<?php echo $this->TravBlogImage;?>" border="0" alt="image" width="60" height="60">
+        <?php } ?>
+        
+        <!--<label style="padding-top:10px;">Destinations Covered</label>-->
+        <?php //echo $form->TravDestination;?>
+        
+        <label style="padding-top:5px;">Uploaded By</label>
+        <?php echo $form->TravUploadedBy;?>
+               
+        <label style="padding-top:5px;">Upload Banner/Wall Image <b>(Minimum size approx(1600px * 300px) )</b><span style="font-size:12px;color:red;">*</span></label>
+        <?php echo $form->TravBannerImage;?>
+        
+        <?php if($this->TravBannerImage!="") { ?>
+        <img src="public/upload/travelogues/<?php echo $this->TravBannerImage;?>" border="0" alt="image" width="60" height="60">
+        <?php } ?>
+           
+        <label style="padding-top:5px;">Description</label>
+        <?php echo $form->TravDescription;?>
+        
+        
+        <label style="padding-top:5px;">Status</label>
+        <?php echo $form->status;?>
+        
+         <label style="padding-top:5px;">Tags (Enter new tags separated by | )</label>
+        <?php echo $form->TravTags; ?>
+         
+                  <label>Keyword</label>
+        <?php echo $form->keyword;?>
+         
+          <label>Description</label>
+        <?php echo $form->description;?>
+          
+           <label>Metatag</label>
+        <?php echo $form->metatag;?>
+        
+        <div style="padding-top:20px;">
+             <p class="msg" style="color:#ff0000;"></p>
+            <input type="submit" name="save" value="Save" class="btn btn-primary">
+            <button class="btn btn-primary" type="button" onclick="window.location.href='admin/travelogues/index'">Cancel</button>
+        </div>
+        
+    </form>
+      </div>
+  </div>
+
+</div>                    
+    </div>
+</div>
+</div>
+
+ <link href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/themes/base/jquery-ui.css" rel="stylesheet" type="text/css"/>
+  <script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/jquery-ui.min.js"></script>
+
+ 
+<script type="text/javascript">
+    $("#TravDate").datepicker({
+//        format: "dd mm yyyy - hh:ii",
+        dateFormat: 'dd/mm/yy',
+        autoclose: true,
+        todayBtn: true,
+        startDate: "2016-01-01 10:00",
+        minuteStep: 10
+    });
+</script>
+
+<script type="text/javascript">
+    
+    
+   $(document).ready(function(){
+        $( ".edit_travelogues" ).on('submit',function(){
+     if($('.edit_travelogues input[name="TravTitle"]').val() == ''){
+                $('.msg').html('Please enter name');
+		$('.edit_travelogues input[name="TravTitle"]').focus();
+                return false;
+            }
+         
+//           if($('.edit_travelogues multiselect[name="TravDestination"]').val().trim() == ''){
+//                $('.msg').html('Please enter column number above');
+//		$('.edit_travelogues multiselect[name="TravDestination"]').focus();return false;
+//            }
+            
+            if($('.edit_travelogues input[name="TravUploadedBy"]').val() == ''){
+                $('.msg').html('Please enter UploadedBy');
+		$('.edit_travelogues input[name="TravUploadedBy"]').focus();
+                return false;
+            }
+            
+            if($('.edit_travelogues input[name="TravDate"]').val() == ''){
+                $('.msg').html('Please enter Date');
+		$('.edit_travelogues input[name="TravDate"]').focus();
+                return false;
+            }
+           
+            if($('.edit_travelogues select[name="TravDays"]').val()== ''){
+                $('.msg').html('Please select Days above');
+		$('.edit_travelogues select[name="TravDays"]').focus();return false;
+            }
+            if($('.edit_travelogues select[name="TravTraveller"]').val() == ''){
+                $('.msg').html('Please select Traveller');
+		$('.edit_travelogues select[name="TravTraveller"]').focus();
+                return false;
+            }
+           
+//            if($('.edit_travelogues input[name="TravCost"]').val().trim() == ''){
+//                $('.msg').html('Please enter Cost');
+//		$('.edit_travelogues input[name="TravCost"]').focus();
+//                return false;
+//            }
+           
+    
+    
+    });  
+});
+
+CKEDITOR.replace('TravDescription',{});
+
+</script>

@@ -1,0 +1,189 @@
+<?php
+$baseUrl = $this->baseUrl;
+$recentBlogs = Zend_Controller_Action_HelperBroker::getStaticHelper('Custom')->getrecentpost();
+$aboutUs = Zend_Controller_Action_HelperBroker::getStaticHelper('Custom')->getaboutus();
+$contactDetail = Zend_Controller_Action_HelperBroker::getStaticHelper('Custom')->getContactDetailForFooter();
+$socialLinksForFooterLink = Zend_Controller_Action_HelperBroker::getStaticHelper('Custom')->selectSocialLinksForFooterLink();
+
+$filename = $_SERVER["DOCUMENT_ROOT"] . "/public/upload/travelogues/banner/" . $this->resultset['TravBannerImage'];
+
+if (file_exists($filename) && !empty($this->resultset['TravBannerImage'])) {
+    $disImg = $baseUrl . "public/upload/travelogues/banner/" . $this->resultset['TravBannerImage'];
+} else {
+    $filename = $baseUrl . "public/images/banner-min.jpg";
+    $disImg = $filename;
+}
+?>
+<div id="content" class="site-content">
+    <div id="tropical-banner" class=" text-center clearfix">
+        <img src="<?php echo $disImg; ?>" alt="banner" style="height: 320px !important;"/>
+        <div class="container banner-contents clearfix">
+            <h2 class="template-title p-name"><strong><?php echo ucfirst($this->resultset['TravTitle']) ?></strong></h2>
+        </div>
+        <div class="breadcrumb-wrapper clearfix">
+            <div class="container">
+                <ol class="breadcrumb">
+                    <li><a href="<?php echo $baseUrl; ?>" >Home</a></li>
+                    <li><a href="<?php echo $baseUrl; ?>blogs" >Blog</a></li>
+                    <li class="active"><?php echo ucfirst($this->resultset['TravTitle']) ?></li>
+                </ol>
+            </div>
+        </div>
+        <span class="overlay"></span>
+    </div>
+
+    <section class="blog-single clearfix">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-9 col-sm-8">
+                    <article class="blog-post">
+                        <figure class="feature-img">
+                            <?php
+                            $filename = $_SERVER["DOCUMENT_ROOT"] . "/public/upload/travelogues/large/" . $this->resultset['TravImage'];
+
+                            if (file_exists($filename) && ($this->resultset['TravImage'] !='')) {
+                                $disImg = $baseUrl . "public/upload/travelogues/large/" . $this->resultset['TravImage'];
+                            } else {
+                                $filename = $baseUrl . "public/images/blog-img-single-min.jpg";
+                                $disImg = $filename;
+                            }
+                            ?>
+                            <img src="<?php echo $disImg; ?>" alt="Image"/>
+                        </figure>
+                        <div class="entry-contents animatedParent clearfix">
+                            <h4 class="entry-title animated fadeInUpShort"><a href="#"><?php echo ucfirst($this->resultset['TravTitle']) ?></a></h4>
+                            <p class="animated fadeInUpShort">
+                                <?php echo $this->resultset['TravDescription'] ?>
+                            </p>
+
+                            <div class="post-meta animated flipInX clearfix">
+                                <span class="date pull-left"><i class="fa fa-clock-o"></i>&nbsp; <?php echo date('d M Y', strtotime($this->resultset['CreateDate'])); ?>   &nbsp; | &nbsp; &nbsp;</span>
+                                <span class="author pull-left"> <i class="fa fa-user"></i>&nbsp; By <?php echo $this->resultset['TravUploadedBy'] ?></span>
+<!--                                    <span class="comment-count pull-right"><?php // echo $this->totalcooment;  ?> Comments</span>-->
+                            </div>
+                        </div>
+                        <div class="post-meta-single animatedParent clearfix">
+                            <span class="tags pull-left animated fadeInLeftShort">
+                                TAGS: &nbsp;&nbsp;
+                                <?php echo $this->resultset['tags'] ?>
+                            </span>
+                            <!--<span class="shares pull-right animated fadeInRightShort"><i class="fa fa-share-alt"></i> &nbsp; 25</span>-->
+                        </div>
+                    </article>
+
+<!--                        <section id="respond" class="contact-from animatedParent clearfix">
+    <h3 class="respond-title animated growIn slower">Leave a reply</h3>
+    <div class="loginmsg"></div>
+    <form action="" method="post" id="commentform" class="animated fadeInDownShort" autocomplete="off">
+        <input type="hidden" name="blogId" id="blogId" value="<?php // echo $this->resultset['TravId']  ?>">
+        <fieldset>
+            <p class="comment-form-name">
+                <label for="name">name <span class="required">*</span></label>
+                <input id="name" name="name" type="text" value="" required="required">
+            </p>
+            <p class="comment-form-email">
+                <label for="email">Email <span class="required">*</span></label>
+                <input id="email" name="email" type="text" value=""  aria-required="true" required="required">
+            </p>
+            <p class="comment-form-url">
+                <label for="number">Phone Number <span class="required">*</span></label>
+                <input id="phone" name="phone" type="text" value="" required="required">
+            </p>
+        </fieldset>
+        <fieldset>
+            <p class="comment-form-comment">
+                <label for="comment">Comment</label>
+                <textarea id="comment" name="comment" cols="45" rows="5"></textarea>
+            </p>
+            <p class="form-submit">
+                <input name="submit" type="submit" id="submit" class="submit" value="Post Comment">
+            </p>
+        </fieldset>
+    </form>
+</section>-->
+                </div>
+                <div class="col-md-3 col-sm-4">
+                    <aside class="sidebar">
+                        <section class="search-widget animatedParent">
+                            <h5 class="hidden animated fadeInDownShort">Title</h5>
+                        </section>
+                        <section class="widget recent-post-widget animatedParent">
+                            <h5 class="widget-title animated fadeInDownShort">Recent Blog Post</h5>
+                            <?php foreach ($recentBlogs as $blog) { ?>
+                                <article class="post blog-post-widget clearfix animated fadeInUpShort">
+                                    <figure class="blog-feature-img pull-right">
+                                        <?php
+                                        $filename = $_SERVER["DOCUMENT_ROOT"] . "/public/upload/travelogues/small/" . $blog['TravImage'];
+
+                                        if (file_exists($filename) && !empty($blog['TravImage'])) {
+                                            $disImg = $baseUrl . "public/upload/travelogues/small/" . $blog['TravImage'];
+                                        } else {
+                                            $filename = $baseUrl . "public/images/no-image.jpg";
+                                            $disImg = $filename;
+                                        }
+                                        ?>
+                                        <img src="<?php echo $disImg; ?>" alt="<?php echo ucfirst($blog['TravTitle']); ?>" width="65" height="66"/>
+                                    </figure>
+                                    <h6 class="title"><a href="<?php echo $baseUrl; ?>/blogs/index/blog-detail/id/<?php echo $blog['TravId'] ?>"><?php echo ucfirst($blog['TravTitle']); ?></a></h6>
+                                    <time datetime="2007-08-29T13:58Z"  class="post-meta"><i class="fa fa-clock-o"></i> <?php echo date('d M Y', strtotime($blog['CreateDate'])); ?></time>
+                                </article>   
+                            <?php } ?>
+                        </section>
+<!--                        <section class="widget widget-text animatedParent">
+                            <h5 class="widget-title animated fadeInDownShort">about us</h5>
+                            <p class="animated fadeInUpShort"> <?php echo $aboutUs; ?>
+                                <a href="<?php echo $baseUrl; ?>cms/p/about-us">+ More...</a>         
+                            </p>
+                        </section>-->
+<!--                        <section class="widget contact-widget clearfix animatedParent">
+                            <h5 class="widget-title animated fadeInDownShort">Contact us</h5>
+                            <address class="animated fadeInUpShort">
+                                <strong> Address:</strong> 
+                                <?php echo $contactDetail['location']; ?>                                 
+                            </address>
+                            <p class="phone-number animated fadeInUpShort"><strong>Phone:</strong> <?php echo $contactDetail['phone']; ?> </p>
+                            <p class="phone-number animated fadeInUpShort"><strong>Mobile:</strong> <?php echo $contactDetail['mobile']; ?>  </p>
+                            <p class="email animated fadeInUpShort"><strong>Email:</strong> <?php echo $contactDetail['email']; ?> </p>
+                            <ul class="social-nav text-center clearfix animated fadeInUpShort">
+                                <?php foreach ($socialLinksForFooterLink as $key => $value) { ?>
+                                    <li><a target="_blank" title="<?php echo $value['name']; ?>" href="#"><i class="fa fa-<?php echo strtolower($value['name']); ?>"></i></a></li>
+                                        <?php } ?>
+                            </ul>
+                        </section>-->
+                    </aside>
+                </div>
+            </div>
+        </div>
+    </section>
+
+</div>
+<script src="<?php echo $baseUrl; ?>public/js/jquery-1.7.2.min.js"></script>
+<script>
+    var j = $.noConflict();
+    j(document).ready(function () {
+        j("#commentform").on('submit', function () {
+
+
+            var name = $('#name').val();
+            var email = $('#email').val();
+            var phoneno = $('#phone').val();
+            var comment = $('#comment').val();
+            var blogId = $('#blogId').val();
+
+            var dataString = 'username=' + name + '&email=' + email + '&phone=' + phoneno + '&comment=' + comment + '&blogId=' + blogId;
+            j.ajax({
+                type: "POST",
+                url: "<?php echo $baseUrl ?>blogs/index/savecomment",
+                data: dataString,
+                cache: false,
+                success: function (result) {
+                    j('.loginmsg').html(result);
+                    $("#commentform")[0].reset();
+                }
+            });
+
+        });
+    });
+
+
+</script>

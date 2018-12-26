@@ -1,0 +1,122 @@
+<?php 
+$options = Zend_Controller_Front::getInstance()->getParam('bootstrap')->getOption('bootstrap');
+$resultset = $this->resultset; 
+?>
+ 
+<div class="content">
+        
+<div class="header">
+    <h1 class="page-title">Manage Blog </h1>
+</div>
+
+<ul class="breadcrumb">
+    <li><a href="<?php echo $options['siteUrl'];?>admin/dashboard/index">Home</a> <span class="divider">/</span></li>
+    <li class="active">Manage Blog</li>
+    <li><span class="divider">/</span><a href="<?php echo $options['siteUrl'];?>admin/travelogues/addtravelogues">Add Blog</a> </li>
+</ul>
+
+<div class="container-fluid">
+    <div class="row-fluid">
+                    
+
+<div class="col-md-12">
+    <?php if (count($this->messages)) { ?>
+     <div class="alert alert-success" >
+         <button data-dismiss="alert" class="close" type="button">x</button>
+         <?php foreach ($this->messages as $message) {  ?>
+         <?php echo $this->escape($message); ?>
+         <?php } ?>
+     </div>
+    <?php } ?>
+</div>
+        
+        
+<div class="well">
+                <table id="tt" class="easyui-datagrid" style="width:100%;" url="admin/travelogues/index"
+                       iconCls="icon-save" toolbar="#tb" rownumbers="true" pagination="true" fitColumns="true" view="scrollview" nowrap="false" >
+                    <thead>
+                        <tr>
+                            <th field="TravTitle" data-options="width:100">Title</th>
+                            <th data-options="field:'TravImage',width:100,align:'center',formatter:formatImageAction">Image</th>
+                            <th field="TravUploadedBy" data-options="width:80">Uploaded By</th>
+                            <!--<th field="cc">Comments</th>-->
+                            <th field="tags" >Tags</th>
+                            <th field="displayOnBanner" data-options="width:100,align:'center',formatter:formatDisplayAction">DOH</th>
+                            <th data-options="field:'firma1',width:80,align:'center',formatter:formatStaticAction">Action</th>
+                        </tr>
+                    </thead>
+                </table>
+<!--                <div id="tb" style="padding:3px;">
+                    <span>Page Title:</span>
+                    <input id="Title" onkeyup="doSearch()" style="line-height:26px;border: 1px solid #ccc">
+                </div>-->
+            </div>
+
+</div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    function doSearch() {
+        $('#tt').datagrid('load', {
+            Title: $('#Title').val(),
+        });
+                        }
+    function formatStaticAction(val, row) {
+    var href = 'admin/travelogues/edittravelogues/id/' + row.TravId;
+    var hrefDel = 'admin/travelogues/deletetravelogues/id/' + row.TravId;
+
+    return '<a href="' + href + '" title="Edit"><i class="icon-pencil"></i></a> &nbsp; <a href="' + hrefDel + '" onclick="return confirm(\'Are you sure you want to delete?\')" class="delete" title="Delete"><i class="icon-trash"></i></a>';
+}
+
+    function formatImageAction(val, row) {
+    var Image = row.TravImage;
+    if (Image !== null) {
+        return '<img style="width:64px;height:50px;" src="public/upload/travelogues/small/' + Image + '" border="0" alt="image">';
+
+    }
+    else {
+        return '<img style="width:64px;height:50px;" src="public/images/icon-package.jpg" border="0">';
+    }
+}
+
+function formatDisplayAction(val, row, idx) {
+    if (val != "" && val == 1) {
+        var checked = "checked";
+    }
+    else {
+        var checked = "";
+    }
+    return '<input type="checkbox" ' + checked + ' onClick="Active(\'' + row.TravId + '\')" id="Active_' + row.TravId + '" name="Active" value="1">';
+
+}
+
+function Active(a) {
+
+    if ($('#Active_' + a).prop("checked") === true) {
+        var values = 1;
+    } else if ($('#Active_' + a).prop("checked") === false) {
+        var values = 0;
+    }
+    $.ajax({
+        url: '<?php echo $options['siteUrl']; ?>admin/travelogues/active/id/' + a + '/val/' + values,
+        type: 'POST',
+        dataType: 'json',
+        success: function (result) {
+            if (result.status) {
+                alert('Record Update successfully.');
+            } else {
+                                                        if (result.message === 'Limit Exceed!!') {
+                                            alert(result.message);
+                                            $('#Active_' + a).prop("checked", false);
+
+                                        }
+            }
+        },
+        error: function (result) {
+            alert('Execution error activation!!');
+        }
+    });
+
+}
+</script>

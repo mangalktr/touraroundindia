@@ -1,0 +1,134 @@
+<?php 
+$baseUrl=$this->baseUrl;
+$bolgs=$this->resultset;
+$recentBlogs = Zend_Controller_Action_HelperBroker::getStaticHelper('Custom')->getrecentpost();
+$aboutUs = Zend_Controller_Action_HelperBroker::getStaticHelper('Custom')->getaboutus();
+$contactDetail = Zend_Controller_Action_HelperBroker::getStaticHelper('Custom')->getContactDetailForFooter();
+$socialLinksForFooterLink = Zend_Controller_Action_HelperBroker::getStaticHelper('Custom')->selectSocialLinksForFooterLink();
+?>
+<div id="content" class="site-content">
+        <div id="tropical-banner" class=" text-center clearfix">
+            <!--<img src="<?php echo $baseUrl; ?>public/images/central/static-theme-images.jpg" alt="banner" style="height: 320px !important;width: 1349px !important"/>-->
+            <img src="<?php echo $baseUrl; ?>public/images/central/blog_banner.jpg" alt="banner" />
+            <div class="container banner-contents clearfix">
+                <h2 class="template-title p-name"><strong>Blogs</strong></h2>
+            </div>
+            <div class="breadcrumb-wrapper clearfix">
+                <div class="container">
+                    <ol class="breadcrumb">
+                        <li><a href="<?php echo $baseUrl; ?>" >Home</a></li>
+                        <li class="active">Blogs</li>
+                    </ol>
+                </div>
+            </div>
+            <span class="overlay"></span>
+        </div>
+
+        <section class="blog-page clearfix">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-9 col-sm-8">
+                        <?php foreach($bolgs as $blog){  ?>
+                        <article class="blog-post animatedParent clearfix">
+                            <figure class="blog-feature-img text-center animated fadeInLeftShort">
+                                <a href="<?php echo $baseUrl; ?>/blogs/index/blog-detail/id/<?php echo $blog['TravId'] ?>">
+                                    <?php                                    
+                                    $filename=$_SERVER["DOCUMENT_ROOT"]."/public/upload/travelogues/small/".$blog['TravImage'];
+                                   
+                                    if(file_exists($filename) && !empty($blog['TravImage'])){
+                                        $disImg=$baseUrl."public/upload/travelogues/small/".$blog['TravImage'];
+                                    }else{ 
+                                      $filename=$baseUrl."public/images/no-image.jpg";      
+                                      $disImg=$filename;   
+                                    }
+                                    ?>
+                                    <img src="<?php echo $disImg; ?>" alt="Image"/>
+                                </a>
+                            </figure>
+                            <div class="entry-contents animated fadeInRightShort clearfix">
+                                <h4 class="entry-title"><a href="<?php echo $baseUrl; ?>blogs/index/blog-detail/id/<?php echo $blog['TravId'] ?>"><?php echo ucfirst($blog['TravTitle']) ?></a></h4>
+                                <p><?php echo substr($blog['TravDescription'],0,250)."..." ?></p>
+                                <div class="post-meta clearfix">
+                                    <span class="date pull-left"><i class="fa fa-clock-o"></i>&nbsp; <?php echo date('d M Y',  strtotime($blog['CreateDate'])); ?>  &nbsp; | &nbsp; &nbsp;</span>
+                                    <span class="author pull-left"> <i class="fa fa-user"></i>&nbsp; By <?php echo $blog['TravUploadedBy'] ?></span>
+<!--                                    <span class="comment-count pull-right"><?php // echo $blog['cc']>0 ? $blog['cc']:0; ?> <?php // echo $blog['cc']<2 ? "Comment":"Comments"; ?>  </span>-->
+                                </div>
+                            </div>
+                            <a class="read-more animated rotateIn slow" href="<?php echo $baseUrl; ?>/blogs/index/blog-detail/id/<?php echo $blog['TravId'] ?>"><i class="fa fa-angle-right"></i></a>
+                        </article>
+                        <?php } ?>
+                        
+                         <?php
+                              if (count($this->resultset) > 0) {
+                              $IsSubmitForm = (isset($this->searchVal) && count($this->searchVal) > 0) ? true : false;
+                              ?>
+                              <?php echo $this->paginationControl($this->resultset, 'Sliding', 'pagination-form.phtml', array('IsSubmitForm' => $IsSubmitForm, 'FormName' => '')); ?>
+                      <?php } ?> 
+                        
+                    </div>
+                    <div class="col-md-3 col-sm-4">
+                        <aside class="sidebar">
+<!--                            <section class="search-widget animatedParent">
+                                <h5 class="hidden animated fadeInDownShort">Title</h5>
+                                <div class="search animated fadeInUpShort clearfix">
+                                    <form method="get" class="search-form" action="#">
+                                        <div>
+                                            <input type="text" placeholder="Search Category" name="s" class="search-text">
+                                            <input type="submit" class="search-submit" value="">
+                                            <i class="fa fa-search"></i>
+                                        </div>
+                                    </form>
+                                </div>
+                            </section>-->
+                            <section class="widget recent-post-widget animatedParent">
+                                <h5 class="widget-title animated fadeInDownShort">Recent Blog Post</h5>
+                                <?php $k=1; foreach($recentBlogs as $blog){ ?>
+                                <article class="post blog-post-widget clearfix animated fadeInUpShort">
+                                    <figure class="blog-feature-img pull-right">
+                                        <?php                                    
+                                    $filename=$_SERVER["DOCUMENT_ROOT"]."/public/upload/travelogues/small/".$blog['TravImage'];
+                                   
+                                    if(file_exists($filename) && !empty($blog['TravImage'])){
+                                        $disImg=$baseUrl."public/upload/travelogues/small/".$blog['TravImage'];
+                                    }else{ 
+                                      $filename=$baseUrl."public/images/no-image.jpg";      
+                                      $disImg=$filename;   
+                                    }
+                                    ?>
+                                        <img src="<?php echo $disImg; ?>" alt="<?php echo ucfirst($blog['TravTitle']); ?>" width="65" height="66"/>
+                                    </figure>
+                                    <h6 class="title"><a href="<?php echo $baseUrl; ?>/blogs/index/blog-detail/id/<?php echo $blog['TravId'] ?>"><?php echo ucfirst($blog['TravTitle']); ?></a></h6>
+                                    <time datetime="2007-08-29T13:58Z"  class="post-meta"><i class="fa fa-clock-o"></i> <?php echo date('d M Y',  strtotime($blog['CreateDate'])); ?></time>
+                                </article>   
+                                <?php $k++; if($k==4) break; } ?>
+                            </section>
+<!--                            <section class="widget widget-text animatedParent">
+                                <h5 class="widget-title animated fadeInDownShort">about us</h5>
+                                <p class="animated fadeInUpShort"> <p class="animated fadeInUpShort"> <?php echo $aboutUs; ?>
+                        <a href="<?php echo $baseUrl; ?>cms/p/about-us">+ More...</a>         
+                                 </p>
+                            </section>
+                            <section class="widget contact-widget clearfix animatedParent">
+                                <h5 class="widget-title animated fadeInDownShort">Contact us</h5>
+                                <address class="animated fadeInUpShort">
+                                <strong> Address:</strong> 
+                                <?php echo $contactDetail['location']; ?>                                 
+                                </address>
+                                <p class="phone-number animated fadeInUpShort"><strong>Phone:</strong> <?php echo $contactDetail['phone']; ?> </p>
+                                <p class="phone-number animated fadeInUpShort"><strong>Mobile:</strong> <?php echo $contactDetail['mobile']; ?>  </p>
+                                <p class="email animated fadeInUpShort"><strong>Email:</strong> <?php echo $contactDetail['email']; ?> </p>
+                                <ul class="social-nav text-center clearfix animated fadeInUpShort">
+                                <?php foreach($socialLinksForFooterLink as $key=>$value) {?>
+                                      <li><a target="_blank" title="<?php echo $value['name']; ?>" href="#"><i class="fa fa-<?php echo strtolower($value['name']); ?>"></i></a></li>
+                                <?php } ?>
+                                </ul>
+                            </section>-->
+                        </aside>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+
+
+    </div>

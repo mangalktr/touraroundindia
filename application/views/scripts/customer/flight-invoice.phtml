@@ -1,0 +1,462 @@
+<?php
+$arrCustomerInvoiceData = $this->arrCustomerInvoiceData;
+//echo "<pre>";print_r($arrCustomerInvoiceData);echo "</pre>";
+$AgencySysId = $arrCustomerInvoiceData[0]['AgencySysId'];
+$CompanyName = $arrCustomerInvoiceData[0]['CompanyName'];
+$strCompanyAddress = $arrCustomerInvoiceData[0]['CompanyAddress'];
+$Pincode = $arrCustomerInvoiceData[0]['Pincode'];
+$strCityTitle = $arrCustomerInvoiceData[0]['CityTitle'];
+$strCountry = $arrCustomerInvoiceData[0]['Country'];
+$PrimaryMobileNo = $arrCustomerInvoiceData[0]['PrimaryMobileNo'];
+$PrimaryContactNo = $arrCustomerInvoiceData[0]['PrimaryContactNo'];
+$PrimaryEmail = $arrCustomerInvoiceData[0]['PrimaryEmail'];
+$companyLogo = $arrCustomerInvoiceData[0]['Logo'];
+
+
+
+//customer Details
+$arrTrevllerDetails = $this->arrTrevllerDetails;
+
+$ARR_SALUTION = unserialize(ARR_SALUTION);
+$CustomerTitle = $arrTrevllerDetails[0][0]['Title'];
+$CustomerTitle = $ARR_SALUTION[$CustomerTitle];
+$CustomerFirstName = $arrTrevllerDetails[0][0]['FirstName'];
+$CustomerLastName = $arrTrevllerDetails[0][0]['LastName'];
+$CustomerAddress = $arrTrevllerDetails[0][0]['Address'];
+$CustomerCityTitle = $arrTrevllerDetails[0][0]['CityTitle'];
+$CustomerCountryTitle = $arrTrevllerDetails[0][0]['CountryTitle'];
+$CustomerContacts = $arrTrevllerDetails[0][0]['Contacts'];
+$CustomerEmailId = $arrTrevllerDetails[0][0]['EmailId'];
+//customer Details
+
+
+$strInvoiceNumber = $arrCustomerInvoiceData[0]['InvoiceId'];
+
+
+
+
+
+
+$TBQAirInvenSysId = $arrCustomerInvoiceData[0]['TBQAirInvenSysId'];
+
+$arrRoomInfoJson = json_decode($arrCustomerInvoiceData[0]['RoomInfoJson'], 1);
+
+$IsInternational = $arrCustomerInvoiceData[0]['IsInternational'];
+$strFlightNumber = $arrCustomerInvoiceData[0]['FlightNumber'];
+$strSourceAirportCode = $arrCustomerInvoiceData[0]['SourceAirportCode'];
+$strDestAirportCode = $arrCustomerInvoiceData[0]['DestAirportCode'];
+$strXRefBookingId = $arrCustomerInvoiceData[0]['XRefBookingId'];
+
+$arrBookingId = explode("/", $strXRefBookingId);
+$strXRefBookingId = !empty($arrBookingId[0])?trim($arrBookingId[0]):'';
+$strBookingPNR = !empty($arrBookingId[1])?trim($arrBookingId[1]):'';
+
+
+$arrBookingDate = (array) $arrCustomerInvoiceData[0]['bookingDate'];
+$strBookingDate = Zend_Controller_Action_HelperBroker::getStaticHelper('General')->getDateFormatFromDbDates($arrBookingDate['date']);
+$arrFromUTCTime = (array) $arrCustomerInvoiceData[0]['FromUTCTime'];
+$arrToUTCTime = (array) $arrCustomerInvoiceData[0]['ToUTCTime'];
+$sourceDepartueTime = Zend_Controller_Action_HelperBroker::getStaticHelper('General')->getDateFormatFromDbDates($arrFromUTCTime['date']);
+$destinationArrivalTime = Zend_Controller_Action_HelperBroker::getStaticHelper('General')->getDateFormatFromDbDates($arrToUTCTime['date']);
+
+
+//echo "<pre>";print_r($arrCustomerInvoiceData);echo "</pre>";
+?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <title>Invoice</title>
+    </head>
+    <body>
+        <table width="800px" border="0" cellspacing="0" cellpadding="0" align="center" style="border:2px solid #e5e5e5; font-size:12px; line-height:24px; color:#525252; font-family:Arial, Helvetica, sans-serif;">
+            <tr>
+                <td style="border-bottom:2px solid #e2e2e2;">
+                    <table width="100%" style="font-family: arial, sans-serif; color: #000; font-size: 9pt;">
+                        <tr>
+                            <td align="left" valign="middle">
+                                <a href="javascript:void(0);">
+                                    <img  src="/public/images/Logo.png" alt="" title="" border="0" />
+                                </a>
+                            </td>
+                            <td align="center" valign="top">&nbsp;</td>
+                            <td align="right" valign="top">
+                                <table style="font-family: arial, sans-serif; color: #000; font-size: 8pt; line-height: 1em">
+                                    <tr>
+                                        <td style="font-size:18px; font-weight:bold; color:#1077c5; padding-bottom:10px;" align="right"><?php echo $CompanyName; ?></td>
+                                    </tr>
+                                    <tr>
+                                        <td align="right"><?php echo $strCompanyAddress; ?><br />
+                                            <?php echo $strCityTitle; ?> <?php echo $strCountry; ?><br />
+                                            <strong>Pin :</strong> &nbsp; <?php echo $Pincode; ?><br />
+                                            <strong>Ph No :</strong> &nbsp; <?php echo $PrimaryContactNo; ?> , <?php echo $PrimaryMobileNo; ?><br />
+                                            <strong>Email :</strong>  &nbsp; <a href="#" style="font-size:12px;color:#ff6600;"><?php echo $PrimaryEmail; ?></a><br />
+                                        </td>
+                                    </tr>
+                                </table>
+                            </td>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+            <tr>
+                <td style="padding:10px;">
+                    <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                        <tr>
+                            <td style="background:#e5e5e5; padding:5px 0; font-size:18px; font-weight:bold; text-transform:uppercase; text-align:center;">INVOICE</td>
+                        </tr>
+                        <tr>
+                            <td style="padding:15px 0 20px 0;">
+                                <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                                    <tr>
+                                        <td valign="top">Invoice  to </td>
+                                        <td style="font-size:18px; font-weight:bold; color:#1077c5; padding:0 10px;" align="center" valign="top">:</td>
+                                        <td style="font-size:18px; font-weight:bold; color:#1077c5;" valign="top"><?php echo $CustomerTitle; ?> <?php echo $CustomerFirstName; ?> <?php echo $CustomerLastName; ?></td>
+                                        <td rowspan="2" valign="top" >
+                                            <div style="background:#f5f5f5; padding:5px 10px ;">
+                                                <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                                                    <tr>
+                                                        <td>Ref.No. </td>
+                                                        <td style="font-size:18px; font-weight:bold; color:#1077c5; padding:0 10px;" align="center" valign="top">:</td>
+                                                        <td><?php echo $strInvoiceNumber; ?></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Invoice  No </td>
+                                                        <td style="font-size:18px; font-weight:bold; color:#1077c5; padding:0 10px;" align="center" valign="top">:</td>
+                                                        <td><?php echo $strInvoiceNumber; ?></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Date </td>
+                                                        <td style="font-size:18px; font-weight:bold; color:#1077c5; padding:0 10px;" align="center" valign="top">:</td>
+                                                        <td><?php echo date("d-M-Y"); ?></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>CIN </td>
+                                                        <td style="font-size:18px; font-weight:bold; color:#1077c5; padding:0 10px;" align="center" valign="top">:</td>
+                                                        <td>NA</td>
+                                                    </tr>
+                                                </table>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>&nbsp;</td>
+                                        <td align="right">&nbsp;</td>
+                                        <td valign="top"><?php echo $CustomerAddress; ?> , <br />
+
+                                            <?php echo $CustomerCityTitle; ?>, <?php echo $CustomerCountryTitle; ?> 
+                                            .<br />
+
+<!--      <strong>Pin :</strong> &nbsp; 427586<br />-->
+
+                                            <strong>Ph No :</strong> &nbsp; <?php echo $CustomerContacts; ?> <br />
+
+                                            <strong>Email :</strong>  &nbsp; <a href="javascript:void(0);" style="font-size:12px;color:#ff6600;"><?php echo $CustomerEmailId; ?></a><br />
+
+                                        </td>
+                                    </tr>
+                                </table>
+                            </td>
+                        </tr>
+                        <?php
+                        if ($IsInternational) {
+                            
+                            $strXRefBookingId = $arrCustomerInvoiceData[0]['XRefBookingId'];
+
+                            $arrBookingId = explode("/", $strXRefBookingId);
+                            $strXRefBookingId = trim($arrBookingId[0]);
+                            $strBookingPNR = trim($arrBookingId[1]);
+
+                            $arrBookingDate = (array) $arrCustomerInvoiceData[0]['bookingDate'];
+                            $strBookingDate = Zend_Controller_Action_HelperBroker::getStaticHelper('General')->getDateFormatFromDbDates($arrBookingDate['date']);
+
+
+
+                            $intCost = $arrCustomerInvoiceData[0]['Cost'];
+                            $intGTXMarkup = $arrCustomerInvoiceData[0]['GTXMarkup'];
+                            $intGTXServiceTaxAmount = $arrCustomerInvoiceData[0]['GTXServiceTaxAmount'];
+                            $intXServiceTaxAmountOnCost = $arrCustomerInvoiceData[0]['XServiceTaxAmount'];
+                            $intCostWithGTX = $intCost + $intGTXMarkup;
+                            $AgentServiceTaxAmount = $arrCustomerInvoiceData[0]['AgentServiceTaxAmount'];
+                            $intAgencyCommission = $arrCustomerInvoiceData[0]['AgencyCommission'] + $arrCustomerInvoiceData[0]['AgencyMarkUp'] + $arrCustomerInvoiceData[0]['MarkUp'] + $arrCustomerInvoiceData[0]['AgentsCustomServiceTaxAmount'];
+
+                            $intCostToCustomer = $intCostWithGTX + $intAgencyCommission;
+                            $intCostToCustomerWithServiceTax = number_format($intCostToCustomer + $AgentServiceTaxAmount, 2);
+                            $intCostToCustomerInWords = Zend_Controller_Action_HelperBroker::getStaticHelper('General')->convertAmountToWords(($intCostToCustomer + $AgentServiceTaxAmount));
+
+
+                            
+                            $arrInterNationalFlightList = $this->arrInterNationalFlightList;
+                            //print_r($arrInterNationalFlightList);die;
+                            if (count($arrInterNationalFlightList) > 0) {
+                                foreach ($arrInterNationalFlightList as $flightRounds) {
+                                    $strGoingFlightFrom = $flightRounds['SourceAirportCode'];
+                                    $strGoingFlightTo = $flightRounds['DestAirportCode'];
+                                    $AirlineName = $flightRounds['AirlineName'];
+                                    $FlightNumber = $flightRounds['FlightNumber'];
+                                    $strAirlineCode = explode("-", trim($flightRounds['FlightNumber']));
+                                    $strAirlineCode = $strAirlineCode[0];
+
+                                    $filePath = $_SERVER['DOCUMENT_ROOT'] . "/public/upload/AirlineLogo/";
+                                    if (file_exists($filePath . $strAirlineCode . ".gif")) {
+                                        $strAirlineLogo = $strAirlineCode . ".gif";
+                                        $filePath = $this->baseUrl("public/upload/AirlineLogo/") . $strAirlineLogo;
+                                    } elseif (file_exists($filePath . $strAirlineCode . ".png")) {
+                                        $strAirlineLogo = $strAirlineCode . ".png";
+                                        $filePath = $this->baseUrl("public/upload/AirlineLogo/") . $strAirlineLogo;
+                                    } elseif (file_exists($filePath . $strAirlineCode . ".jpg")) {
+                                        $strAirlineLogo = $strAirlineCode . ".jpg";
+                                        $filePath = $this->baseUrl("public/upload/AirlineLogo/") . $strAirlineLogo;
+                                    } elseif (file_exists($filePath . $strAirlineCode . ".jpeg")) {
+                                        $strAirlineLogo = $strAirlineCode . ".jpeg";
+                                        $filePath = $this->baseUrl("public/upload/AirlineLogo/") . $strAirlineLogo;
+                                    } else {
+                                        $filePath = $this->baseUrl("public/upload/AirlineLogo/noimage.png");
+                                    }
+
+                                    $OriginDepartureTime = (array) $flightRounds['OriginDepartureTime'];
+                                    $DestArrivalTime = (array) $flightRounds['DestArrivalTime'];
+                                    $OriginDepartureTime = Zend_Controller_Action_HelperBroker::getStaticHelper('General')->getDateFormatFromDbDates($OriginDepartureTime['date']);
+                                    $DestArrivalTime = Zend_Controller_Action_HelperBroker::getStaticHelper('General')->getDateFormatFromDbDates($DestArrivalTime['date']);
+                                    $strFareClass = $flightRounds['FareClass'];
+                                    ?>
+                                    <tr>
+                                        <td style="background:#e5e5e5; padding:5px 10px; font-size:18px;   ">
+                                            <img width="20" src="<?php echo $filePath; ?>" title="<?php echo $result['AirlineName']; ?>" />
+                                            <?php echo $AirlineName; ?> ( <?php echo $strGoingFlightFrom; ?> &rarr; <?php echo $strGoingFlightTo; ?> )
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td style="padding:15px 0;">
+                                            <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                                                <tr>
+                                                    <td colspan="5" valign="top" style="font-size:16px;">Flight Details </td>
+                                                </tr>
+                                                <tr>
+                                                    <td valign="top">Flight No. : </td>
+                                                    <td align="center"><span style="font-size:18px; font-weight:bold; color:#1077c5; padding:0 10px;">:</span></td>
+                                                    <td valign="top"><?php echo $FlightNumber; ?> </td>
+                                                    <td colspan="4" valign="top" >&nbsp;</td>
+                                                    <td rowspan="3" valign="top" >
+                                                        <div style="background:#f5f5f5; padding:5px 10px ;">
+                                                            <strong>Depature : </strong> <?php echo $OriginDepartureTime['strDate'] . " " . $OriginDepartureTime['strTime']; ?><br />
+                                                            <strong>Arrival : </strong> <?php echo $DestArrivalTime['strDate'] . " " . $DestArrivalTime['strTime']; ?><br />
+                                                            <strong>Pax Details :</strong> 
+                                                            <?php
+                                                            if (count($arrRoomInfoJson) > 0) {
+                                                                echo $arrRoomInfoJson[1]['Adult'] . " Adult(s)";
+                                                                if (isset($arrRoomInfoJson[1]['Child'])) {
+                                                                    echo ", " . $arrRoomInfoJson[1]['Child'] . " Child(s)";
+                                                                }
+                                                            }
+                                                            ?>
+                                                            <br />
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td valign="top">Booking ID : </td>
+                                                    <td align="center"><span style="font-size:18px; font-weight:bold; color:#1077c5; padding:0 10px;">:</span></td>
+                                                    <td valign="top"><?php echo $strXRefBookingId; ?> </td>
+                                                    <td valign="top" >&nbsp;</td>
+                                                </tr>
+                                                <tr>
+                                                    <td valign="top">PNR No. : </td>
+                                                    <td align="center"><span style="font-size:18px; font-weight:bold; color:#1077c5; padding:0 10px;">:</span></td>
+                                                    <td valign="top"><?php echo $strBookingPNR; ?> </td>
+                                                    <td valign="top" >&nbsp;</td>
+                                                </tr>
+                                                <tr>
+                                                    <td valign="top">Class : </td>
+                                                    <td align="center"><span style="font-size:18px; font-weight:bold; color:#1077c5; padding:0 10px;">:</span></td>
+                                                    <td valign="top"><?php echo $strFareClass; ?> </td>
+                                                    <td valign="top" >&nbsp;</td>
+                                                </tr>
+                                            </table> 
+                                        </td>
+                                    </tr>
+                                <?php }
+                            } ?>
+                        <?php } else { ?>
+                            <?php
+                            $intCostWithGTX = 0;
+                            $intAgencyCommission = 0;
+                            $AgentServiceTaxAmount = 0;
+                            foreach ($arrCustomerInvoiceData as $result) {
+                                $strFlightNumber = $result['FlightNumber'];
+                                $strSourceAirportCode = $result['SourceAirportCode'];
+                                $strDestAirportCode = $result['DestAirportCode'];
+                                $strXRefBookingId = $result['XRefBookingId'];
+
+                                $arrBookingId = explode("/", $strXRefBookingId);
+                                $strXRefBookingId = !empty($arrBookingId[0])?trim($arrBookingId[0]):'';
+                                $strBookingPNR = !empty($arrBookingId[1])?trim($arrBookingId[1]):'';
+
+                                $arrBookingDate = (array) $result['bookingDate'];
+                                $strBookingDate = Zend_Controller_Action_HelperBroker::getStaticHelper('General')->getDateFormatFromDbDates($arrBookingDate['date']);
+                                $arrFromUTCTime = (array) $result['FromUTCTime'];
+                                $arrToUTCTime = (array) $result['ToUTCTime'];
+                                $sourceDepartueTime = Zend_Controller_Action_HelperBroker::getStaticHelper('General')->getDateFormatFromDbDates($arrFromUTCTime['date']);
+                                $destinationArrivalTime = Zend_Controller_Action_HelperBroker::getStaticHelper('General')->getDateFormatFromDbDates($arrToUTCTime['date']);
+
+
+
+
+                                $intCost = $result['Cost'];
+                                $intGTXMarkup = $result['GTXMarkup'];
+                                $intGTXServiceTaxAmount = $result['GTXServiceTaxAmount'];
+                                $intCostWithGTX += $intCost + $intGTXMarkup;
+                                $AgentServiceTaxAmount += $result['AgentServiceTaxAmount'];
+                                $intAgencyCommission += $result['AgencyCommission'] + $result['AgencyMarkUp'] + $result['MarkUp'] + $result['AgentsCustomServiceTaxAmount'];
+
+                                $intCostToCustomer = $intCostWithGTX + $intAgencyCommission + @$intXServiceTaxAmountOnCost;
+                                $intCostToCustomerWithServiceTax = number_format($intCostToCustomer + $AgentServiceTaxAmount, 2);
+                                $intCostToCustomerInWords = Zend_Controller_Action_HelperBroker::getStaticHelper('General')->convertAmountToWords(($intCostToCustomer + $AgentServiceTaxAmount));
+
+
+                                $strAirlineCode = explode("-", trim($result['FlightNumber']));
+                                $strAirlineCode = $strAirlineCode[0];
+
+                                $filePath = $_SERVER['DOCUMENT_ROOT'] . "/public/upload/AirlineLogo/";
+                                if (file_exists($filePath . $strAirlineCode . ".gif")) {
+                                    $strAirlineLogo = $strAirlineCode . ".gif";
+                                    $filePath = $this->baseUrl("public/upload/AirlineLogo/") . $strAirlineLogo;
+                                } elseif (file_exists($filePath . $strAirlineCode . ".png")) {
+                                    $strAirlineLogo = $strAirlineCode . ".png";
+                                    $filePath = $this->baseUrl("public/upload/AirlineLogo/") . $strAirlineLogo;
+                                } elseif (file_exists($filePath . $strAirlineCode . ".jpg")) {
+                                    $strAirlineLogo = $strAirlineCode . ".jpg";
+                                    $filePath = $this->baseUrl("public/upload/AirlineLogo/") . $strAirlineLogo;
+                                } elseif (file_exists($filePath . $strAirlineCode . ".jpeg")) {
+                                    $strAirlineLogo = $strAirlineCode . ".jpeg";
+                                    $filePath = $this->baseUrl("public/upload/AirlineLogo/") . $strAirlineLogo;
+                                } else {
+                                    $filePath = $this->baseUrl("public/upload/AirlineLogo/noimage.png");
+                                }
+                                ?>
+                                <tr>
+                                    <td style="background:#e5e5e5; padding:5px 10px; font-size:18px;   ">
+                                        <img width="20" src="<?php echo $filePath; ?>" title="<?php echo $result['AirlineName']; ?>" />
+                                        <?php echo $strFlightNumber; ?> (<?php echo $strSourceAirportCode; ?> &rarr; <?php echo $strDestAirportCode; ?>)
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="padding:15px 0;">
+                                        <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                                            <tr>
+                                                <td colspan="5" valign="top" style="font-size:16px;">Flight Details </td>
+                                            </tr>
+                                            <tr>
+                                                <td valign="top">Flight No. : </td>
+                                                <td align="center"><span style="font-size:18px; font-weight:bold; color:#1077c5; padding:0 10px;">:</span></td>
+                                                <td valign="top"><?php echo $strFlightNumber; ?> </td>
+                                                <td colspan="4" valign="top" >&nbsp;</td>
+                                                <td rowspan="3" valign="top" >
+                                                    <div style="background:#f5f5f5; padding:5px 10px ;">
+                                                        <strong>Depature : </strong> <?php echo $sourceDepartueTime['strDate'] . " " . $sourceDepartueTime['strTime']; ?><br />
+                                                        <strong>Arrival : </strong> <?php echo $destinationArrivalTime['strDate'] . " " . $destinationArrivalTime['strTime']; ?><br />
+                                                        <strong>Pax Details :</strong>
+                                                        <?php
+                                                        if (count($arrRoomInfoJson) > 0) {
+                                                            echo $arrRoomInfoJson[1]['Adult'] . " Adult(s)";
+                                                            if (isset($arrRoomInfoJson[1]['Child'])) {
+                                                                echo ", " . $arrRoomInfoJson[1]['Child'] . " Child(s)";
+                                                            }
+                                                        }
+                                                        ?>
+                                                        <br />
+                                                        <!--<strong>Nationality:</strong> India | Country Of Resi. India -->
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td valign="top">Booking ID : </td>
+                                                <td align="center"><span style="font-size:18px; font-weight:bold; color:#1077c5; padding:0 10px;">:</span></td>
+                                                <td valign="top"><?php echo $strXRefBookingId; ?> </td>
+                                                <td valign="top" >&nbsp;</td>
+                                            </tr>
+                                            <tr>
+                                                <td valign="top">PNR No. : </td>
+                                                <td align="center"><span style="font-size:18px; font-weight:bold; color:#1077c5; padding:0 10px;">:</span></td>
+                                                <td valign="top"><?php echo $strBookingPNR; ?> </td>
+                                                <td valign="top" >&nbsp;</td>
+                                            </tr>
+                                            <tr>
+                                                <td>&nbsp;</td>
+                                                <td align="center"><span style="font-size:18px; font-weight:bold; color:#1077c5; padding:0 10px;">&nbsp;</span></td>
+                                                <td valign="top">&nbsp;</td>
+                                                <td valign="top" >&nbsp;</td>
+                                            </tr>
+                                        </table> 
+                                    </td>
+                                </tr>
+
+    <?php } ?>
+                        <?php } ?>
+                        <tr>
+                            <td style="background:#e5e5e5; padding:5px 10px; font-size:18px;   ">
+                                <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                                    <tr>
+                                        <td width="40%">Pax Name </td>
+                                        <td width="20%">Flight Fare </td>
+                                        <td width="20%">Service Fee </td>
+                                        <td width="20%">Total </td>
+                                    </tr>
+                                </table>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="padding:15px 0;">
+                                <table width="100%" border="0" cellspacing="0" cellpadding="0" style="border-bottom:1px solid #999; padding-bottom:5px; margin-bottom:15px;">
+                                    <tr>
+                                        <td valign="top"  width="40%"><?php echo $CustomerTitle; ?> <?php echo $CustomerFirstName; ?> <?php echo $CustomerLastName; ?></td>
+                                        <td colspan="3" valign="top"  width="20%"><?php echo number_format($intCostWithGTX, 2); ?></td>
+                                        <td valign="top"  width="20%"><?php echo number_format($intAgencyCommission, 2); ?></td>
+                                        <td valign="top" width="20%" >
+                                            <?php echo number_format($intCostToCustomer, 2); ?> 
+                                        </td>
+                                    </tr>
+                                </table>
+                                <table width="100%" border="0" cellspacing="0" cellpadding="0" style="border-bottom:1px solid #999; padding-bottom:15px; margin-bottom:15px;">
+                                    <tr>
+                                        <td valign="top"  width="20%">&nbsp; </td>
+                                        <td colspan="3" valign="top"  width="20%">&nbsp;  </td>
+                                        <td valign="top"  width="20%">&nbsp; </td>
+                                        <td valign="top" width="40%" >
+                                            <div style="background:#f5f5f5; padding:5px 10px ;">
+                                                <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                                                    <tr>
+                                                        <td width="30%">GST</td>
+                                                        <td style="font-size:18px; font-weight:bold; color:#1077c5; padding:0 10px;" align="center" valign="top" >:</td>
+                                                        <td width="50%"><?php echo number_format($AgentServiceTaxAmount, 2); ?></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Gross Fare</td>
+                                                        <td style="font-size:18px; font-weight:bold; color:#1077c5; padding:0 10px;" align="center" valign="top">:</td>
+                                                        <td><?php echo $intCostToCustomerWithServiceTax; ?></td>
+                                                    </tr>
+                                                </table>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </table>
+                                <table width="100%" border="0" cellspacing="0" cellpadding="0" style="border-bottom:1px solid #999; padding-bottom:5px; ">
+                                    <tr>
+                                        <td width="80%" colspan="6" align="right" valign="top">
+                                            <span style="font-size:24px; color:#333; font-weight:bold;">NET FARE : <?php echo $intCostToCustomerWithServiceTax; ?></span> 
+                                            <br />
+                                            <span style="font-style: italic;">Rupees <?php echo ucwords($intCostToCustomerInWords); ?> Only.</span>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><strong>Note:</strong> This is an electronically generated invoice and does not require a physical signature </td>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+        </table>
+    </body>
+</html>

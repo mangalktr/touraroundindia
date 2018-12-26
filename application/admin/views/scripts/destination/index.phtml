@@ -1,0 +1,232 @@
+<?php 
+$options = Zend_Controller_Front::getInstance()->getParam('bootstrap')->getOption('bootstrap');
+$baseUrl = $options['siteUrl'];
+$resultset = $this->resultset; 
+$page = $this->page;
+$per_page_record = $this->per_page_record;
+?>
+ 
+
+<div class="content">
+        
+<div class="header">
+    <h1 class="page-title">Destination List</h1>
+</div>
+
+<ul class="breadcrumb">
+    <li><a href="<?php echo $options['siteUrl'];?>admin/dashboard/index">Home</a> <span class="divider">/</span></li>
+    <li class="active">Manage Destination List</li>
+</ul>
+    
+<div class="container-fluid"> 
+<div class="row-fluid">
+   <div class="col-md-12">
+    <?php if (count($this->messages)) { ?>
+     <div class="alert alert-success" >
+         <button data-dismiss="alert" class="close" type="button">x</button>
+         <?php foreach ($this->messages as $message) {  ?>
+         <?php echo $this->escape($message); ?>
+         <?php } ?>
+     </div>
+    <?php } ?>
+</div>  
+    
+    
+    <div class="well">
+
+                <table id="tt" class="easyui-datagrid" style="width:100%;min-height:235%;" url="admin/destination/index"
+                       iconCls="icon-save" toolbar="#tb" rownumbers="true" pagination="true" fitColumns="true" view="scrollview" nowrap="false" >
+                    <thead>
+                        <tr>
+                            <th field="Title" data-options="width:150,align:'center'">Title</th>
+                            <th field="region_name" data-options="width:170,align:'center'">Region/State</th>
+                            <th field="Countries" data-options="width:190,align:'center'">Country Name</th>
+                            <!--<th field="Activities" data-options="width:150,align:'center'">Activities</th>-->
+                            <th field="Tours" data-options="width:150,align:'center'">Tours</th>
+                            <!--<th field="Hotels" data-options="width:150,align:'center'">Hotels</th>-->
+                           
+                            <th data-options="field:'Image',width:100,align:'center',formatter:formatImageAction">Image</th>
+                            <th data-options="field:'Bannerimg',width:300,align:'center',formatter:formatBannerImageAction">BannerImage</th>
+                             <th field="IsActive" data-options="width:150,align:'center'">Status</th>
+                            <th field="IsFeatured" data-options="width:100,align:'center',formatter:formatStatusAction">DOHo</th>
+                            <th field="DisplayOnFooter" data-options="width:100,align:'center',formatter:formatFooterAction">DIF</th>
+                            <th field="DisplayOnHeader" data-options="width:100,align:'center',formatter:formatHeaderAction">DOHe</th>
+                            <th data-options="field:'firma1',width:100,align:'center',formatter:formatDestinationAction">Action</th>
+                        </tr>
+                    </thead>
+                </table>
+                <div id="tb" style="padding:3px;">
+                    <span>Title:</span>
+                    <input id="Title" onkeyup="doSearch()" style="line-height:26px;border: 1px solid #ccc">&nbsp;&nbsp;&nbsp;
+                    <span>Region:</span>
+                    <input id="Region" onkeyup="doSearch()" style="line-height:26px;border: 1px solid #ccc">&nbsp;&nbsp;&nbsp;
+                    <span>Country Name:</span>
+                    <input id="Country" onkeyup="doSearch()" style="line-height:26px;border: 1px solid #ccc">&nbsp;&nbsp;&nbsp;
+                </div>
+
+
+            </div>         
+   </div>
+</div>
+</div>
+<script type="text/javascript">
+function doSearch() {
+    $('#tt').datagrid('load', {
+        Title: $('#Title').val(),
+        Country: $('#Country').val(),
+        Region: $('#Region').val()
+    });
+}
+function formatDestinationAction(val, row) {
+    var href = 'admin/destination/editdesti/id/' + row.DesSysId;
+    var hrefDel = 'admin/destination/deletedesti/id/' + row.DesSysId;
+
+    return '<a href="' + href + '" title="Edit"><i class="icon-pencil"></i></a> &nbsp; <a href="' + hrefDel + '" onclick="return confirm(\'Are you sure you want to delete?\')" class="Delete" title="Delete"><i class="icon-trash"></i></a>';
+}
+function formatFooterAction(val, row, idx) {
+    if (val != "" && val == 1) {
+        var checked = "checked";
+    }
+    else {
+        var checked = "";
+    }
+    return '<input type="checkbox" ' + checked + ' onClick="DisplayOnFooter(\'' + row.DesSysId + '\')" id="DisplayActive_' + row.DesSysId + '" name="DisplayActive" value="1">';
+
+}
+function formatStatusAction(val, row, idx) {
+    if (val != "" && val == 1) {
+        var checked = "checked";
+    }
+    else {
+        var checked = "";
+    }
+    return '<input type="checkbox" ' + checked + ' onClick="Active(\'' + row.DesSysId + '\')" id="Active_' + row.DesSysId + '" name="Active" value="1">';
+
+}
+function formatHeaderAction(val, row, idx) {
+    if(row.DisplayOnHeader!=""){
+    if (val != "" && val == 1) {
+        var checked = "checked";
+    }
+    else {
+        var checked = "";
+    }
+    return '<input type="checkbox" ' + checked + ' onClick="DisplayOnHeader(\'' + row.DesSysId + '\')" id="DisplayHeaderActive_' + row.DesSysId + '" name="DisplayHeaderActive" value="1">';
+    }
+}
+function formatImageAction(val, row) {
+    var Image = row.Image;
+    if ((Image !== null) && (Image !== '')) {
+        return '<img src="public/upload/destinations/' + row.DesSysId + '/images/thumb/' + Image + '" border="0" alt="image">';
+
+    }
+    else {
+        return '<img src="public/images/icon-package.jpg" border="0">';
+    }
+}
+function formatBannerImageAction(val, row) {
+    var Bannerimg = row.Bannerimg;
+    if (Bannerimg !== null) {
+        return '<img src="public/upload/destinations/' + row.DesSysId + '/banner/thumb/' + Bannerimg + '" border="0" alt="banner image">';
+    }
+    else {
+        return '<img src="public/images/icon-package.jpg" border="0" alt="No image" id="image_id_' + row.PkgSysId + '" width="64">';
+    }
+}
+$('.Delete').click(function () {
+    if (!confirm('Are you sure you want to delete?')) {
+        return false;
+    }
+});
+function Active(a) {
+    var ele = $('#Active_' + a).prop("checked");
+    if ($('#Active_' + a).prop("checked") == true) {
+        var values = 1;
+        $('#rate_' + a).addClass("hide");
+    } else if ($('#Active_' + a).prop("checked") == false) {
+        var values = 0;
+        $('#rate_' + a).removeClass("hide");
+    }
+    $.ajax({
+        url: '<?php echo $options['siteUrl']; ?>admin/destination/active/id/' + a + '/val/' + values,
+        type: 'POST',
+        dataType: 'json',
+        success: function (result) {
+            if (result.status) {
+                alert('Record Update successfully.');
+            } else {
+                alert(result.message);
+            }
+        },
+        error: function (result) {
+            alert('Execution error activation!!');
+        }
+    });
+
+}
+function DisplayOnFooter(a) {
+    var ele = $('#DisplayActive_' + a).prop("checked");
+    if ($('#DisplayActive_' + a).prop("checked") == true) {
+        var values = 1;
+        $('#rate_' + a).addClass("hide");
+    } else if ($('#DisplayActive_' + a).prop("checked") == false) {
+        var values = 0;
+        $('#rate_' + a).removeClass("hide");
+    }
+    //alert(values); return false;
+    $.ajax({
+        url: '<?php echo $options['siteUrl']; ?>admin/destination/display/id/' + a + '/val/' + values,
+        type: 'POST',
+        dataType: 'json',
+        success: function (result) {
+            if (result.status) {
+                alert('Record Update successfully.');
+            } else {
+                if (result.message === 'Limit Exceed!!') {
+                    alert(result.message);
+                    $('#DisplayActive_' + a).prop("checked", false);
+
+                }
+
+            }
+        },
+        error: function (result) {
+            alert('Execution error activation!!');
+        }
+    });
+
+}
+function DisplayOnHeader(a) {
+    var ele = $('#DisplayHeaderActive_' + a).prop("checked");
+    if ($('#DisplayHeaderActive_' + a).prop("checked") == true) {
+        var values = 1;
+        $('#rate_' + a).addClass("hide");
+    } else if ($('#DisplayHeaderActive_' + a).prop("checked") == false) {
+        var values = 0;
+        $('#rate_' + a).removeClass("hide");
+    }
+    //alert(values); return false;
+    $.ajax({
+        url: '<?php echo $options['siteUrl']; ?>admin/destination/display-header/id/' + a + '/val/' + values,
+        type: 'POST',
+        dataType: 'json',
+        success: function (result) {
+            if (result.status) {
+                alert('Record Update successfully.');
+            } else {
+                if (result.message === 'Limit Exceed!!') {
+                    alert(result.message);
+                    $('#DisplayHeaderActive_' + a).prop("checked", false);
+
+                }
+
+            }
+        },
+        error: function (result) {
+            alert('Execution error activation!!');
+        }
+    });
+
+}
+</script>
+

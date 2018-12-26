@@ -1,0 +1,96 @@
+<?php
+$baseUrl = $this->baseUrl; // get page variable in to this partial
+$POPUPCOOKIES = $this->POPUPCOOKIES;
+
+// check the page from where the query is submitted
+$modulename = $this->modulename;
+?>
+
+<div class="modal fade" id="myModa1packageEnquiry" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <form action="<?php echo $baseUrl; ?>tour-packages/send-enquiry" method="post" class="package_enquiry form-pop"  autocomplete="off" >
+            <div class="modal-content">
+                <div class="modal-header label-primary white">
+                    <h4 class="modal-title" style="color:#FFF;">Let us help you in plan your trip<button type="button" class="close pull-right close-pop-timeout button-close" data-dismiss="modal" aria-hidden="true">×</button></h4>
+                </div>
+                <div class="modal-body mob-pad">
+                    <div class="animate-box">
+                        <div class="panel-body" >
+                            <div class="package_det_d_left_form no-padding successmsg">
+                                <div class="colspan-booking" id="displaySendEnquiryForm">
+                                    <input type="hidden" name="leadsend" id="leadsend" value="0" />
+                                    <input type="hidden" name="TravelPlanId" id="package_tpid" value="" />
+                                    <input type="hidden" name="gtxpackageid" id="packagesys_id" value="" />
+                                    <input type="hidden" name="planType" id="planType"  value="5" />
+                                    <input type="hidden" name="Destination" id="Destinations"  value=""  />
+                                    <input type="hidden" name="DestinationID" id="DestinationIDs"  value="" />
+                                    <div class="row">
+                                        <div class="col-lg-12">
+                                            <p class="msg" style="text-align:center; display: none;"></p>
+                                        </div>
+                                        <div class="col-md-4 form-group">
+                                            <div class="colspan-booking">
+                                                <label class="Lable" for="name">Customer Name </label>
+                                                
+                                                <?php if (isset($_SESSION['User']['session']) && !empty($_SESSION['User']['session'])) { ?>
+                                                <input type="text" name="name" class="en_customername inputBox form-control" placeholder="Enter name" aria-label="Enter name" maxlength="50" readonly="" value="<?php echo (trim($_SESSION['User']['session']['FirstName']) || trim($_SESSION['User']['session']['LastName'])) ? trim($_SESSION['User']['session']['FirstName']) . ' ' . trim($_SESSION['User']['session']['LastName']) : '' ?>" />
+                                            <?php } else if (isset($_SESSION['TravelAgent']['session']) && !empty($_SESSION['TravelAgent']['session'])) { ?>
+                                                <input type="text" name="name" class="en_customername inputBox form-control" placeholder="Enter name" aria-label="Enter name" maxlength="50" readonly="" value="<?php echo (trim($_SESSION['TravelAgent']['session']['FirstName']) || trim($_SESSION['TravelAgent']['session']['LastName'])) ? trim($_SESSION['TravelAgent']['session']['FirstName']) . ' ' . trim($_SESSION['TravelAgent']['session']['LastName']) : '' ?>" />
+                                            <?php } else { ?>
+                                                <input type="text" name="name" class="en_customername inputBox form-control" placeholder="Enter name" aria-label="Enter name" maxlength="50" value="<?php echo ($POPUPCOOKIES['name']) ? $POPUPCOOKIES['name'] : '' ?>" />
+                                            <?php } ?>
+                                                
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-4 form-group">
+                                            <div class="colspan-booking">
+                                                <label for="email" class="Lable">Email <strong class="text-danger">*</strong></label>
+                                                <?php if (isset($_SESSION['User']['session']) && !empty($_SESSION['User']['session'])) { ?>
+                                                <input type="text" name="email" class="en_customeremail inputBox form-control notSpace" placeholder="Enter email" aria-label="Enter email" maxlength="50" readonly="" value="<?php echo (trim($_SESSION['User']['session']['EmailId'])) ? trim($_SESSION['User']['session']['EmailId']) : '' ?>" />
+                                            <?php } else if (isset($_SESSION['TravelAgent']['session']) && !empty($_SESSION['TravelAgent']['session'])) { ?>
+                                                <input type="text" name="email" class="en_customeremail inputBox form-control notSpace" placeholder="Enter email" aria-label="Enter email" maxlength="50" readonly="" value="<?php echo (trim($_SESSION['TravelAgent']['session']['EmailId'])) ? trim($_SESSION['TravelAgent']['session']['EmailId']) : '' ?>" />
+                                            <?php } else { ?>
+                                                <input type="text" name="email" class="en_customeremail inputBox form-control notSpace" placeholder="Enter email" aria-label="Enter email" maxlength="50" value="<?php echo ($POPUPCOOKIES['email']) ? $POPUPCOOKIES['email'] : '' ?>" />
+                                            <?php } ?>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-4 form-group">
+                                            <div class="colspan-booking">
+                                                <label class="Lable">Mobile <strong class="text-danger">*</strong></label>
+                                                <?php if (isset($_SESSION['User']['session']) && !empty($_SESSION['User']['session'])) { ?>
+                                                <input type="text" name="mobile" class="en_customermobile inputBox form-control notSpace" placeholder="Enter mobile" aria-label="Enter mobile" maxlength="10" readonly="" value="<?php echo (trim($_SESSION['User']['session']['ContactNo1'])) ? trim($_SESSION['User']['session']['ContactNo1']) : '' ?>" />
+                                            <?php } else if (isset($_SESSION['TravelAgent']['session']) && !empty($_SESSION['TravelAgent']['session'])) { ?>
+                                                <input type="text" name="mobile" class="en_customermobile inputBox form-control notSpace" placeholder="Enter mobile" aria-label="Enter mobile" maxlength="10" readonly="" value="<?php echo (trim($_SESSION['TravelAgent']['session']['ContactNo1'])) ? trim($_SESSION['TravelAgent']['session']['ContactNo1']) : '' ?>" />
+                                            <?php } else { ?>
+                                                <input type="text" name="mobile" class="en_customermobile inputBox form-control notSpace" placeholder="Enter mobile" aria-label="Enter mobile" maxlength="10" value="<?php echo ($POPUPCOOKIES['mobile']) ? $POPUPCOOKIES['mobile'] : '' ?>" />
+                                            <?php } ?>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                                <!-- enquiry detail form here -->
+                            </div>
+                        </div>
+                        <div class="clear"></div>
+                    </div>
+                    <div class="modal-footer alert-dismissible white hidebutton" align="center">
+                        <div class="col-md-12">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <p class="smsg"></p>
+                                </div>
+                                <div class="col-md-12 no-padding text-right-side">
+                                    <!--<a type="button" class="btn btn-default btn-sm btn-small-1" data-dismiss="modal">Close</a>-->
+                                    <a href="javascript:void(0)" class="btn btn-danger btn-sm btn-small-1 sending" >Request a callback</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+        </form>
+    </div>
+</div>
+</div>

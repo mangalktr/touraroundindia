@@ -1,0 +1,142 @@
+<?php
+$baseUrl = $this->baseUrl;
+$finalDestination = $this->finalDestination;
+$finalDestinationAll = $this->finalDestinationAll;
+$regionNames = $this->region_names;
+$region = $this->region;
+
+?>
+
+<div id="content" class="site-content ma-bot">
+    <div id="tropical-banner" class=" text-center clearfix  no-margin">
+        <?php if($region == 'North India'){ ?>
+         <img src="<?php echo $baseUrl; ?>public/images/rao_north_india.jpg" alt="banner" style="height: 320px !important;min-width: 100% !important;"/>
+        <?php } else if($region == 'South India') { ?>
+         <img src="<?php echo $baseUrl; ?>public/images/rao_south_india.jpg" alt="banner" style="height: 320px !important;min-width: 100% !important;"/>
+         <?php } else if($region == 'Eastern Europe'){ ?>
+          <img src="<?php echo $baseUrl; ?>public/images/europeee.jpg" alt="banner" style="height: 320px !important;min-width: 100% !important;"/>
+         <?php } else{ ?>
+        <img src="<?php echo $baseUrl; ?>public/images/destination_all.jpg" alt="banner" style="height: 320px !important;min-width: 100% !important;"/>
+        <!--<img src="<?php // echo $baseUrl; ?>public/images/banner-destination<?php // echo  rand(1, 5); ?>.jpg" alt="banner" style="height: 320px !important;min-width: 100% !important;"/>-->
+        <?php } ?>
+        <div class="container banner-contents clearfix">
+            <h2 class="template-title p-name"><strong><?php echo ($region !='')? $region : 'All Destinations'; ?></strong></h2>
+        </div>
+        <div class="breadcrumb-wrapper clearfix">
+            <div class="container">
+                <ol class="breadcrumb">
+                    <li><a href="<?php echo $baseUrl; ?>" >Home</a></li>
+
+                    <li class="active">Destination</li>
+                </ol>
+            </div>
+        </div>
+        <span class="overlay"></span>
+    </div>
+
+    <?php if($region !=''){?>
+    <section class="tour-page special-offers clearfix">
+        <div class="container">
+            <?php foreach ($regionNames as $key => $value) { ?>
+                <div class="destination">
+                    <h3><?php echo $region; ?></h3>
+                    <div class="clearfix"></div>
+                    <div class="tour-carousel clearfix">
+                        <?php
+                        foreach ($finalDestination as $keys => $values) {
+                            if ($value === $keys) {
+                                foreach ($finalDestination[$value] as $keyss => $valuess) {
+                                    ?>
+                                    <article class="tour-post"> <i class="circle-icon"></i>
+                                        <div class="tour-contents clearfix">
+                                            <div class="popular">
+                                                <div class="popular_inner">
+                                                    <figure> 
+                                                        <a href="<?php echo $baseUrl?>tours/package?key=<?php echo $valuess['Title']; ?>">
+                                                        <img style="height:309px;" data-original="<?php echo $baseUrl;?>public/upload/destinations/<?php echo $valuess['DesSysId']?>/images/large/<?php echo $valuess['Image']?>" border="0" alt="<?php echo $valuess['Title']?>"
+                                                         src="<?php echo $baseUrl;?>public/upload/destinations/<?php echo $valuess['DesSysId']?>/images/large/<?php echo $valuess['Image']?>"
+                                                         onerror="this.src='<?php echo $baseUrl;?>public/images/No-Image-2.jpg'" />
+                                                        </a>
+                                                        <div class="over2">
+                                                            <div class="left_side">
+                                                                <div class="text-destination"> 
+                                                                    <a style="color:white;" href="<?php echo $baseUrl?>tours/package?key=<?php echo $valuess['Title']; ?>"> 
+                                                                       <?php echo $valuess['Title']; ?>
+                                                                   </a>
+                                                                </div>
+                                                                <div class="text-destination1"><?php echo $valuess['Tours']; ?> Tours</div>
+                                                            </div>
+                                                        </div>
+                                                    </figure>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </article>   
+                                    <?php
+                                }
+                            }
+                        }
+                        ?>
+                    </div>
+                </div>
+            <?php } ?>
+        </div>
+    </section>
+    
+    
+    <?php }else{?>
+    
+    
+      <section class="tour-page special-offers clearfix">
+        <div class="container">
+           
+                <div class="destination">
+                    <div class="col-md-12"><h3><?php echo 'All Destinations'; ?></h3></div>
+                    <div class="clearfix"></div>
+                    <div class=" clearfix">
+                        <?php foreach ($finalDestinationAll as $allkey => $allvalue) { ?>
+                                                
+                                            
+                       <div class="col-md-3">
+                                    <div class="tour-post"> <i class="circle-icon"></i>
+                                        <div class="tour-contents clearfix">
+                                            <div class="popular">
+                                                <div class="popular_inner">
+                                                    <figure> 
+                                                        <a href="<?php echo $baseUrl?>tours/package?key=<?php echo $allvalue['Title']; ?>">
+                                                            <?php if($allvalue['Image'] !=''){?>
+                                                        <img style="height:309px;" data-original="<?php echo $baseUrl;?>public/upload/destinations/<?php echo $allvalue['DesSysId']?>/images/large/<?php echo $allvalue['Image']?>" border="0" alt="<?php echo $allvalue['Title']?>"
+                                                         src="<?php echo $baseUrl;?>public/upload/destinations/<?php echo $allvalue['DesSysId']?>/images/large/<?php echo $allvalue['Image']?>"
+                                                         onerror="this.src='<?php echo $baseUrl;?>public/images/No-Image-2.jpg'" />
+                                                            <?php } else {?>
+                                                        
+                                                        <img style="height:309px;" data-original="<?php echo $baseUrl;?>public/images/No-Image-2.jpg'" border="0" alt="<?php echo $allvalue['Title']?>"
+                                                         src="<?php echo $baseUrl;?>public/images/No-Image-2.jpg'"
+                                                         onerror="this.src='<?php echo $baseUrl;?>public/images/No-Image-2.jpg'" />
+                                                            <?php } ?>
+                                                        </a>
+                                                        <div class="over2">
+                                                            <div class="left_side">
+                                                                <div class="text-destination"> 
+                                                                    <a style="color:white;" href="<?php echo $baseUrl?>tours/package?key=<?php echo $allvalue['Title']; ?>"> 
+                                                                       <?php echo $allvalue['Title']; ?>
+                                                                   </a>
+                                                                </div>
+                                                                <div class="text-destination1"><?php echo $allvalue['Tours']; ?> Tours</div>
+                                                            </div>
+                                                        </div>
+                                                    </figure>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>   
+                                   
+                    </div>
+                        <?php } ?>
+                </div>
+            
+        </div>
+    </section>
+    
+    <?php } ?>
+</div>

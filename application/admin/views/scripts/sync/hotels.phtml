@@ -1,0 +1,65 @@
+<?php // 
+$options = Zend_Controller_Front::getInstance()->getParam('bootstrap')->getOption('bootstrap');
+$response = $this->response;
+?>
+
+
+<div class="content">
+        
+<div class="header">
+    <h1 class="page-title">Hotel(s)</h1>
+</div>
+
+<ul class="breadcrumb">
+    <li><a href="<?php echo $options['siteUrl'];?>admin/dashboard/index">Home</a> <span class="divider">/</span></li>
+    <li class="active">Hotel(s)</li>
+</ul>
+
+<div class="container-fluid">
+    <div class="row-fluid">       
+   
+    <?php if($this->successMessage) { ?>
+        <div class="alert alert-info">
+        <button data-dismiss="alert" class="close" type="button">×</button>
+        <?php echo $this->successMessage; ?>
+        </div> 
+    <?php } ?>
+        
+   <?php if($this->errorMessage) { ?>
+       <div class="alert alert-error">
+           <button data-dismiss="alert" class="close" type="button">×</button>
+           <?php echo $this->errorMessage; ?>
+       </div>
+   <?php } ?>
+      
+   <?php if($this->error1Message) { ?>
+       <div class="alert alert-error">
+           <button data-dismiss="alert" class="close" type="button">×</button>
+           <?php echo $this->error1Message; ?>
+       </div>
+   <?php } ?>   
+        
+<div class="well">
+    <ul class="nav nav-tabs">
+      <li class="active"><a href="#edit_page" data-toggle="tab">Hotel(s)</a></li>
+    </ul>
+     
+    <div id="myTabContent" class="tab-content">
+      <div class="tab-pane active in" >
+          
+          <?php if($this->msg) { ?>
+          <p class="text-left green alert alert-success">
+              <?php echo $this->msg;?>
+          </p>
+          <?php } ?>
+          
+          <button class="btn btn-primary" type="submit" onclick="window.location.href='admin/sync/index'">Go Back</button>
+          
+      </div>
+  </div>
+
+</div>                    
+    </div>
+</div>
+</div>
+

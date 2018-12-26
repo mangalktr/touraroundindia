@@ -1,0 +1,58 @@
+<?php
+$options = Zend_Controller_Front::getInstance()->getParam('bootstrap')->getOption('bootstrap');
+$resultset = $this->resultset;
+?>
+
+<div class="content">
+
+    <div class="header">
+        <h1 class="page-title">Manage Contact Query Page</h1>
+    </div>
+
+    <ul class="breadcrumb">
+        <li><a href="<?php echo $options['siteUrl']; ?>admin/dashboard/index">Home</a> <span class="divider">/</span></li>
+        <li class="active">Manage Contact Query Page</li>
+    </ul>
+
+    <div class="container-fluid">
+        <div class="row-fluid">
+
+
+            <div class="col-md-12">
+                <?php if (count($this->messages)) { ?>
+                    <div class="alert alert-success" >
+                        <button data-dismiss="alert" class="close" type="button">x</button>
+                        <?php foreach ($this->messages as $message) { ?>
+                            <?php echo $this->escape($message); ?>
+                        <?php } ?>
+                    </div>
+                <?php } ?>
+            </div>
+
+
+            <div class="well">
+                <table id="tt" class="easyui-datagrid" style="width:100%;" url="admin/staticpage/query"
+                       iconCls="icon-save" toolbar="#tb" rownumbers="true" pagination="true" fitColumns="true" view="scrollview" nowrap="false" >
+                    <thead>
+                        <tr>
+                            <th field="email" data-options="width:160">Email</th>
+                            <th field="secondEmail" data-options="width:100">Second Email</th>
+                            <th field="phone" data-options="width:100">Phone Number</th>
+                            <th field="mobile" data-options="width:100">Mobile Number</th>
+                             <th field="whatsapp_no" data-options="width:100">Whatsapp Number</th>
+                            <th field="location" data-options="width:150">Location</th>
+                            <th data-options="field:'firma1',width:80,align:'center',formatter:formatStaticAction">Action</th>
+                        </tr>
+                    </thead>
+                </table>
+            </div>
+
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    function formatStaticAction(val,row) {
+        var href = 'admin/staticpage/editquery/id/' + row.id;
+        return '<a href="' + href + '" title="Edit"><i class="icon-pencil"></i></a>';
+    }
+</script>

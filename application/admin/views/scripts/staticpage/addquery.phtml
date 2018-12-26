@@ -1,0 +1,130 @@
+<?php
+$options = Zend_Controller_Front::getInstance()->getParam('bootstrap')->getOption('bootstrap');
+//echo"<pre>";print_r($this->form->getAction());die;
+?>
+<style type="text/css">
+    li{list-style:none; color:#ed3237; font-size:13px;}
+    ul{margin:0px; padding:0px;}
+</style>
+
+
+<div class="content">
+    <?php if (trim($this->form->getName()) === "add_query") { ?>
+        <div class="header">
+            <h1 class="page-title">Add Query</h1>
+        </div>
+
+        <ul class="breadcrumb">
+            <li><a href="<?php echo $options['siteUrl']; ?>admin/dashboard/index">Home</a> <span class="divider">/</span></li>
+            <li><a href="<?php echo $options['siteUrl']; ?>admin/staticpage/query">Manage</a> <span class="divider">/</span></li>
+            <li class="active">Add Query</li>
+        </ul> 
+    <?php } else { ?> 
+        <div class="header">
+            <h1 class="page-title">Update Query</h1>
+        </div>
+
+        <ul class="breadcrumb">
+            <li><a href="<?php echo $options['siteUrl']; ?>admin/dashboard/index">Home</a> <span class="divider">/</span></li>
+            <li><a href="<?php echo $options['siteUrl']; ?>admin/staticpage/query">Manage</a> <span class="divider">/</span></li>
+            <li class="active">Update Query</li>
+        </ul>
+    <?php } ?>
+
+
+    <div class="container-fluid">
+        <div class="row-fluid">       
+
+            <?php if ($this->successMessage) { ?>
+                <div class="alert alert-info">
+                    <button data-dismiss="alert" class="close" type="button">×</button>
+                    <?php echo $this->successMessage; ?>
+                </div> 
+            <?php } ?>
+
+            <?php if ($this->errorMessage) { ?>
+                <div class="alert alert-error">
+                    <button data-dismiss="alert" class="close" type="button">×</button>
+                    <?php echo $this->errorMessage; ?>
+                </div>
+            <?php } ?>
+
+            <?php if ($this->error1Message) { ?>
+                <div class="alert alert-error">
+                    <button data-dismiss="alert" class="close" type="button">×</button>
+                    <?php echo $this->error1Message; ?>
+                </div>
+            <?php } ?>   
+
+            <div class="well">
+                <ul class="nav nav-tabs">
+                    <?php if (trim($this->form->getName()) === "add_query") { ?>
+                        <li class="active"><a href="#edit_page" data-toggle="tab">Add Query</a></li>
+                    <?php } else {
+                        ?>
+                        <li class="active"><a href="#edit_page" data-toggle="tab">Update Query</a></li>
+                    <?php } ?>
+                </ul>
+                <?php $form = $this->form; ?>
+                <div id="myTabContent" class="tab-content">
+                    <div class="tab-pane active in" id="add_page">
+                        <form id="add_query" class="add_query" method="<?php echo $this->form->getMethod(); ?>" action="<?php echo $this->form->getAction(); ?>" name="<?php echo $this->form->getName(); ?>" enctype="multipart/form-data">
+                            <?php echo $form->id; ?>
+
+                            <label>Email</label>
+                            <?php echo $form->email; ?>
+
+                            <label>Phone</label>
+                            <?php echo $form->phone; ?>
+
+                            <label>Location</label>
+                            <?php echo $form->location; ?>
+
+
+                            <label style="padding-top:10px;">Status</label>
+                            <?php echo $form->status; ?>
+
+                            <div style="padding-top:20px;">
+                                <p class="msg" style="color:#ff0000;"></p>
+                                <input type="submit" name="save" value="Save" class="btn btn-primary">
+                                <input type="button"  class="btn btn-primary" onclick="window.location.href = 'admin/staticpage/query'" value="Cancel">
+                            </div>
+
+                        </form>
+                    </div>
+                </div>
+
+            </div>                    
+        </div>
+    </div>
+</div>
+
+<script>
+    $(document).ready(function () {
+        $(".add_query").on('submit', function () {
+            //e.preventDefault();
+            //var data = $(this).serialize();
+            if ($('.add_query input[name="email"]').val().trim() === '') {
+                $('.msg').html('Please enter email id');
+                $('.add_query input[name="email"]').focus();
+                return false;
+            }
+            if ($('.add_query input[name="phone"]').val().trim() === '') {
+                $('.msg').html('Please enter phone number');
+                $('.add_query input[name="phone"]').focus();
+                return false;
+            }
+            if ($('.add_query input[name="location"]').val().trim() === '') {
+                $('.msg').html('Please enter location');
+                $('.add_query input[name="location"]').focus();
+                return false;
+            }
+            if ($('.add_query textarea[name="status"]').val().trim() === '') {
+                $('.msg').html('Please enter status!');
+                $('.add_query textarea[name="status"]').focus();
+                return false;
+            }
+            //alert(data);
+        });
+    });
+</script>

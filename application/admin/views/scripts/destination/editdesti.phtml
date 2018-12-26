@@ -1,0 +1,100 @@
+<?php 
+$options = Zend_Controller_Front::getInstance()->getParam('bootstrap')->getOption('bootstrap');
+$baseUrl = $options['siteUrl'];
+?>
+<style type="text/css">
+    li{list-style:none; color:#ed3237; font-size:13px;}
+    ul{margin:0px; padding:0px;}
+</style>
+
+<div class="content">
+        
+<div class="header">
+    <h1 class="page-title">Edit Destination Page</h1>
+</div>
+
+<ul class="breadcrumb">
+    <li><a href="<?php echo $options['siteUrl'];?>admin/dashboard/index">Home</a> <span class="divider">/</span></li>
+    <li><a href="<?php echo $options['siteUrl'];?>admin/destination/index">Manage Destination List</a> <span class="divider">/</span></li>
+    <li class="active">Edit Destination List</li>
+</ul>
+
+<div class="container-fluid">
+    <div class="row-fluid">       
+   
+    <?php if($this->successMessage) { ?>
+        <div class="alert alert-info">
+        <button data-dismiss="alert" class="close" type="button">×</button>
+        <?php echo $this->successMessage; ?>
+        </div> 
+    <?php } ?>
+        
+   <?php if($this->errorMessage) { ?>
+       <div class="alert alert-error">
+           <button data-dismiss="alert" class="close" type="button">×</button>
+           <?php echo $this->errorMessage; ?>
+       </div>
+   <?php } ?>
+      
+   <?php if($this->error1Message) { ?>
+       <div class="alert alert-error">
+           <button data-dismiss="alert" class="close" type="button">×</button>
+           <?php echo $this->error1Message; ?>
+       </div>
+   <?php } ?>   
+        
+<div class="well">
+    <ul class="nav nav-tabs">
+      <li class="active"><a href="#edit_page" data-toggle="tab">Edit Destination Page</a></li>
+    </ul>
+     <?php $form = $this->form;?>
+    <div id="myTabContent" class="tab-content">
+      <div class="tab-pane active in" id="add_page">
+    <form id="add_page" method="<?php echo $this->form->getMethod();?>" action="<?php echo $this->form->getAction();?>" name="<?php echo $this->form->getName();?>" enctype="multipart/form-data">
+        <?php echo $form->id;?>
+               
+        <label>Region/State Title</label>
+        <?php echo $form->region_id;?>
+
+        <label>Title</label>
+        <?php echo $form->title;?>
+              
+        <label>No of tours to display on destination page</label>
+        <?php echo $form->tours;?>
+                
+        <label style="padding-top:5px;">Upload Image (W : 254px | H : 309px)</label>
+        <?php echo $form->image;?>
+        
+        <?php if($this->image!="") { ?>
+        <img src="<?php echo $baseUrl;?>public/upload/destinations/<?php echo $this->pId;?>/images/thumb/<?php echo $this->image;?>" border="0" alt="image" width="60" height="60" />
+        <?php } ?>
+        
+        <label style="padding-top:5px;">Upload Banner Image (W : 1349px | H : 208px)</label>
+        <?php echo $form->banner_image;?>
+        
+        <?php if($this->banner_image!="") { ?>
+        <img src="public/upload/destinations/<?php echo $this->pId;?>/banner/thumb/<?php echo $this->banner_image;?>" border="0" alt="banner image" width="340" height="64">
+        <?php } ?>
+        
+        <label>Countries</label>
+        <?php echo $form->countries;?>
+        
+        <label>Status</label>
+        <?php echo $form->status;?>
+       
+        <label>Is Featured</label>
+        <?php echo $form->feature;?>
+        
+        <div style="padding-top:20px;">
+            <input type="submit" name="save" value="Save" class="btn btn-primary">
+            <button class="btn btn-primary" type="button" onclick="window.location.href='admin/destination/index'">Cancel</button>
+        </div>
+        
+    </form>
+      </div>
+  </div>
+
+</div>                    
+    </div>
+</div>
+</div>

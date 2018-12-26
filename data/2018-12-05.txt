@@ -1,0 +1,142 @@
+2018-12-05 18:44:58 - 127.0.0.1 - <br />
+<b>Notice</b>:  Undefined offset: 0 in <b>D:\xampp\htdocs\b2bzend\application\modules\gtxwebservices\controllers\QueryProposalController.php</b> on line <b>67</b><br />
+<br />
+<b>Notice</b>:  Undefined offset: 0 in <b>D:\xampp\htdocs\b2bzend\application\modules\gtxwebservices\controllers\QueryProposalController.php</b> on line <b>303</b><br />
+<br />
+<b>Notice</b>:  Undefined offset: 0 in <b>D:\xampp\htdocs\b2bzend\application\modules\gtxwebservices\controllers\QueryProposalController.php</b> on line <b>304</b><br />
+<br />
+<b>Notice</b>:  Undefined offset: 0 in <b>D:\xampp\htdocs\b2bzend\application\modules\gtxwebservices\controllers\QueryProposalController.php</b> on line <b>305</b><br />
+<br />
+<b>Notice</b>:  Undefined offset: 0 in <b>D:\xampp\htdocs\b2bzend\application\modules\gtxwebservices\controllers\QueryProposalController.php</b> on line <b>322</b><br />
+<br />
+<b>Notice</b>:  Undefined offset: 0 in <b>D:\xampp\htdocs\b2bzend\application\modules\gtxwebservices\controllers\QueryProposalController.php</b> on line <b>323</b><br />
+<br />
+<b>Notice</b>:  Undefined offset: 0 in <b>D:\xampp\htdocs\b2bzend\application\modules\gtxwebservices\controllers\QueryProposalController.php</b> on line <b>324</b><br />
+<br />
+<b>Notice</b>:  Undefined offset: 0 in <b>D:\xampp\htdocs\b2bzend\application\modules\gtxwebservices\controllers\QueryProposalController.php</b> on line <b>325</b><br />
+<br />
+<b>Notice</b>:  Undefined offset: 0 in <b>D:\xampp\htdocs\b2bzend\application\modules\gtxwebservices\controllers\QueryProposalController.php</b> on line <b>327</b><br />
+<br />
+<b>Notice</b>:  Undefined offset: 0 in <b>D:\xampp\htdocs\b2bzend\application\modules\gtxwebservices\controllers\QueryProposalController.php</b> on line <b>329</b><br />
+<br />
+<b>Notice</b>:  Undefined offset: 0 in <b>D:\xampp\htdocs\b2bzend\application\modules\gtxwebservices\controllers\QueryProposalController.php</b> on line <b>330</b><br />
+<br />
+<b>Notice</b>:  Undefined offset: 0 in <b>D:\xampp\htdocs\b2bzend\application\modules\gtxwebservices\controllers\QueryProposalController.php</b> on line <b>333</b><br />
+<br />
+<b>Notice</b>:  Undefined offset: 0 in <b>D:\xampp\htdocs\b2bzend\application\modules\gtxwebservices\controllers\QueryProposalController.php</b> on line <b>334</b><br />
+<br />
+<b>Notice</b>:  Undefined offset: 0 in <b>D:\xampp\htdocs\b2bzend\application\modules\gtxwebservices\controllers\QueryProposalController.php</b> on line <b>335</b><br />
+<br />
+<b>Notice</b>:  Undefined offset: 0 in <b>D:\xampp\htdocs\b2bzend\application\modules\gtxwebservices\controllers\QueryProposalController.php</b> on line <b>336</b><br />
+<br />
+<b>Notice</b>:  Undefined offset: 0 in <b>D:\xampp\htdocs\b2bzend\application\modules\gtxwebservices\controllers\QueryProposalController.php</b> on line <b>337</b><br />
+<br />
+<b>Notice</b>:  Undefined offset: 0 in <b>D:\xampp\htdocs\b2bzend\application\modules\gtxwebservices\controllers\QueryProposalController.php</b> on line <b>338</b><br />
+<br />
+<b>Notice</b>:  Undefined offset: 0 in <b>D:\xampp\htdocs\b2bzend\application\modules\gtxwebservices\controllers\QueryProposalController.php</b> on line <b>341</b><br />
+<br />
+<b>Notice</b>:  Undefined offset: 0 in <b>D:\xampp\htdocs\b2bzend\application\modules\gtxwebservices\controllers\QueryProposalController.php</b> on line <b>345</b><br />
+<br />
+<b>Notice</b>:  Undefined offset: 0 in <b>D:\xampp\htdocs\b2bzend\application\modules\gtxwebservices\controllers\QueryProposalController.php</b> on line <b>346</b><br />
+<br />
+<b>Notice</b>:  Undefined offset: 0 in <b>D:\xampp\htdocs\b2bzend\application\modules\gtxwebservices\controllers\QueryProposalController.php</b> on line <b>347</b><br />
+<br />
+<b>Notice</b>:  Undefined offset: 0 in <b>D:\xampp\htdocs\b2bzend\application\modules\gtxwebservices\controllers\QueryProposalController.php</b> on line <b>348</b><br />
+<br />
+<b>Notice</b>:  Undefined offset: 0 in <b>D:\xampp\htdocs\b2bzend\application\modules\gtxwebservices\controllers\QueryProposalController.php</b> on line <b>349</b><br />
+<br />
+<b>Notice</b>:  Undefined offset: 0 in <b>D:\xampp\htdocs\b2bzend\application\modules\gtxwebservices\controllers\QueryProposalController.php</b> on line <b>350</b><br />
+<br />
+<b>Notice</b>:  Undefined offset: 0 in <b>D:\xampp\htdocs\b2bzend\application\modules\gtxwebservices\controllers\QueryProposalController.php</b> on line <b>351</b><br />
+<br />
+<b>Notice</b>:  Undefined offset: 0 in <b>D:\xampp\htdocs\b2bzend\application\modules\gtxwebservices\controllers\QueryProposalController.php</b> on line <b>356</b><br />
+<br />
+<b>Notice</b>:  Undefined offset: 0 in <b>D:\xampp\htdocs\b2bzend\application\modules\gtxwebservices\controllers\QueryProposalController.php</b> on line <b>357</b><br />
+<br />
+<b>Notice</b>:  Undefined offset: 0 in <b>D:\xampp\htdocs\b2bzend\application\modules\gtxwebservices\controllers\QueryProposalController.php</b> on line <b>358</b><br />
+<br />
+<b>Notice</b>:  Undefined offset: 0 in <b>D:\xampp\htdocs\b2bzend\application\modules\gtxwebservices\controllers\QueryProposalController.php</b> on line <b>359</b><br />
+<br />
+<b>Notice</b>:  Undefined offset: 0 in <b>D:\xampp\htdocs\b2bzend\application\modules\gtxwebservices\controllers\QueryProposalController.php</b> on line <b>366</b><br />
+<br />
+<b>Notice</b>:  Undefined offset: 0 in <b>D:\xampp\htdocs\b2bzend\application\modules\gtxwebservices\controllers\QueryProposalController.php</b> on line <b>367</b><br />
+<br />
+<b>Notice</b>:  Undefined offset: 0 in <b>D:\xampp\htdocs\b2bzend\application\modules\gtxwebservices\controllers\QueryProposalController.php</b> on line <b>376</b><br />
+<br />
+<b>Notice</b>:  Undefined offset: 0 in <b>D:\xampp\htdocs\b2bzend\application\modules\gtxwebservices\controllers\QueryProposalController.php</b> on line <b>378</b><br />
+<br />
+<b>Notice</b>:  Undefined variable: gettplandataforcustomer in <b>D:\xampp\htdocs\b2bzend\application\modules\gtxwebservices\controllers\QueryProposalController.php</b> on line <b>404</b><br />
+<br />
+<b>Notice</b>:  Undefined variable: gettplandataforcustomer in <b>D:\xampp\htdocs\b2bzend\application\modules\gtxwebservices\controllers\QueryProposalController.php</b> on line <b>405</b><br />
+
+2018-12-05 18:53:00 - 127.0.0.1 - <br />
+<b>Notice</b>:  Undefined offset: 0 in <b>D:\xampp\htdocs\b2bzend\application\modules\gtxwebservices\controllers\QueryProposalController.php</b> on line <b>67</b><br />
+<br />
+<b>Notice</b>:  Undefined offset: 0 in <b>D:\xampp\htdocs\b2bzend\application\modules\gtxwebservices\controllers\QueryProposalController.php</b> on line <b>303</b><br />
+<br />
+<b>Notice</b>:  Undefined offset: 0 in <b>D:\xampp\htdocs\b2bzend\application\modules\gtxwebservices\controllers\QueryProposalController.php</b> on line <b>304</b><br />
+<br />
+<b>Notice</b>:  Undefined offset: 0 in <b>D:\xampp\htdocs\b2bzend\application\modules\gtxwebservices\controllers\QueryProposalController.php</b> on line <b>305</b><br />
+<br />
+<b>Notice</b>:  Undefined offset: 0 in <b>D:\xampp\htdocs\b2bzend\application\modules\gtxwebservices\controllers\QueryProposalController.php</b> on line <b>322</b><br />
+<br />
+<b>Notice</b>:  Undefined offset: 0 in <b>D:\xampp\htdocs\b2bzend\application\modules\gtxwebservices\controllers\QueryProposalController.php</b> on line <b>323</b><br />
+<br />
+<b>Notice</b>:  Undefined offset: 0 in <b>D:\xampp\htdocs\b2bzend\application\modules\gtxwebservices\controllers\QueryProposalController.php</b> on line <b>324</b><br />
+<br />
+<b>Notice</b>:  Undefined offset: 0 in <b>D:\xampp\htdocs\b2bzend\application\modules\gtxwebservices\controllers\QueryProposalController.php</b> on line <b>325</b><br />
+<br />
+<b>Notice</b>:  Undefined offset: 0 in <b>D:\xampp\htdocs\b2bzend\application\modules\gtxwebservices\controllers\QueryProposalController.php</b> on line <b>327</b><br />
+<br />
+<b>Notice</b>:  Undefined offset: 0 in <b>D:\xampp\htdocs\b2bzend\application\modules\gtxwebservices\controllers\QueryProposalController.php</b> on line <b>329</b><br />
+<br />
+<b>Notice</b>:  Undefined offset: 0 in <b>D:\xampp\htdocs\b2bzend\application\modules\gtxwebservices\controllers\QueryProposalController.php</b> on line <b>330</b><br />
+<br />
+<b>Notice</b>:  Undefined offset: 0 in <b>D:\xampp\htdocs\b2bzend\application\modules\gtxwebservices\controllers\QueryProposalController.php</b> on line <b>333</b><br />
+<br />
+<b>Notice</b>:  Undefined offset: 0 in <b>D:\xampp\htdocs\b2bzend\application\modules\gtxwebservices\controllers\QueryProposalController.php</b> on line <b>334</b><br />
+<br />
+<b>Notice</b>:  Undefined offset: 0 in <b>D:\xampp\htdocs\b2bzend\application\modules\gtxwebservices\controllers\QueryProposalController.php</b> on line <b>335</b><br />
+<br />
+<b>Notice</b>:  Undefined offset: 0 in <b>D:\xampp\htdocs\b2bzend\application\modules\gtxwebservices\controllers\QueryProposalController.php</b> on line <b>336</b><br />
+<br />
+<b>Notice</b>:  Undefined offset: 0 in <b>D:\xampp\htdocs\b2bzend\application\modules\gtxwebservices\controllers\QueryProposalController.php</b> on line <b>337</b><br />
+<br />
+<b>Notice</b>:  Undefined offset: 0 in <b>D:\xampp\htdocs\b2bzend\application\modules\gtxwebservices\controllers\QueryProposalController.php</b> on line <b>338</b><br />
+<br />
+<b>Notice</b>:  Undefined offset: 0 in <b>D:\xampp\htdocs\b2bzend\application\modules\gtxwebservices\controllers\QueryProposalController.php</b> on line <b>341</b><br />
+<br />
+<b>Notice</b>:  Undefined offset: 0 in <b>D:\xampp\htdocs\b2bzend\application\modules\gtxwebservices\controllers\QueryProposalController.php</b> on line <b>345</b><br />
+<br />
+<b>Notice</b>:  Undefined offset: 0 in <b>D:\xampp\htdocs\b2bzend\application\modules\gtxwebservices\controllers\QueryProposalController.php</b> on line <b>346</b><br />
+<br />
+<b>Notice</b>:  Undefined offset: 0 in <b>D:\xampp\htdocs\b2bzend\application\modules\gtxwebservices\controllers\QueryProposalController.php</b> on line <b>347</b><br />
+<br />
+<b>Notice</b>:  Undefined offset: 0 in <b>D:\xampp\htdocs\b2bzend\application\modules\gtxwebservices\controllers\QueryProposalController.php</b> on line <b>348</b><br />
+<br />
+<b>Notice</b>:  Undefined offset: 0 in <b>D:\xampp\htdocs\b2bzend\application\modules\gtxwebservices\controllers\QueryProposalController.php</b> on line <b>349</b><br />
+<br />
+<b>Notice</b>:  Undefined offset: 0 in <b>D:\xampp\htdocs\b2bzend\application\modules\gtxwebservices\controllers\QueryProposalController.php</b> on line <b>350</b><br />
+<br />
+<b>Notice</b>:  Undefined offset: 0 in <b>D:\xampp\htdocs\b2bzend\application\modules\gtxwebservices\controllers\QueryProposalController.php</b> on line <b>351</b><br />
+<br />
+<b>Notice</b>:  Undefined offset: 0 in <b>D:\xampp\htdocs\b2bzend\application\modules\gtxwebservices\controllers\QueryProposalController.php</b> on line <b>356</b><br />
+<br />
+<b>Notice</b>:  Undefined offset: 0 in <b>D:\xampp\htdocs\b2bzend\application\modules\gtxwebservices\controllers\QueryProposalController.php</b> on line <b>357</b><br />
+<br />
+<b>Notice</b>:  Undefined offset: 0 in <b>D:\xampp\htdocs\b2bzend\application\modules\gtxwebservices\controllers\QueryProposalController.php</b> on line <b>358</b><br />
+<br />
+<b>Notice</b>:  Undefined offset: 0 in <b>D:\xampp\htdocs\b2bzend\application\modules\gtxwebservices\controllers\QueryProposalController.php</b> on line <b>359</b><br />
+<br />
+<b>Notice</b>:  Undefined offset: 0 in <b>D:\xampp\htdocs\b2bzend\application\modules\gtxwebservices\controllers\QueryProposalController.php</b> on line <b>366</b><br />
+<br />
+<b>Notice</b>:  Undefined offset: 0 in <b>D:\xampp\htdocs\b2bzend\application\modules\gtxwebservices\controllers\QueryProposalController.php</b> on line <b>367</b><br />
+<br />
+<b>Notice</b>:  Undefined offset: 0 in <b>D:\xampp\htdocs\b2bzend\application\modules\gtxwebservices\controllers\QueryProposalController.php</b> on line <b>376</b><br />
+<br />
+<b>Notice</b>:  Undefined offset: 0 in <b>D:\xampp\htdocs\b2bzend\application\modules\gtxwebservices\controllers\QueryProposalController.php</b> on line <b>378</b><br />
+<br />
+<b>Notice</b>:  Undefined variable: gettplandataforcustomer in <b>D:\xampp\htdocs\b2bzend\application\modules\gtxwebservices\controllers\QueryProposalController.php</b> on line <b>404</b><br />
+<br />
+<b>Notice</b>:  Undefined variable: gettplandataforcustomer in <b>D:\xampp\htdocs\b2bzend\application\modules\gtxwebservices\controllers\QueryProposalController.php</b> on line <b>405</b><br />
+

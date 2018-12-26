@@ -1,0 +1,13 @@
+<br />
+<b>Notice</b>:  Undefined offset: 0 in <b>D:\Html\users\userweb731\Html\application\modules\gtxwebservices\controllers\QueryController.php</b> on line <b>62</b><br />
+<br />
+<b>Notice</b>:  Undefined offset: 0 in <b>D:\Html\users\userweb731\Html\application\modules\gtxwebservices\controllers\QueryController.php</b> on line <b>63</b><br />
+<br />
+<b>Fatal error</b>:  Uncaught exception 'Zend_Db_Statement_Sqlsrv_Exception' with message '[Microsoft][ODBC Driver 11 for SQL Server][SQL Server]Cannot insert the value NULL into column 'AssignUserSysId', table 'TBTravelDbVer8.dbo.TB_Agency_CRM_LeadAccount'; column does not allow nulls. INSERT fails.' in D:\Html\users\userweb731\Html\library\Zend\Db\Statement\Sqlsrv.php:206
+Stack trace:
+#0 D:\Html\users\userweb731\Html\library\Zend\Db\Statement.php(320): Zend_Db_Statement_Sqlsrv-&gt;_execute(Array)
+#1 D:\Html\users\userweb731\Html\library\Zend\Db\Adapter\Abstract.php(481): Zend_Db_Statement-&gt;execute(Array)
+#2 D:\Html\users\userweb731\Html\library\Zend\Db\Adapter\Sqlsrv.php(380): Zend_Db_Adapter_Abstract-&gt;query('INSERT INTO &quot;TB...', Array)
+#3 D:\Html\users\userweb731\Html\library\Zend\Db\Table\Abstract.php(1075): Zend_Db_Adapter_Sqlsrv-&gt;insert('TB_Agency_CRM_L...', Array)
+#4 D:\Html\users\userweb731\Html\application\models\CRM\AgencyLeadAccount.php(25): Zend_Db_Table_Abstract-&gt;insert(Array)
+#5 D:\Html\users\userweb731\Html\applicatio in <b>D:\Html\users\userweb731\Html\library\Zend\Db\Statement\Sqlsrv.php</b> on line <b>206</b><br />

@@ -1,0 +1,518 @@
+<?php 
+$object = Zend_Controller_Front::getInstance();
+$options = Zend_Controller_Front::getInstance()->getParam('bootstrap')->getOption('bootstrap');
+$baseUrl    =  $options['siteUrl'];
+$toursFinal = $this->toursFinal;
+$lastMinuteTours = $this->lastMinuteTours;
+$destinations = $this->destinations;
+$testimonial  = $this->testimonials;
+$bannerDetail  = $this->bannerDetail;
+//echo"<pre>";print_r($toursFinal);die;
+$packageDestinationArray  = $this->packageDestinationArray;
+$items = $this->items;
+$mydevice = Zend_Controller_Action_HelperBroker::getStaticHelper('General')->getDevice();
+?>
+<div id="content" class="site-content">
+    <div class="main-slider-wrap">
+      <div class="main-slider">
+          <?php foreach ($bannerDetail as $key => $value) {
+              if(isset($value['image']) && !empty($value['image'])){
+              ?>
+        <div class="item"> 
+            <img src="<?php echo $baseUrl; ?>public/upload/home/<?php echo $value['banner_id']; ?>/large/<?php echo $value['image']; ?>" alt="one"/>
+        
+           <?php if((isset($value['heading']) || isset($value['description'])) && (!empty($value['heading'])) || !empty($value['description'])) { ?>  
+            
+            <div class="slide-details clearfix">
+            <a href="<?php echo $value['url']; ?>" <?php echo  $value['opt'] == 1  ? 'target="_blank"' : '' ;?>><h3 class="title">
+              <span><?php echo $value['heading']; ?></span>
+             <span><?php echo (isset($value['description']) && $value['description'] != '') ? substr($value['description'],0,50) : '<p></p>'; ?></span>
+             
+              <!--<a href="<?php // echo $value['url']; ?>" <?php // echo  $value['opt'] == 1  ? 'target="_blank"' : '' ;?>>  See  More </a>--> 
+            </h3></a> 
+          </div>
+         <?php } ?>
+        </div>
+          <?php } } ?>
+      </div>
+    </div>
+    
+    
+    <section class="main-search-wrap animatedParent">
+      <div class="container container-mob">
+          <form id="adv-search" action="<?php echo $baseUrl ?>tours/package" method="get">
+          <div class="container">
+            <fieldset>
+              <!--  <legend><span>Find the Tour</span></legend>-->
+              <div class="form-wrap clearfix">
+                  <select class="form-control" id="places" name="key">
+                      <option value="">Select</option>
+                                      <?php 
+                    foreach ($packageDestinationArray as $key => $value) { ?>
+                    <option value="<?php echo $value['value']; ?>"><?php echo $value['label']; ?></option> 
+                    <?php
+                    }
+                    ?>
+                  </select>
+                <input type="submit" value="Lets GO">
+              </div>
+            </fieldset>
+          </div>
+        </form>
+      </div>
+    </section>
+    
+    <section class="home-tour animatedParent Deals-bg clearfix">
+            <div class="container Deals-bg-block">
+                
+                <div class="col-md-6 no-padding">
+                <header class="section-header  clearfix">
+                    <h3 class="title pull-left animated growIn go hot-hed"><?php echo isset($this->resultPromotionCategory->prom_cat_one) ? $this->resultPromotionCategory->prom_cat_one : 'Fixed Departure Tours - India';?></h3>                    
+                </header>
+                <div class="tour-by-destination tour-by-destination-mrg  clearfix">
+<?php if(count($this->homePromotionTypeOne) > 0){ 
+     foreach ($this->homePromotionTypeOne as $onekey => $onevalue) {
+
+    ?>
+                    <a href="<?php echo $onevalue['promotion_url'];?>" <?php echo ($onevalue['tab_type'] == 1) ? 'target="_blank"' : '';?>>
+                            <div class="item">
+                                <div class="departure-fixed">
+                    <div class="caption">
+                    <h1><?php echo  $onevalue['promotion_name'];?></h1>
+                    <p><?php echo substr($onevalue['promotion_description'],0,350);?></p>
+                    </div>
+                       <?php if($onevalue['promotion_image'] != ''){?>   
+                                    <img src="public/upload/homepromotion/small/<?php echo $onevalue['promotion_image']?>" alt="Destination" class="image-dep">
+                       <?php }else{?>
+                            <img src="public/images/departure1.jpg" alt="Destination" class="image-dep">
+                       <?php }?>             
+                   
+                    
+                    </div>
+                            </div>
+    </a>
+                    
+<?php } } else{?>
+                    
+   <div class="item">
+                                <div class="departure-fixed">
+                    <div class="caption">
+                    <h1>Tour from New Delhi</h1>
+                    <p>Delhi City Tour - By - 
+Taj Mahal Agra Mathura - Haridwar - Rishikesh - Jaipure - Fatehpur - jaipur - Ajmer - Pushkar - Mussoorie - Haridwar - Shimla - Kufri - Manali <div class="cl"></div> <a href="#"> View All.. </a></p>
+                    </div>
+                    <img src="public/images/departure1.jpg" alt="Destination" class="image-dep">
+                    </div>
+                            </div>                 
+                    
+<?php } ?>
+                        </div>
+                        </div>
+                         <div class="col-md-4 padding-no-box">
+                         <header class="section-header  clearfix">
+                    <h3 class="title pull-left animated growIn go hot-hed"><?php echo isset($this->resultPromotionCategory->prom_cat_one) ? $this->resultPromotionCategory->prom_cat_two : 'Holiday Packages - India';?></h3>    
+                                    
+                </header>
+                         <div class="col-md-12 no-padding">
+                    <div class="package-holi">
+                    <?php if(count($this->homePromotionTypeTwo) >0){?>
+                         <div class="caption">
+                    <?php foreach ($this->homePromotionTypeTwo['finalArrayTwo'] as $twokey => $twovalue) { ?>
+                                 <a href="<?php echo $twovalue['promotionUrl'] ?>" <?php echo ($twovalue['tabType'] == 1)? 'target="_blank"' :'' ;?>> <?php echo $twovalue['tagNAme'] ?></a>                         
+                                                  <?php   }?>
+                   
+                     <!--<a href="#" class="more"> View More..  </a>-->
+                    </div>
+                        <?php if($this->homePromotionTypeTwo['promotion_image'] != ''){?>
+                        <img src="public/upload/homepromotion/small/<?php echo $this->homePromotionTypeTwo['promotion_image'];?>" alt="Destination" class="image-dep">
+                        <?php } else{?>
+                         <img src="public/images/h-package.jpg" alt="Destination" class="image-dep">
+                        <?php } ?>
+                    <?php } else{?>
+                         <div class="caption">
+                    
+                    <a href="#"> Honeymoon&nbsp;Tours </a>
+                    <a href="#"> Pilgrimage&nbsp;Tours </a>
+                    <a href="#"> Luxury&nbsp;Train&nbsp;Offers </a>
+                    <a href="#"> Kerala&nbsp;Tours </a>
+                     <a href="#" class="more"> View More..  </a>
+                    </div>
+                    <img src="public/images/h-package.jpg" alt="Destination" class="image-dep">
+                    <?php } ?>
+                       
+                    </div>
+                    </div>
+                         </div>
+                         <div class="col-md-2 no-padding">
+                         
+                <header class="section-header  clearfix">
+                    <h3 class="title pull-left animated growIn go hot-hed"><?php echo isset($this->resultPromotionCategory->prom_cat_one) ? $this->resultPromotionCategory->prom_cat_three : 'Hot - Deals';?></h3>     
+                                   
+                </header>
+                <div class="col-md-12 no-padding">
+                    <div class="hot-deal">    
+                        <?php  if(count($this->homePromotionTypeThree) > 0){?>
+                        <a href="<?php echo $this->homePromotionTypeThree['promotion_url']?>" <?php echo ($this->homePromotionTypeThree['tab_type']) ? 'target="_blank"': '' ?>><img src="public/upload/homepromotion/small/<?php echo $this->homePromotionTypeThree['promotion_image']?>" alt="Destination" class="image-dep"></a>
+                        <?php }else{ ?>
+                        <a href="javascript://"><img src="public/images/deal-hot4.jpg" alt="Destination" class="image-dep"></a>
+                        <?php } ?>
+                        
+                    </div>
+                </div>
+                         </div>
+            </div>
+        </section>
+    
+    
+    <?php
+if (count($toursFinal)) {
+    ?>
+    <section class="home-special-offers clearfix">
+      <div class="container">
+        <header class="section-header header-with-nav clearfix">
+          <h3 class="title pull-left">Trending Packages</h3>
+          <a class="pull-right btn btn-black" href="<?php echo $baseUrl ?>tours/package?key=North India">View All</a> 
+        </header>
+        <div class="tour-carousel clearfix">
+            <?php
+foreach ( $toursFinal as $key => $value ) {
+?>
+          <article class="tour-post"> <i class="circle-icon"></i> 
+            <div class="tour-contents clearfix">
+              <div class="popular">
+                <div class="popular_inner">
+                    <figure> 
+                        <?php if(isset($value['isFixedDeparturesPackage']) && $value['isFixedDeparturesPackage'] === 1){ ?>
+                        <div style="font-size:13px;" class="package_box_hotdeal">Group Tours</div>
+                        <?php } ?>
+                      <a target="_blank" href="<?php echo $baseUrl;?>detail/tour-package-for-<?php echo Catabatic_Helper::getSeoName($value['Destination']);?>/<?php echo Catabatic_Helper::getSeoName($value['nameF']);?>-<?php echo $value['PkgSysId'];?>-<?php echo $value['defaultCategoryId'];?>-<?php echo $value['GTXPkgId'];?>-<?php echo $value['tourtype'];?>-<?php echo $value['mp']?>.html" style="color: #000">
+              <img style="height:240px;" data-original="<?php echo $baseUrl;?>public/upload/tours/<?php echo $value['PkgSysId']?>/images/<?php echo $value['img'];?>" class="img-responsive trending-acti-img img-homepage-1 lazy" alt="<?php echo $value['name'];?>"
+            src="<?php echo $baseUrl;?>public/upload/tours/<?php echo $value['PkgSysId']?>/images/<?php echo $value['img'];?>"
+            onerror="this.src='<?php echo $baseUrl;?>public/images/No-Image-2.jpg'" /><div class="caption left_side">
+                        <div class="caption_price"><span class="WebRupee" style="font-size: 20px !important;color: #fff !important; text-align: center; ">Rs</span> <?php echo $value['price'];?>/-</div>
+                      </div> 
+          </a> 
+                  </figure>
+                  <div class="caption">
+                    <div class="txt1" style="font-size:11px;">
+                        <span style="font-size:15px;">
+                            <a style="color:#636363;" target="_blank" title="<?php echo $value['nameF']; ?>" href="<?php echo $baseUrl;?>detail/tour-package-for-<?php echo Catabatic_Helper::getSeoName($value['Destination']);?>/<?php echo Catabatic_Helper::getSeoName($value['nameF']);?>-<?php echo $value['PkgSysId'];?>-<?php echo $value['defaultCategoryId'];?>-<?php echo $value['GTXPkgId'];?>-<?php echo $value['tourtype'];?>-<?php echo $value['mp']?>.html">
+                                <?php echo $value['name'];?>
+                            </a>
+                        </span> 
+                            <?php echo $value['Destination']; ?>
+                    </div>
+<!--                    <div class="txt3 clearfix"> 
+                        <div class="left_side">Starting From</div>
+                        <div class="right_side">
+                        <div class="nums">INR <?php echo $value['price'];?>/-</div>
+                        </div>
+                    </div>-->
+                    <input type="hidden" id="PkgSysIdHTML" value="<?php echo $value['PkgSysId'];?>" />
+                    <input type="hidden" id="packagetype_<?php echo $value['PkgSysId'];?>" value="<?php echo $value['PackageType'];?>" />
+                    <input type="hidden" id="gtxpackage_<?php echo $value['PkgSysId'];?>" value="<?php echo $value['GTXPkgId'];?>" />
+                    <input type="hidden" id="hotelcategoryid_<?php echo $value['PkgSysId'];?>" value="<?php echo $value['defaultCategoryId'];?>" />
+                    <input type="hidden" id="packagetpid_<?php echo $value['PkgSysId'];?>" value="<?php echo $value['TPId'];?>" />
+                    <input type="hidden" id="packagename_<?php echo $value['PkgSysId'];?>" value="<?php echo $value['nameF'];?>" />
+                    <input type="hidden" id="mealplantype_<?php echo $value['PkgSysId']; ?>" value="<?php echo $value['mp'];?>" />
+                    <input type="hidden" id="tourtype_<?php echo $value['PkgSysId'];?>" value="<?php echo $value['tourtype'];?>" />
+                    <div class="txt3 clearfix" style="padding-top:0px; color: #959595; font-size: 12px;">
+                      <div class="left_side" >
+                          <img src="<?php echo $baseUrl; ?>public/images/m2-min.png" alt="" style="display: inline-block;">
+                        No of days : <?php echo $value['night']+1;?>
+                        
+                      </div>
+                      <div class="right_side">
+                          <a target="_blank" href="<?php echo $baseUrl;?>detail/tour-package-for-<?php echo Catabatic_Helper::getSeoName($value['Destination']);?>/<?php echo Catabatic_Helper::getSeoName($value['nameF']);?>-<?php echo $value['PkgSysId'];?>-<?php echo $value['defaultCategoryId'];?>-<?php echo $value['GTXPkgId'];?>-<?php echo $value['tourtype'];?>-<?php echo $value['mp']?>.html" class="btn">View Detail</a>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </article>
+<?php } ?>
+        </div>
+      </div>
+    </section>
+<?php } 
+if(count($lastMinuteTours)){
+?>
+    <section class="home-special-offers clearfix">
+      <div class="container">
+        <header class="section-header header-with-nav clearfix">
+          <h3 class="title pull-left">Last Minute Deals</h3>
+        </header>
+        <div class="tour-carousel clearfix">
+        <?php
+        foreach ( $lastMinuteTours as $key => $value ) {
+        ?>
+          <article class="tour-post"> <i class="circle-icon"></i> 
+            <div class="tour-contents clearfix">
+              <div class="popular">
+                <div class="popular_inner">
+                  <figure> 
+                      <?php if(isset($value['isFixedDeparturesPackage']) && $value['isFixedDeparturesPackage'] === 1){ ?>
+                        <div style="font-size:13px;" class="package_box_hotdeal">Group Tours</div>
+                      <?php } ?>
+                      <a target="_blank" href="<?php echo $baseUrl;?>detail/tour-package-for-<?php echo Catabatic_Helper::getSeoName($value['Destination']);?>/<?php echo Catabatic_Helper::getSeoName($value['nameF']);?>-<?php echo $value['PkgSysId'];?>-<?php echo $value['defaultCategoryId'];?>-<?php echo $value['GTXPkgId'];?>-<?php echo $value['tourtype'];?>-<?php echo $value['mp']?>.html" style="color: #000">
+              <img style="height:240px;" data-original="<?php echo $baseUrl;?>public/upload/tours/<?php echo $value['PkgSysId']?>/images/<?php echo $value['img'];?>" class="img-responsive trending-acti-img img-homepage-1 lazy" alt="<?php echo $value['name'];?>"
+            src="<?php echo $baseUrl;?>public/upload/tours/<?php echo $value['PkgSysId']?>/images/<?php echo $value['img'];?>"
+            onerror="this.src='<?php echo $baseUrl;?>public/images/No-Image-2.jpg'" /><div class="caption left_side">
+                  <div class="caption_price"><span class="WebRupee" style="font-size: 20px !important;color: #fff !important; text-align: center; ">Rs</span> <?php echo $value['price'];?>/-</div>
+                      </div> 
+          </a> 
+                  </figure>
+                  <div class="caption">
+                    <div class="txt1" style="font-size:11px;">
+                        <span style="font-size:15px;">
+                            <a style="color:#636363;" target="_blank" title="<?php echo $value['nameF']; ?>" href="<?php echo $baseUrl;?>detail/tour-package-for-<?php echo Catabatic_Helper::getSeoName($value['Destination']);?>/<?php echo Catabatic_Helper::getSeoName($value['nameF']);?>-<?php echo $value['PkgSysId'];?>-<?php echo $value['defaultCategoryId'];?>-<?php echo $value['GTXPkgId'];?>-<?php echo $value['tourtype'];?>-<?php echo $value['mp']?>.html"><?php echo $value['name'];?></a>
+                        </span> 
+                            <?php echo $value['Destination']; ?>
+                    </div>
+<!--                      <div class="txt3 clearfix"> 
+                        <div class="left_side">Starting From</div>
+                        <div class="right_side">
+                        <div class="nums">INR <?php echo $value['price'];?>/-</div>
+                        </div>
+                    </div>-->
+                    <input type="hidden" id="PkgSysIdHTML" value="<?php echo $value['PkgSysId'];?>" />
+                    <input type="hidden" id="packagetype_<?php echo $value['PkgSysId'];?>" value="<?php echo $value['PackageType'];?>" />
+                    <input type="hidden" id="gtxpackage_<?php echo $value['PkgSysId'];?>" value="<?php echo $value['GTXPkgId'];?>" />
+                    <input type="hidden" id="hotelcategoryid_<?php echo $value['PkgSysId'];?>" value="<?php echo $value['defaultCategoryId'];?>" />
+                    <input type="hidden" id="packagetpid_<?php echo $value['PkgSysId'];?>" value="<?php echo $value['TPId'];?>" />
+                    <input type="hidden" id="packagename_<?php echo $value['PkgSysId'];?>" value="<?php echo $value['nameF'];?>" />
+                    <input type="hidden" id="mealplantype_<?php echo $value['PkgSysId']; ?>" value="<?php echo $value['mp'];?>" />
+                    <input type="hidden" id="tourtype_<?php echo $value['PkgSysId'];?>" value="<?php echo $value['tourtype'];?>" />
+                    
+                    
+                    <div class="txt3 clearfix" style="padding-top:0px; color: #959595; font-size: 12px;">
+                      <div class="left_side" >
+                          <img src="<?php echo $baseUrl; ?>public/images/m2-min.png" alt="" style="display: inline-block;">
+                        No of days : <?php echo $value['night']+1;?>
+                        
+                      </div>
+                       <div class="right_side">
+                          <a target="_blank" href="<?php echo $baseUrl;?>detail/tour-package-for-<?php echo Catabatic_Helper::getSeoName($value['Destination']);?>/<?php echo Catabatic_Helper::getSeoName($value['nameF']);?>-<?php echo $value['PkgSysId'];?>-<?php echo $value['defaultCategoryId'];?>-<?php echo $value['GTXPkgId'];?>-<?php echo $value['tourtype'];?>-<?php echo $value['mp']?>.html" class="btn">View Detail</a>
+                      </div>
+                    </div>
+                    
+                  </div>
+                </div>
+              </div>
+            </div>
+          </article>
+            <?php } ?>
+        </div>
+      </div>
+    </section>
+<?php } ?>
+    <!--counter section-->
+<div class="clearfix"></div>
+<div class="banner  o-hidden success-number">
+  <div class="clearfix"></div>
+  <div class="parallax-container">
+    <div class="clearfix"></div>
+    <section>
+      <div class="clearfix"></div>
+      <div class="stuff" data-type="content">
+        <div class="container">
+          <!--section title -->
+          <!--<h2>Success In Numbers</h2>-->
+          <!--end section title -->
+          <div class="row counter-inner <?php if($mydevice != 'desktop'){?>success-new-count_counter-inner<?php }?> ">
+            <!-- features box -->
+            <div class="col-md-3 col-sm-6 col-xs-6">
+              <div class="icon-holder  pull-left <?php if($mydevice != 'desktop'){?>success-new-count_icon-holder success-new-count success-new-count_icon-holder<?php }?> ">  <i class="fa fa-map-marker"></i></div>
+              <div class="pull-left counter-text <?php if($mydevice != 'desktop'){?>success-new-count_counter-text<?php }?>">
+                <div class="counter no_count b-clor <?php if($mydevice != 'desktop'){?>success-new-count_no_count<?php }?> "><?php echo isset($items['destination']) ? $items['destination'] : ''?></div>
+                <p class="semi-bold">Destinations</p>
+              </div>
+            </div>
+            <!--end features box -->
+            <!-- features box -->
+            <div class="col-md-3 col-sm-3 col-xs-6">
+              <div class="icon-holder pull-left <?php if($mydevice != 'desktop'){?>success-new-count_icon-holder success-new-count success-new-count_icon-holder<?php }?>"><i class="fa fa-gift"></i></div>
+              <div class="pull-left counter-text <?php if($mydevice != 'desktop'){?>success-new-count_counter-text<?php }?>">
+                <div class="counter no_count b-clor <?php if($mydevice != 'desktop'){?>success-new-count_no_count<?php }?>"><?php echo isset($items['package']) ? $items['package'] : ''?></div>
+                <p class="semi-bold">Tour Packages</p>
+              </div>
+            </div>
+            <!--end features box -->
+            <!-- features box -->
+            <div class="col-md-3 col-sm-3 col-xs-6">
+              <div class="icon-holder pull-left <?php if($mydevice != 'desktop'){?> success-new-count_icon-holder success-new-count success-new-count_icon-holder<?php }?>"><i class="fa fa-smile-o"></i></div>
+              <div class="pull-left counter-text <?php if($mydevice != 'desktop'){?>success-new-count_counter-text<?php }?>">
+                <div class="counter no_count b-clor <?php if($mydevice != 'desktop'){?>success-new-count_no_count<?php }?>">550000</div>
+                <p class="semi-bold">Happy Clients</p>
+              </div>
+            </div>
+            <!--end features box -->
+           
+             <!-- features box -->
+            <div class="col-md-3 col-sm-3 col-xs-6">
+              <div class="icon-holder pull-left <?php if($mydevice != 'desktop'){?>success-new-count_icon-holder success-new-count success-new-count_icon-holder<?php }?>"><i class="fa fa-life-ring"></i></div>
+              <div class="pull-left counter-text <?php if($mydevice != 'desktop'){?>success-new-count_counter-text<?php }?>">
+                <div class="counter no_count b-clor <?php if($mydevice != 'desktop'){?>success-new-count_no_count<?php }?>">24</div>
+                <p class="semi-bold">Hours Support</p>
+              </div>
+            </div>
+            <!--end features box -->
+          </div>
+        </div>
+      </div>
+      <div class="clearfix"></div>
+    </section>
+    <div class="clearfix"></div>
+  </div>
+</div>
+<!--end counter section-->     
+<?php
+if(count($destinations)) {
+?>
+    <section class="home-special-offers clearfix">
+      <div class="container">
+        <header class="section-header header-with-nav clearfix">
+          <h3 class="title pull-left">Top Destination</h3>
+          <a class="pull-right btn btn-black" href="<?php echo $baseUrl ?>index/destination">View All</a> 
+        </header>
+        <div class="tour-carousel clearfix">
+          <?php
+          foreach ( $destinations as $key => $value) {
+          ?>
+            <article class="tour-post"> <i class="circle-icon"></i> 
+            <div class="tour-contents clearfix">
+              <div class="popular">
+                <div class="popular_inner">
+                  <figure>
+                      <a href="<?php echo $baseUrl?>tours/package?key=<?php echo $value['Title'];?>">
+                      <img style="height:240px;" data-original="<?php echo $baseUrl;?>public/upload/destinations/<?php echo $value['DesSysId']?>/images/medium/<?php echo $value['Image'];?>" alt="<?php echo $value['Title'];?>"
+            src="<?php echo $baseUrl;?>public/upload/destinations/<?php echo $value['DesSysId']?>/images/medium/<?php echo $value['Image'];?>"
+            onerror="this.src='<?php echo $baseUrl;?>public/images/No-Image-2.jpg'" /></a>
+
+                  </figure>
+                  <div class="caption">
+                    <div class="txt3 clearfix">
+                      <div class="left_side">
+                          <div class="nums" style="font-size:15px;"><a href="<?php echo $baseUrl?>tours/package?key=<?php echo $value['Title'];?>"><?php echo $value['Title'];?></a></div>
+                      </div>
+                      <div class="right_side">
+                          <div class="nums" style="font-size:14px;padding-top: 4px;"><a style="color:#838383;" href="<?php echo $baseUrl?>tours/package?key=<?php echo $value['Title'];?>"><?php echo (isset($value['totalCount']) && $value['totalCount'] != 0) ? $value['totalCount'].' Package(s)' : '';?></a></div>
+                          <!--<a href="<?php // echo $baseUrl; ?>index/destination" class="btn1">View All</a>-->
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </article>
+        <?php } ?>
+        </div>
+      </div>
+    </section>
+    <?php } ?>
+ 
+
+<?php if(!empty($this->bolglist)){ ?>
+<section class="home-special-offers clearfix" style="display:none !important;">
+      <div class="container">
+        <header class="section-header header-with-nav clearfix">
+          <h3 class="title pull-left">Blogs</h3>
+        </header>
+        <div class="tour-carousel clearfix">
+         <?php foreach($this->bolglist as $blog){ ?>
+            <article class="tour-post"> <i class="circle-icon"></i>
+              <div class="tour-contents clearfix">
+                <div class="popular">
+                  <div class="popular_inner">
+                      <a title="<?php echo ucfirst($blog['TravTitle']); ?>" href="<?php echo $baseUrl; ?>blogs/index/blog-detail/id/<?php echo $blog['TravId'] ?>">
+                    <figure>                       
+                        <?php                                    
+                        $filename=$_SERVER["DOCUMENT_ROOT"]."/public/upload/travelogues/small/".$blog['TravImage'];
+
+                        if(file_exists($filename) && !empty($blog['TravImage'])){
+                            $disImg=$baseUrl."public/upload/travelogues/small/".$blog['TravImage'];
+                        }else{ 
+                          $filename=$baseUrl."public/images/no-image.jpg";      
+                          $disImg=$filename;   
+                        }
+                        ?>
+                        <img style="height:240px;"  src="<?php echo $disImg; ?>" alt="<?php echo $blog['TravTitle']; ?>" class="img-responsive"/>
+                   
+                        
+                      <div class="over2">
+                        <div class="left_side">
+                          <!--<div class="text-paris2"> Amazone</div>-->
+                          <div class="text-paris2" style="font-size:15px !important;"><?php echo ucfirst(substr($blog['TravTitle'],0,30)) ?></div>
+                        </div>
+                      </div>
+                    </figure>
+                          </a>
+                  </div>
+                </div>
+              </div>
+            </article>
+             <?php } ?>
+         
+        </div>
+         
+      </div>
+    </section>
+<?php } ?>
+  </div>
+<?php
+if(count($testimonial)) {
+?>
+<div id="happy1">
+    <div class="container">
+      <div class="row">
+        <div class="post-header">
+          <div class="post-slide">
+            <div id="sl1">
+              <div class="sl1_pagination"></div>
+              <div class="carousel-box">
+                <div class="inner">
+                  <div class="carousel main">
+                    <ul>
+                    <?php
+                    foreach ( $testimonial as $key => $value ) {
+                    ?>
+                      <li>
+                        <div class="sl1">
+                          <div class="sl1_inner">
+                            <div class="testimonial-cont">
+                              <p> <?php echo $value['message'] ?> </p>
+                              <p></p>
+                              <div class="testimonial-author-wrap clearfix">
+                                <div class="testimonial-author-image">
+                                    <?php if(isset($value['Image']) && !empty($value['Image'])){?>
+                                      <img src="<?php echo $baseUrl?>public/upload/testimonial/<?php echo $value['Image'];?>" alt="" onerror="this.src='<?php echo $baseUrl;?>public/images/No-Image-2.jpg'" draggable="false" width="55" height="55">
+                                      <?php } else {?>
+                                      <img src="<?php echo $baseUrl; ?>public/images/test-min.jpg" alt="" draggable="false" width="55" height="55">    
+                                          <?php } ?>
+                                </div>
+                                <div class="testimonial-author-content">
+                                  <div class="testimonial-title title-font gdlr-core-skin-title"><?php echo $value['name'];?></div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </li>
+                     <?php } ?>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+<?php } ?>
+<!--<script type="text/javascript">
+    $("#places").on('change',function(e){
+        e.preventDefault();
+    });
+</script>-->

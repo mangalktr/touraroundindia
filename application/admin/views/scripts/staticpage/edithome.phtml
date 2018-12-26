@@ -1,0 +1,95 @@
+<?php 
+$options = Zend_Controller_Front::getInstance()->getParam('bootstrap')->getOption('bootstrap');
+?>
+<style type="text/css">
+    li{list-style:none; color:#ed3237; font-size:13px;}
+    ul{margin:0px; padding:0px;}
+</style>
+
+
+<div class="content">
+        
+<div class="header">
+    <h1 class="page-title">Edit Home Page</h1>
+</div>
+
+<ul class="breadcrumb">
+    <li><a href="<?php echo $options['siteUrl'];?>admin/dashboard/index">Home</a> <span class="divider">/</span></li>
+    <li><a href="<?php echo $options['siteUrl'];?>admin/staticpage/home">Manage Home Pages</a> <span class="divider">/</span></li>
+    <li class="active">Edit Home Page</li>
+</ul>
+
+<div class="container-fluid">
+    <div class="row-fluid">       
+   
+    <?php if($this->successMessage) { ?>
+        <div class="alert alert-info">
+        <button data-dismiss="alert" class="close" type="button">×</button>
+        <?php echo $this->successMessage; ?>
+        </div> 
+    <?php } ?>
+        
+   <?php if($this->errorMessage) { ?>
+       <div class="alert alert-error">
+           <button data-dismiss="alert" class="close" type="button">×</button>
+           <?php echo $this->errorMessage; ?>
+       </div>
+   <?php } ?>
+      
+   <?php if($this->error1Message) { ?>
+       <div class="alert alert-error">
+           <button data-dismiss="alert" class="close" type="button">×</button>
+           <?php echo $this->error1Message; ?>
+       </div>
+   <?php } ?>   
+        
+<div class="well">
+    <ul class="nav nav-tabs">
+      <li class="active"><a href="#edit_page" data-toggle="tab">Edit Home Page</a></li>
+    </ul>
+     <?php $form = $this->form;?>
+    <div id="myTabContent" class="tab-content">
+      <div class="tab-pane active in" id="add_page">
+    <form id="add_page" method="<?php echo $this->form->getMethod();?>" action="<?php echo $this->form->getAction();?>" name="<?php echo $this->form->getName();?>" enctype="multipart/form-data">
+
+        <?php echo $form->banner_id;?>
+        
+        <label>Heading</label>
+        <?php echo $form->heading;?>
+        <br>
+        <label>Description</label>
+        <?php echo $form->description;?>
+        <br>
+        <label>Url</label>
+        <?php echo $form->url;?>
+        <br>
+        <br>
+        <label>Open url in new tab &nbsp; <?php echo $form->opt;?></label>
+        
+               <br>
+        <label style="padding-top:5px;">Upload Background Image dimensions (W :2100px | H :796px)</label>
+        <?php echo $form->image;?>
+        
+        <?php if($this->image!="") { ?>
+        <img src="public/upload/home/<?php echo $this->banner_id; ?>/<?php echo $this->image;?>" style="width:250px;height:80px;" border="0" alt="background image" />
+        <?php } ?>
+               
+        <label style="padding-top:10px;">Status</label>
+        <?php echo $form->status;?>
+        
+        <div style="padding-top:20px;">
+            <input type="submit" name="save" value="Save" class="btn btn-primary">
+            <button class="btn btn-primary" type="button" onclick="window.location.href='admin/staticpage/home'">Cancel</button>
+        </div>
+        
+    </form>
+      </div>
+  </div>
+
+</div>                    
+    </div>
+</div>
+</div>
+<script type="text/javascript">
+CKEDITOR.replace('description',{});
+</script>

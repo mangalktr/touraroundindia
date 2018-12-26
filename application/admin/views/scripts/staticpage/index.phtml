@@ -1,0 +1,67 @@
+<?php 
+$options = Zend_Controller_Front::getInstance()->getParam('bootstrap')->getOption('bootstrap');
+$resultset = $this->resultset; 
+?>
+ 
+<div class="content">
+        
+<div class="header">
+    <h1 class="page-title">Manage Static Pages</h1>
+</div>
+
+<ul class="breadcrumb">
+    <li><a href="<?php echo $options['siteUrl'];?>admin/dashboard/index">Home</a> <span class="divider">/</span></li>
+    <li class="active">Manage Static Pages</li>
+</ul>
+
+<div class="container-fluid">
+    <div class="row-fluid">
+                    
+
+<div class="col-md-12">
+    <?php if (count($this->messages)) { ?>
+     <div class="alert alert-success" >
+         <button data-dismiss="alert" class="close" type="button">x</button>
+         <?php foreach ($this->messages as $message) {  ?>
+         <?php echo $this->escape($message); ?>
+         <?php } ?>
+     </div>
+    <?php } ?>
+</div>
+        
+        
+<div class="well">
+                <table id="tt" class="easyui-datagrid" style="width:100%;" url="admin/staticpage/index"
+                       iconCls="icon-save" toolbar="#tb" rownumbers="true" pagination="true" fitColumns="true" view="scrollview" nowrap="false" >
+                    <thead>
+                        <tr>
+                            <th field="page_title" data-options="width:100">Page Title</th>
+                            <th field="status" data-options="width:100">Status</th>
+                            <th field="createdOn" data-options="width:150">Created On</th>
+                            <th field="updatedOn" data-options="width:150">Updated On</th>
+                            <th data-options="field:'firma1',width:80,align:'center',formatter:formatStaticAction">Action</th>
+                        </tr>
+                    </thead>
+                </table>
+                <div id="tb" style="padding:3px;">
+                    <span>Page Title:</span>
+                    <input id="Title" onkeyup="doSearch()" style="line-height:26px;border: 1px solid #ccc">
+                </div>
+            </div>
+
+</div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    function doSearch() {
+                            $('#tt').datagrid('load', {
+                                Title: $('#Title').val(),
+//                                packagenumber: $('#packagenumber').val(),
+                            });
+                        }
+    function formatStaticAction(val, row) {
+                            var href = 'admin/staticpage/editpage/id/' + row.sid;
+                            return '<a href="' + href + '" title="Edit"><i class="icon-pencil"></i></a>';
+                        }
+</script>

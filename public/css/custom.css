@@ -1,0 +1,75 @@
+@charset "utf-8";
+/* CSS Document */
+@font-face {
+  font-family: 'icomoon';
+  src: url("../fonts/icomoon/icomoon.eot?srf3rx");
+  src: url("../fonts/icomoon/icomoon.eot?srf3rx#iefix") format("embedded-opentype"), url("../fonts/icomoon/icomoon.ttf?srf3rx") format("truetype"), url("../fonts/icomoon/icomoon.woff?srf3rx") format("woff"), url("../fonts/icomoon/icomoon.svg?srf3rx#icomoon") format("svg");
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+font-family:'WebRupee';
+src:url('WebRupee.V2.0.eot');
+src:local('WebRupee'), url('WebRupee.V2.0.ttf') format('truetype'), url('WebRupee.V2.0.woff') format('woff'), url('WebRupee.V2.0.svg') format('svg');
+font-weight:normal;
+font-style:normal;
+}
+.WebRupee {
+	font-family:'WebRupee';
+	font-style:normal;
+	display:inline-block;
+}
+
+
+@font-face {
+    font-family: 'Bebas Neue';
+    src: url('BebasNeue.woff2') format('woff2'),
+        url('BebasNeue.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Notera Personal Use Only';
+    src: url('NoteraPersonalUseOnly.woff2') format('woff2'),
+        url('NoteraPersonalUseOnly.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+body {
+  font-family: 'Roboto', sans-serif;
+  font-size: 1.25em;
+  font-weight: 300;
+  color:#000 !important;
+}
+
+/*Added by Piyush Tiwari on date 5-7-18 start*/
+.widget_mc4wp_widget input[type='text'] {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    background: #444;
+    color: #fff;
+    border: 0;
+    padding: 6.5px 30px 6.5px 10px;
+    outline: none;
+}
+
+.select-Box span.deluxe3{margin:0; padding:1rem 2rem; width:32.7%; background:#fff url(../images/rad-1-min.png) 10px center no-repeat; display:inline-table;cursor:pointer;line-height:inherit !important;}
+.select-Box span.deluxe3:hover{background:#e1e1e1 url(../images/rad-1-min.png) 10px center no-repeat;}
+.select-Box span.deluxe3Active{background:#e1e1e1 url(../images/rad-1-hover-min.png) 10px center no-repeat;}
+.select-Box span.deluxe3Active:hover{background:#e1e1e1 url(../images/rad-1-hover-min.png) 10px center no-repeat;}
+
+.select-Box span.deluxe4{margin:0; padding:1rem 2rem; width:32.7%; background:#fff url(../images/rad-1-min.png) 10px center no-repeat; display:inline-table;cursor:pointer;line-height:inherit !important;}
+.select-Box span.deluxe4:hover{background:#e1e1e1 url(../images/rad-1-min.png) 10px center no-repeat;}
+.select-Box span.deluxe4Active{background:#e1e1e1 url(../images/rad-1-hover-min.png) 10px center no-repeat;}
+.select-Box span.deluxe4Active:hover{background:#e1e1e1 url(../images/rad-1-hover-min.png) 10px center no-repeat;}
+
+.select-Box span.deluxe5{margin:0; padding:1rem 2rem; width:32.7%; background:#fff url(../images/rad-1-min.png) 10px center no-repeat; display:inline-table;cursor:pointer;line-height:inherit !important;}
+.select-Box span.deluxe5:hover{background:#e1e1e1 url(../images/rad-1-min.png) 10px center no-repeat;}
+.select-Box span.deluxe5Active{background:#e1e1e1 url(../images/rad-1-hover-min.png) 10px center no-repeat;}
+.select-Box span.deluxe5Active:hover{background:#e1e1e1 url(../images/rad-1-hover-min.png) 10px center no-repeat;}
+/*Added by Piyush Tiwari on date 5-7-18 end*/

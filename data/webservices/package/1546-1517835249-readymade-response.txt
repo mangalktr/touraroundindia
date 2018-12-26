@@ -1,0 +1,74 @@
+<br />
+<b>Notice</b>:  Undefined offset: 0 in <b>D:\Html\users\userweb731\Html\application\modules\gtxwebservices\controllers\QueryController.php</b> on line <b>62</b><br />
+<br />
+<b>Notice</b>:  Undefined offset: 0 in <b>D:\Html\users\userweb731\Html\application\modules\gtxwebservices\controllers\QueryController.php</b> on line <b>63</b><br />
+<br />
+<b>Notice</b>:  Undefined offset: 0 in <b>D:\Html\users\userweb731\Html\application\modules\gtxwebservices\controllers\QueryController.php</b> on line <b>299</b><br />
+<br />
+<b>Notice</b>:  Undefined offset: 0 in <b>D:\Html\users\userweb731\Html\application\modules\gtxwebservices\controllers\QueryController.php</b> on line <b>300</b><br />
+<br />
+<b>Notice</b>:  Undefined offset: 0 in <b>D:\Html\users\userweb731\Html\application\modules\gtxwebservices\controllers\QueryController.php</b> on line <b>301</b><br />
+<br />
+<b>Notice</b>:  Undefined offset: 0 in <b>D:\Html\users\userweb731\Html\application\modules\gtxwebservices\controllers\QueryController.php</b> on line <b>318</b><br />
+<br />
+<b>Notice</b>:  Undefined offset: 0 in <b>D:\Html\users\userweb731\Html\application\modules\gtxwebservices\controllers\QueryController.php</b> on line <b>319</b><br />
+<br />
+<b>Notice</b>:  Undefined offset: 0 in <b>D:\Html\users\userweb731\Html\application\modules\gtxwebservices\controllers\QueryController.php</b> on line <b>320</b><br />
+<br />
+<b>Notice</b>:  Undefined offset: 0 in <b>D:\Html\users\userweb731\Html\application\modules\gtxwebservices\controllers\QueryController.php</b> on line <b>321</b><br />
+<br />
+<b>Notice</b>:  Undefined offset: 0 in <b>D:\Html\users\userweb731\Html\application\modules\gtxwebservices\controllers\QueryController.php</b> on line <b>323</b><br />
+<br />
+<b>Notice</b>:  Undefined offset: 0 in <b>D:\Html\users\userweb731\Html\application\modules\gtxwebservices\controllers\QueryController.php</b> on line <b>325</b><br />
+<br />
+<b>Notice</b>:  Undefined offset: 0 in <b>D:\Html\users\userweb731\Html\application\modules\gtxwebservices\controllers\QueryController.php</b> on line <b>326</b><br />
+<br />
+<b>Notice</b>:  Undefined offset: 0 in <b>D:\Html\users\userweb731\Html\application\modules\gtxwebservices\controllers\QueryController.php</b> on line <b>329</b><br />
+<br />
+<b>Notice</b>:  Undefined offset: 0 in <b>D:\Html\users\userweb731\Html\application\modules\gtxwebservices\controllers\QueryController.php</b> on line <b>330</b><br />
+<br />
+<b>Notice</b>:  Undefined offset: 0 in <b>D:\Html\users\userweb731\Html\application\modules\gtxwebservices\controllers\QueryController.php</b> on line <b>331</b><br />
+<br />
+<b>Notice</b>:  Undefined offset: 0 in <b>D:\Html\users\userweb731\Html\application\modules\gtxwebservices\controllers\QueryController.php</b> on line <b>332</b><br />
+<br />
+<b>Notice</b>:  Undefined offset: 0 in <b>D:\Html\users\userweb731\Html\application\modules\gtxwebservices\controllers\QueryController.php</b> on line <b>333</b><br />
+<br />
+<b>Notice</b>:  Undefined offset: 0 in <b>D:\Html\users\userweb731\Html\application\modules\gtxwebservices\controllers\QueryController.php</b> on line <b>334</b><br />
+<br />
+<b>Notice</b>:  Undefined offset: 0 in <b>D:\Html\users\userweb731\Html\application\modules\gtxwebservices\controllers\QueryController.php</b> on line <b>337</b><br />
+<br />
+<b>Notice</b>:  Undefined offset: 0 in <b>D:\Html\users\userweb731\Html\application\modules\gtxwebservices\controllers\QueryController.php</b> on line <b>341</b><br />
+<br />
+<b>Notice</b>:  Undefined offset: 0 in <b>D:\Html\users\userweb731\Html\application\modules\gtxwebservices\controllers\QueryController.php</b> on line <b>342</b><br />
+<br />
+<b>Notice</b>:  Undefined offset: 0 in <b>D:\Html\users\userweb731\Html\application\modules\gtxwebservices\controllers\QueryController.php</b> on line <b>343</b><br />
+<br />
+<b>Notice</b>:  Undefined offset: 0 in <b>D:\Html\users\userweb731\Html\application\modules\gtxwebservices\controllers\QueryController.php</b> on line <b>344</b><br />
+<br />
+<b>Notice</b>:  Undefined offset: 0 in <b>D:\Html\users\userweb731\Html\application\modules\gtxwebservices\controllers\QueryController.php</b> on line <b>345</b><br />
+<br />
+<b>Notice</b>:  Undefined offset: 0 in <b>D:\Html\users\userweb731\Html\application\modules\gtxwebservices\controllers\QueryController.php</b> on line <b>346</b><br />
+<br />
+<b>Notice</b>:  Undefined offset: 0 in <b>D:\Html\users\userweb731\Html\application\modules\gtxwebservices\controllers\QueryController.php</b> on line <b>347</b><br />
+<br />
+<b>Notice</b>:  Undefined offset: 0 in <b>D:\Html\users\userweb731\Html\application\modules\gtxwebservices\controllers\QueryController.php</b> on line <b>352</b><br />
+<br />
+<b>Notice</b>:  Undefined offset: 0 in <b>D:\Html\users\userweb731\Html\application\modules\gtxwebservices\controllers\QueryController.php</b> on line <b>353</b><br />
+<br />
+<b>Notice</b>:  Undefined offset: 0 in <b>D:\Html\users\userweb731\Html\application\modules\gtxwebservices\controllers\QueryController.php</b> on line <b>354</b><br />
+<br />
+<b>Notice</b>:  Undefined offset: 0 in <b>D:\Html\users\userweb731\Html\application\modules\gtxwebservices\controllers\QueryController.php</b> on line <b>355</b><br />
+<br />
+<b>Notice</b>:  Undefined offset: 0 in <b>D:\Html\users\userweb731\Html\application\modules\gtxwebservices\controllers\QueryController.php</b> on line <b>362</b><br />
+<br />
+<b>Notice</b>:  Undefined offset: 0 in <b>D:\Html\users\userweb731\Html\application\modules\gtxwebservices\controllers\QueryController.php</b> on line <b>363</b><br />
+<br />
+<b>Notice</b>:  Undefined offset: 0 in <b>D:\Html\users\userweb731\Html\application\modules\gtxwebservices\controllers\QueryController.php</b> on line <b>372</b><br />
+<br />
+<b>Notice</b>:  Undefined offset: 0 in <b>D:\Html\users\userweb731\Html\application\modules\gtxwebservices\controllers\QueryController.php</b> on line <b>374</b><br />
+<br />
+<b>Notice</b>:  Undefined variable: leadID in <b>D:\Html\users\userweb731\Html\application\modules\gtxwebservices\controllers\QueryController.php</b> on line <b>387</b><br />
+<br />
+<b>Notice</b>:  Undefined variable: gettplandataforcustomer in <b>D:\Html\users\userweb731\Html\application\modules\gtxwebservices\controllers\QueryController.php</b> on line <b>396</b><br />
+<br />
+<b>Notice</b>:  Undefined variable: gettplandataforcustomer in <b>D:\Html\users\userweb731\Html\application\modules\gtxwebservices\controllers\QueryController.php</b> on line <b>397</b><br />

@@ -1,0 +1,147 @@
+<?php 
+$options = Zend_Controller_Front::getInstance()->getParam('bootstrap')->getOption('bootstrap');
+$resultset = $this->resultset; 
+
+
+?>
+
+<script>
+function HierarchyMenuDelete(hmid)
+{
+   if(hmid) {
+    window.location.href='admin/cms/delete-menu/id/'+hmid;
+   } else {
+       window.location.href='admin/cms/managemenu';
+   }
+}
+</script>
+
+<!--<link rel="stylesheet" type="text/css" href="//code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css">
+<link rel="stylesheet" type="text/css" href="lib/bootstrap/css/jquery.dataTables.css">
+<script type="text/javascript" language="javascript" src="lib/jquery.js"></script>
+<script type="text/javascript" language="javascript" src="lib/jquery.dataTables.js"></script>
+<script type="text/javascript" language="javascript" src=
+"lib/dataTables.jqueryui.js"></script>
+<script type="text/javascript" language="javascript">
+$(document).ready(function() {
+  $('#example').dataTable({
+      aLengthMenu: [[25, 50, 100, 150, -1], [25, 50, 100, 150, "All"]],    
+      
+  });
+} );
+</script>-->
+
+<div class="content">
+        
+<div class="header">
+    <h1 class="page-title">Package List</h1>
+</div>
+
+<ul class="breadcrumb">
+    <li><a href="<?php echo $options['siteUrl'];?>admin/dashboard">Home</a> <span class="divider">/</span></li>
+    <li class="active">Manage <span class="divider">/</span></li>
+    
+</ul>
+
+<div class="container-fluid">
+    <div class="row-fluid">
+                    
+<div class="well">
+    <table class="table display" id="example">
+      <thead>
+        <tr>
+          <th>S.No.</th>
+          <th>Name</th>
+          <th>Destinations</th>
+          <th>Hot&nbsp;Deals</th>
+          <th>Nights</th>
+          <th>Rating</th>
+          <th>Is Featured</th>
+          <th>Image</th>
+          <th>Action</th>
+          
+        </tr>
+      </thead>
+      <tbody>
+        <?php
+        //echo '<pre>';print_r($resultset);die;
+        if(count($resultset) >0) {
+            foreach($resultset as $key=>$val){ ?>
+        <tr>
+          <td><?php echo $key+1;?></td>
+          <td><?php echo $val['package']['Name'];?></td>
+          <td><?php echo $val['Destinations'];?></td>
+          <td><?php echo @$val['HotDeal'];?></td>
+          <td><?php echo $val['Nights'];?></td>
+          <td><?php echo $val['StarRating'];?> Star</td>
+          <td>
+              <input type="checkbox" <?php echo !empty($val['IsFeatured']) && $val['IsFeatured'] ==1?'checked="checked"':''?> onClick="Active('<?php echo $val['PkgSysId']?>');" id="Active_<?php echo $val['PkgSysId']?>" name="Active" value="1">
+             </td>
+           <td><?php echo $val['Image'];?></td>
+             <td>
+                 <a href="<?php echo $options['siteUrl'];?>admin/package/editpackage/id/<?php echo $val['PkgSysId'];?>" title="Edit"><i class="icon-pencil"></i></a>           
+             </td>
+          
+        </tr>
+        <?php }
+        }
+        else {
+        ?>
+        <tr>
+          <td colspan="5">No data found.</td>
+        </tr>
+        <?php } ?>
+        
+      </tbody>
+    </table>
+</div>
+
+
+<!--Pagingnation Start-->
+<?php
+echo $this->paginationControl($this->resultset, 'Sliding', 'pagination.phtml');
+?>
+<!--Pagingnation End-->
+
+          
+   </div>
+</div>
+</div>
+
+<script>
+$('.Delete').click(function(){
+    if (!confirm('Are you sure you want to delete?')) {
+        return false;
+    }
+    
+});
+
+function Active(a){ 
+	var ele = $('#Active_'+a).prop("checked");
+        if($('#Active_'+a).prop("checked") == true){
+		var values = 1;
+		$('#rate_'+a).addClass("hide");
+	}else if($('#Active_'+a).prop("checked") == false){
+		var values = 0;
+		$('#rate_'+a).removeClass("hide");
+	}
+	//alert(values); return false;
+        $.ajax({
+		url:'<?php echo $options['siteUrl'];?>admin/package/active/id/'+a+'/val/'+values,
+		type:'POST',
+		dataType:'json',
+		success:function(result){
+			if(result.status){
+				alert('Record Update successfully.');
+			}else{
+				alert(result.message);
+			}
+		},
+		error:function(result){
+			alert('Execution error activation!!');
+		}
+	});
+	
+}
+</script>
+

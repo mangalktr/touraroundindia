@@ -1,0 +1,23 @@
+
+<div id="pagination" class="text-center animatedParent clearfix">
+    <?php  if(isset($this->previous)): ?>
+          <a class="page-link animated rollIn" onclick="paginationForm(<?php echo $this->first; ?>,'<?php echo $FormName;?>')" href="javascript:void(0)">Previous</a>
+    <?php endif; ?>
+
+   <?php foreach ($this->pagesInRange as $page): ?>
+
+    <?php if ($page != $this->current): ?>
+       <a class="page-link animated rollIn" href="javascript:void(0)" onclick="paginationForm(<?php echo $page; ?>,'<?php echo $FormName;?>')"><?php echo $page; ?></a>
+    <?php else: ?>
+       <a class="page-link animated rollIn" href="javascript:void(0)" onclick="paginationForm(<?php echo $page; ?>,'<?php echo $FormName;?>')"><?php echo $page; ?></a>
+    <?php endif;
+    
+    endforeach; ?>
+
+    <!-- Last page link -->
+    <?php if (isset($this->next)): ?>
+        <a class="page-link animated rollIn" href="javascript:void(0)" onclick="paginationForm(<?php echo $this->last; ?>,'<?php echo $FormName;?>')">Next</a>
+    <?php endif; ?>
+          
+</div>
+

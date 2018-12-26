@@ -1,0 +1,73 @@
+<?php 
+$options = Zend_Controller_Front::getInstance()->getParam('bootstrap')->getOption('bootstrap');
+$resultset = $this->resultset; 
+?>
+ 
+<div class="content">
+        
+<div class="header">
+    <h1 class="page-title">Update Promotion Category</h1>
+</div>
+
+<ul class="breadcrumb">
+    <li><a href="<?php echo $options['siteUrl'];?>admin/dashboard/index">Home</a> <span class="divider">/</span></li>
+    <li class="active"><a href="<?php echo $options['siteUrl'];?>admin/homepromotion/index">Manage Promotion</a> </li>
+    <li><span class="divider">/</span>Update Promotion Category </li>
+</ul>
+
+<div class="container-fluid">
+    <div class="row-fluid">
+                    
+
+<div class="col-md-12">
+    <?php if (($this->successMessage)) { ?>
+     <div class="alert alert-success" >
+         <button data-dismiss="alert" class="close" type="button">x</button>
+       
+         <?php echo ($this->successMessage); ?>
+        
+     </div>
+    <?php } ?>
+</div>
+<div class="well">
+    <ul class="nav nav-tabs">
+      <li class="active"><a href="#edit_page" data-toggle="tab">Add Home Page Promotion</a></li>
+    </ul>
+
+    <div id="myTabContent" class="tab-content">
+      <div class="tab-pane active in" id="add_page">
+        <form id="promotion_catgory" class="promotion_catgory" method="POST" action="" name="promotion_catgory" enctype="multipart/form-data">
+            <input type="hidden" name="prom_cat_id" value="<?php echo $this->editdata['prom_cat_id'];?>">
+            <label>Promotion Category Heading 1</label>
+            <input type="text" name="categoryheadingOne" id="categoryheadingOne" value="<?php echo $this->editdata['prom_cat_one'];?>" class="input-xlarge">
+            
+            <label>Promotion Category Heading 2</label>
+            <input type="text" name="categoryheadingTwo" id="categoryheadingTwo" value="<?php echo $this->editdata['prom_cat_two'];?>" class="input-xlarge">
+
+            <label>Promotion Category Heading 3</label>
+            <input type="text" name="categoryheadingThree" id="categoryheadingThree" value="<?php echo $this->editdata['prom_cat_three'];?>" class="input-xlarge">
+
+              
+            <div style="padding-top:20px;">
+                <p class="msg" style="color:#ff0000;"></p>
+                <input type="submit" name="save" value="Save" class="btn btn-primary">
+                <button class="btn btn-primary" type="button" onclick="window.location.href='admin/homepromotion/index'">Cancel</button>
+            </div>
+        
+        </form>
+      </div>
+  </div>
+
+</div>                    
+    </div>
+</div>
+</div>
+
+<script>
+function changeTemplateType(that){
+ var type = $(that).val();
+    $('.templateType').hide();
+    $('#templateType'+parseInt(type)).show();
+}
+
+</script>

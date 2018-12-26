@@ -1,0 +1,286 @@
+<?php
+$baseUrl = $this->baseUrl; // get page variable in to this partial
+$CONST_PACKAGE_TRAVELER_MAX_ADULT_IN_ROOM = $this->CONST_PACKAGE_TRAVELER_MAX_ADULT_IN_ROOM;
+$CONST_PACKAGE_TRAVELER_MAX_CHILD_IN_ROOM = $this->CONST_PACKAGE_TRAVELER_MAX_CHILD_IN_ROOM;
+$CONST_PACKAGE_TRAVELER_MAX_INFANT_IN_ROOM = $this->CONST_PACKAGE_TRAVELER_MAX_INFANT_IN_ROOM;
+$CONST_PACKAGE_TRAVELER_MAX_ROOM = $this->CONST_PACKAGE_TRAVELER_MAX_ROOM;
+$POPUPCOOKIES = $this->POPUPCOOKIES;
+$badtype_array = ['withoutbed' => 'Without Bed', 'extrabed' => 'With Bed'];
+$Childbadtype_array = ['withoutbed' => 'Without Bed', 'extrabed' => 'With Bed' ,'none' => 'None'];
+// check the page from where the query is submitted
+$modulename = $this->modulename;
+$send_enquiry_text = 'Check Rate &amp; Send Enquiry';
+if (isset($_SESSION['TravelAgent']['session']) && !empty($_SESSION['TravelAgent']['session'])) {
+    $send_enquiry_text = 'Check Rate &amp; Get Proposal';
+}
+
+?>
+<div class="modal fade" id="myModa1packageRateEnquiry" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <form action="<?php echo $baseUrl; ?>tour-packages/send-enquiry" method="post" class="package_rate_enquiry form-pop"  autocomplete="off" >
+            <div class="modal-content ">
+                <div class="modal-header label-primary white">
+                    <h4 class="modal-title" style="color:#FFF;"><?php echo $send_enquiry_text;?> for <span id="packagenamemodal"></span><button type="button" class="close pull-right close-pop-timeout button-close" data-dismiss="modal" aria-hidden="true">×</button></h4>
+                </div>
+                <div class="modal-body mob-pad">
+                    <div class="animate-box">
+                        <div class="panel-body" >
+                            <div class="package_det_d_left_form no-padding successmsg">
+                                <div id="displaySendRateEnquiryForm">
+                                    <?php if (isset($_SESSION['TravelAgent']['session']) && !empty($_SESSION['TravelAgent']['session'])) { ?>
+
+                                        <input type="hidden" name="leadsend" id="leadsends" value="1" />
+                                        <input type="hidden" name="check_TravelAgent" id="check_TravelAgent" value="1" />
+
+                                    <?php } else { ?>
+                                        <input type="hidden" name="leadsend" id="leadsends" value="0" />
+                                    <?php } ?>                                
+                                    <input type="hidden" name="modified" id="package_modifieds" value="<?php echo ($modulename == "detail") ? 1 : 0 ?>" />
+                                    <input type="hidden" name="package_sid" id="package_sids" value="" />
+                                    <input type="hidden" name="package_tpid" id="package_tpids" value="" />
+                                    <input type="hidden" name="packagesys_id" id="packagesys_ids" value="" />
+                                    <input type="hidden" name="packagetype_id" id="packagetype_ids" value="" />
+                                    <input type="hidden" name="package_tourtype" id="package_tourtype_ids" value="" />
+                                    <input type="hidden" name="package_hotelcategoryid" id="package_hotelcategoryids" value="" />
+                                    <input type="hidden" name="package_mealplantype" id="package_mealplantypeids" value="" />
+                                    <input type="hidden" name="packagedesname" id="packagedesname" value="" />
+                                    <input type="hidden" id="itinerary_inputs" value="1" />
+                                    <input type="hidden" id="itinerary_rooms" value="2" />
+
+                                    <div class="row">
+                                        <div class="col-lg-12">
+                                            <p class="msgs" style="color:#ff0000; text-align:center; display: none;"></p>
+                                        </div>
+
+                                        <div class="col-md-4 form-group">
+                                            <label class="Lable" for="name">Customer Name </label>
+                                            <?php if (isset($_SESSION['User']['session']) && !empty($_SESSION['User']['session'])) { ?>
+                                                <input type="text" name="name" class="en_customername inputBox form-control" placeholder="Enter name" aria-label="Enter name" maxlength="50" readonly="" value="<?php echo (trim($_SESSION['User']['session']['FirstName']) || trim($_SESSION['User']['session']['LastName'])) ? trim($_SESSION['User']['session']['FirstName']) . ' ' . trim($_SESSION['User']['session']['LastName']) : '' ?>" />
+                                            <?php } else if (isset($_SESSION['TravelAgent']['session']) && !empty($_SESSION['TravelAgent']['session'])) { ?>
+                                                <input type="text" name="name" class="en_customername inputBox form-control" placeholder="Enter name" aria-label="Enter name" maxlength="50" readonly="" value="<?php echo (trim($_SESSION['TravelAgent']['session']['FirstName']) || trim($_SESSION['TravelAgent']['session']['LastName'])) ? trim($_SESSION['TravelAgent']['session']['FirstName']) . ' ' . trim($_SESSION['TravelAgent']['session']['LastName']) : '' ?>" />
+                                            <?php } else { ?>
+                                                <input type="text" name="name" class="en_customername inputBox form-control" placeholder="Enter name" aria-label="Enter name" maxlength="50" value="<?php echo ($POPUPCOOKIES['name']) ? $POPUPCOOKIES['name'] : '' ?>" />
+                                            <?php } ?>
+                                        </div>
+
+                                        <div class="col-md-4 form-group">
+                                            <label for="email" class="Lable">Email <strong class="text-danger">*</strong></label>
+                                            <?php if (isset($_SESSION['User']['session']) && !empty($_SESSION['User']['session'])) { ?>
+                                                <input type="text" name="email" class="en_customeremail inputBox form-control notSpace" placeholder="Enter email" aria-label="Enter email" maxlength="50" readonly="" value="<?php echo (trim($_SESSION['User']['session']['EmailId'])) ? trim($_SESSION['User']['session']['EmailId']) : '' ?>" />
+                                            <?php } else if (isset($_SESSION['TravelAgent']['session']) && !empty($_SESSION['TravelAgent']['session'])) { ?>
+                                                <input type="text" name="email" class="en_customeremail inputBox form-control notSpace" placeholder="Enter email" aria-label="Enter email" maxlength="50" readonly="" value="<?php echo (trim($_SESSION['TravelAgent']['session']['EmailId'])) ? trim($_SESSION['TravelAgent']['session']['EmailId']) : '' ?>" />
+                                            <?php } else { ?>
+                                                <input type="text" name="email" class="en_customeremail inputBox form-control notSpace" placeholder="Enter email" aria-label="Enter email" maxlength="50" value="<?php echo ($POPUPCOOKIES['email']) ? $POPUPCOOKIES['email'] : '' ?>" />
+                                            <?php } ?>
+                                        </div>
+
+                                        <div class="col-md-4 form-group">
+                                            <label class="Lable">Mobile <strong class="text-danger">*</strong></label>
+                                             <?php if (isset($_SESSION['User']['session']) && !empty($_SESSION['User']['session'])) { ?>
+                                                <input type="text" name="mobile" class="en_customermobile inputBox form-control notSpace" placeholder="Enter mobile" aria-label="Enter mobile" maxlength="10" readonly="" value="<?php echo (trim($_SESSION['User']['session']['ContactNo1'])) ? trim($_SESSION['User']['session']['ContactNo1']) : '' ?>" />
+                                            <?php } else if (isset($_SESSION['TravelAgent']['session']) && !empty($_SESSION['TravelAgent']['session'])) { ?>
+                                                <input type="text" name="mobile" class="en_customermobile inputBox form-control notSpace" placeholder="Enter mobile" aria-label="Enter mobile" maxlength="10" readonly="" value="<?php echo (trim($_SESSION['TravelAgent']['session']['ContactNo1'])) ? trim($_SESSION['TravelAgent']['session']['ContactNo1']) : '' ?>" />
+                                            <?php } else { ?>
+                                                <input type="text" name="mobile" class="en_customermobile inputBox form-control notSpace" placeholder="Enter mobile" aria-label="Enter mobile" maxlength="10" value="<?php echo ($POPUPCOOKIES['mobile']) ? $POPUPCOOKIES['mobile'] : '' ?>" />
+                                            <?php } ?>
+                                        </div>
+                                        <?php if (isset($_SESSION['TravelAgent']['session']) && !empty($_SESSION['TravelAgent']['session'])) { ?>
+                                            <input name="from_destination_name" type="hidden" value="">
+                                            <input type="hidden"  name="from_destination_id" value=""/>      
+                                            <input type="hidden"  name="from_destination" value=""/>
+                                            <input type="hidden" name="date" value="" />
+                                        <?php } else { ?>
+                                            <input name="from_destination_name" type="hidden" value="<?php echo ($POPUPCOOKIES['from_destination_name']) ? $POPUPCOOKIES['from_destination_name'] : '' ?>">
+                                            <input type="hidden"  name="from_destination_id" value="<?php echo ($POPUPCOOKIES['from_destination_id']) ? $POPUPCOOKIES['from_destination_id'] : '' ?>"/>      
+                                            <input type="hidden"  name="from_destination" value="<?php echo ($POPUPCOOKIES['from_destination']) ? $POPUPCOOKIES['from_destination'] : '' ?>"/>
+                                            <input type="hidden" name="date" value="<?php echo ($POPUPCOOKIES['date']) ? $POPUPCOOKIES['date'] : '' ?>" />
+                                        <?php } ?>
+                                    </div>
+                                </div>
+                                <!-- enquiry detail form here -->
+                                <!--<div id="" style="display: block;">-->
+                                <div id="expandsave" style="display: block;">
+                                    <div class="col-md-12 no-padding">
+                                        <h4>Enquiry Details</h4>
+                                    </div>
+                                    <div class="row">
+
+                                        <div class="col-md-6 form-group">
+                                            <label for="from_destination" class="Lable">Traveling From <strong class="text-danger">*</strong></label>
+                                            <?php if (isset($_SESSION['TravelAgent']['session']) && !empty($_SESSION['TravelAgent']['session'])) { ?>
+                                                <input id="selectDestination" class="inputBox form-control" name="from_destination_name" type="text" placeholder="City Name" value="" autocomplete="off">
+                                                <input type="hidden" id="hidden_selected_hotel_cityid" name="from_destination_id" value=""/>      
+                                                <input type="hidden" id="hidden_selected_city_name" name="from_destination" value=""/>
+                                            <?php } else { ?>
+                                                <input id="selectDestination" class="inputBox form-control" name="from_destination_name" type="text" placeholder="City Name" value="<?php echo ($POPUPCOOKIES['from_destination_name']) ? $POPUPCOOKIES['from_destination_name'] : '' ?>" autocomplete="off">
+                                                <input type="hidden" id="hidden_selected_hotel_cityid" name="from_destination_id" value="<?php echo ($POPUPCOOKIES['from_destination_id']) ? $POPUPCOOKIES['from_destination_id'] : '' ?>"/>      
+                                                <input type="hidden" id="hidden_selected_city_name" name="from_destination" value="<?php echo ($POPUPCOOKIES['from_destination']) ? $POPUPCOOKIES['from_destination'] : '' ?>"/>
+                                            <?php } ?>
+                                        </div>
+
+                                        <div class="col-md-6 form-group">
+                                            <label for="date" class="Lable">Travel Date <strong class="text-danger">*</strong></label>
+                                            <?php if (isset($_SESSION['TravelAgent']['session']) && !empty($_SESSION['TravelAgent']['session'])) { ?>
+                                                <input type="text" name="date" class="en_customertripdate txtField form-control" id="travelerDatePicker" placeholder="From Date" aria-label="From Date" maxlength="10" value="" />
+                                            <?php } else { ?>
+                                                <input type="text" name="date" class="en_customertripdate txtField form-control" id="travelerDatePicker" placeholder="From Date" aria-label="From Date" maxlength="10" value="<?php echo ($POPUPCOOKIES['date']) ? $POPUPCOOKIES['date'] : '' ?>" />
+                                            <?php } ?>
+                                        </div>
+
+                                        <div class="cl"></div>
+                                        <!-- Room Start -->
+
+                                        <div class="room-rows-container">
+                                            <div class="col-md-12 form-group">
+                                                <label >Room 1</label>
+                                                <input type="hidden" name="room[]" value="1" />
+                                            </div>
+                                            <div class="col-md-2 form-group">
+                                                <label class="Lable">Adults(+12Yrs)</label>
+                                                <select name="adult[]" class="traveler_adult form-control" onchange="checkTravellers(this, 1);" id="traveler_adult_1">
+                                                    <?php
+                                                    for ($i = 1; $i <= $CONST_PACKAGE_TRAVELER_MAX_ADULT_IN_ROOM; $i++) {
+                                                        ?>
+                                                        <option value="<?php echo $i ?>"><?php echo $i ?></option>
+                                                        <?php
+                                                    }
+                                                    ?>
+                                                </select>
+                                            </div>
+
+                                            <div class="col-md-2 form-group" style="display: none" id="room-row-adult-bedtype-1">
+                                                <label class="Lable">Adult Bedtype</label>
+                                                
+                                                <select name="adult_bed_type[]" class="traveler_child form-control" onchange="checkAdultBedType(this);" id="traveler_adult_bedtype_1">
+                                                    <option value="">Select</option>
+                                                    <?php
+                                                    foreach ($badtype_array as $key => $value) {
+                                                        ?>
+                                                        <option value="<?php echo $key ?>"><?php echo $value ?></option>
+                                                        <?php
+                                                    }
+                                                    ?>
+                                                </select>
+                                            </div>
+
+                                            <div class="col-md-2 form-group traveler_kids_div_1">
+                                                <label class="Lable">Kids(2 - 12Yrs)</label>
+                                                <select name="child[]" class="traveler_child form-control" id="traveler_kids_1" onchange="checkTravellers(this, 1);">
+                                                    <option value="0"> 0</option>
+                                                    <?php
+                                                    for ($i = 1; $i <= $CONST_PACKAGE_TRAVELER_MAX_CHILD_IN_ROOM; $i++) {
+                                                        ?>
+                                                        <option value="<?php echo $i ?>"><?php echo $i ?></option>
+                                                        <?php
+                                                    }
+                                                    ?>
+                                                </select>
+                                            </div>
+
+                                            <div class="col-md-2 form-group room-row-child-bedtype-1" style="display: none" id="room-row-child-bedtype-1-1">
+                                                <label class="Lable">Child 1 Bedtype</label>
+                                                <select name="child1_bed_type[]" class="traveler_child form-control" id="selectroom-row-child-bedtype-1-1" onchange="checkAdultBedType(this);">
+                                                    <option value="">Select</option>
+                                                    <?php
+                                                    foreach ($badtype_array as $key => $value) {
+                                                        ?>
+                                                        <option value="<?php echo $key ?>"><?php echo $value ?></option>
+                                                        <?php
+                                                    }
+                                                    ?>
+                                                </select>
+                                            </div>
+                                            <div class="col-md-2 form-group room-row-child-bedtype-1" style="display: none" id="room-row-child-bedtype-1-2">
+                                                <label class="Lable">Child 2 Bedtype</label>
+                                                <select name="child2_bed_type[]" class="traveler_child form-control" id="selectroom-row-child-bedtype-1-2" onchange="checkAdultBedType(this);">
+                                                    <option value="">Select</option>
+                                                    <?php
+                                                    foreach ($badtype_array as $key => $value) {
+                                                        ?>
+                                                        <option value="<?php echo $key ?>"><?php echo $value ?></option>
+                                                        <?php
+                                                    }
+                                                    ?>
+                                                </select>
+                                            </div>
+
+                                            <div class="col-md-2 form-group" id="divtraveler_infant_1">
+                                                <label class="Lable">Infant(0 - 2Yrs)</label>
+                                                <select name="infant[]" class="traveler_infant form-control" id="traveler_infant_1" onchange="checkTravellers(this, 1);">
+                                                    <option value="0"> 0</option>
+                                                    <?php
+                                                    for ($i = 1; $i <= $CONST_PACKAGE_TRAVELER_MAX_INFANT_IN_ROOM; $i++) {
+                                                        ?>
+                                                        <option value="<?php echo $i ?>"><?php echo $i ?></option>
+                                                        <?php
+                                                    }
+                                                    ?>
+                                                </select>
+                                            </div>
+
+                                        </div>
+                                        <!-- Room End -->
+                                        <div class="cl"></div>
+                                        <div class="col-lg-12">
+                                            <div class="row">
+                                                <div class="col-lg-2 block">
+                                                    <a href="javascript:void(0);" class="btn btn-info btn-sm addmore pull-left">+Add Room</a>
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                        <div class="cl mt-3"></div>
+                                        <!--button added here--> 
+                                        <div class="col-lg-12 alert" id="tableCost" style="margin-bottom:0px; display: none">
+
+                                            <div class="cl"></div>
+                                            <div class="mb-6"></div>
+                                            <div class="row">
+                                                <div class="col-md-12 mob-pad-tab">
+                                                    <div class="col-md-4" id="totalBasicCostTR">
+                                                        <div class="alert alert-success btn-outline1">
+                                                            Total Basic Cost: <span class="WebRupee">Rs</span> <span id="totalBasicCost">0</span>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-3" id="totalTaxCostTR">
+                                                        <div class="alert alert-success btn-outline1">
+                                                            GST: <span class="WebRupee">Rs</span> <span id="totalTaxCost">0</span>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-5" id="totalGrandCostTR">
+                                                        <div class="alert alert-success btn-outline1">
+                                                            <div class="pric">
+                                                                Grand Total: <span class="WebRupee">Rs</span> <span id="totalGrandCost">0</span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <p class="noofpaxmsg"></p>
+                    <div class="clear"></div>
+                </div>
+                <div class="modal-footer alert-dismissible white hidebutton" align="center">
+                    <div class="col-md-12">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <p class="smsg1 "></p>
+                            </div>
+                            <div class="col-md-12 no-padding text-right-side">
+                                <a type="button" class="btn btn-default btn-sm btn-small-1" data-dismiss="modal">Close</a>
+                                <a  id="Send_Enquiry" class="btn btn-danger btn-sm btn-small-1 sending1" type="submit">Check Rate &amp; Send Enquiry</a>
+                                <a style="cursor: pointer;" class="btn-link class-modify-enquiry" onclick="modify_enquiry(this);">Modify</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

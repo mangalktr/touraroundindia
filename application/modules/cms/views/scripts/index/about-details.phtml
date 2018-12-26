@@ -1,0 +1,210 @@
+<?php
+//die("herdfdge");
+$baseUrl = $this->baseUrl;
+$tollfreenumber = $this->tollfreenumber;
+$objHelper = Zend_Controller_Action_HelperBroker::getStaticHelper('General');
+
+
+$aboutResult = $this->aboutResult;
+$recentAbout = $this->recentAbout;
+$CONST_YEAR_NAME = $this->CONST_YEAR_NAME;
+
+//echo '<pre>';print_r($BlogDate1);echo '</pre>';die;
+  
+
+?> 
+
+<?php if(!empty($this->pagedetail['background_image']) && ($this->pagedetail['background_image'] != '') && (file_exists('public/upload/static_pages/'.$this->pagedetail['background_image']))){ ?>
+<div class="container-fluid top_package_detail_about no-padding" 
+     
+     style="background:url(public/upload/static_pages/<?php echo $this->pagedetail['background_image'] ?>) no-repeat center;">
+    <?php  }  else {?>
+    
+   <div class="container-fluid top_package_detail_about no-padding" style="background:url(public/images/package-slider.jpg ) no-repeat center;">
+    
+    <?php } ?>
+  <div class="row ">
+    <div class="top_package_detail_cover">
+      <div class="top_package_detail_bredcrum">
+        <div class="container marketing" style="margin:0; width:100%;"> 
+          
+          <!-- Three columns of text below the carousel -->
+          <div class="row ">
+            <div class="col-lg-12 ">
+              <ul>
+                <li style="border:none; padding-left:0;">Home</li>
+                
+                <li><?php echo ucfirst($this->pagedetail['page_title']) ?></li>
+              </ul>
+            </div>
+          </div>
+          <!-- /.row --> 
+          
+        </div>
+      </div>
+       <div class="top_package_detail_about_cover"></div>
+      <div class="top_package_detail_heding1">
+        <div class="container marketing" style="margin:0; width:100%;"> 
+         
+          <!-- Three columns of text below the carousel -->
+    
+            <div class="col-lg-12 ">
+              <div class="top_package_detail_heding_top"></div>
+              <div class=" top_package_detail_heding1"> <?php echo ucfirst($this->pagedetail['page_title']) ?></span> </div>
+            </div>
+         
+          <!-- /.row --> 
+          
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- Marketing messaging and featurettes
+    ================================================== --> 
+<!-- Wrap the rest of the page in another container to center all the content. -->
+
+<div class="container-fluid padd_box ">
+  <div class="container marketing" style="margin:0; width:100%;"> </div>
+  <div class="row ">
+    <div class="container middle_container padd_box" style="margin:0; width:100%;"> 
+      
+      <!-- Three columns of text below the carousel -->
+      <div class="row">
+        <div class="col-lg-12">
+        <div class="mt-3"></div>
+          <div class="package_det_d ">
+            <div class="row" style="margin-left:0; margin-right:0;">
+              <div class="col-lg-9 middle_container_Celebrities">
+              
+              <div class="mt-3"></div>
+              
+<h4><?php echo ucfirst($this->pagedetail['page_title']) ?> </h4>
+<?php echo $this->pagedetail['page_description'] ?><br>
+
+<h4>The Team <br>
+<span>Co-Founders</span></h4>
+
+
+               <div class="mt-2"></div>
+               
+               
+     
+     
+     
+     <div class="mt-2"></div>
+         <h4>Travel Consultants </h4>      
+       <div class="mt-2"></div>  
+       
+       <div class="row">
+               
+               <div class="col-lg-12">
+                <div class="boxCelebrities" style="min-height:inherit;">
+                <div class="row no-margin">
+                <div class="col-lg-3 ">
+                  <img src="public/images/team/no-image.jpg" alt="" title="">
+                  </div>
+                  <div class="col-lg-9">
+                 <h3>TshokiWangmo.</h3>
+                 <p>Ms.Wangmo started her career as a travel expert and has been with the company since its inception and is heading the team of 9 travel advisors in for Bhutan region in the organisation.</p>
+                  </div>
+                  </div>
+                  </div>
+                  </div>
+               
+               
+               
+                 
+                  
+                  
+                  
+                  
+                  
+                  
+                             
+               </div>
+       
+             
+             
+          
+       
+        
+                
+              </div>
+              <div class="col-lg-3 package_det_d_left">
+                <h1>Talk to Us</h1>
+                <p>Leave us your Query by entering the 
+                  details below & we'll be in touch with 
+                  you shortly. </p>
+                <div class="package_det_d_left_form">
+                <form>
+                  <div class="colspan-talk">
+                  <label class="error">Enter Name *</label>
+                    <div class="inputBox">
+                      <div class="inputBoxIn">
+                        <input type="text" name="textfield" id="textfield" class="txtField" placeholder="Name" aria-label="Name">
+                        
+                      </div>
+                      
+                    </div>
+                    
+                  </div>
+                  <div class="colspan-talk">
+                  <label class="error">Enter Name *</label>
+                    <div class="inputBox">
+                      <div class="inputBoxIn">
+                        <input type="text" name="textfield" id="textfield" class="txtField" placeholder="Email" aria-label="Email">
+                      </div>
+                    </div>
+                  </div>
+                  <div class="colspan-talk">
+                    <div class="inputBox">
+                      <div class="inputBoxIn">
+                        <input type="text" name="textfield" id="textfield" class="txtField" placeholder="Phone Number" aria-label="Phone Number">
+                      </div>
+                    </div>
+                  </div>
+                  <div class="colspan-talk">
+                    <div class="inputBox">
+                      <div class="inputBoxIn dateBg">
+                        <input type="text" name="textfield" id="textfield" class="txtField" placeholder="From Date" aria-label="From Date">
+                      </div>
+                    </div>
+                  </div>
+                  <div class="colspan-talk">
+                    <div class="inputBox">
+                      <div class="inputBoxIn">
+                        <textarea name="" cols="" rows="" id="textfield" class="txtField" placeholder="Message/Query" aria-label="Message/Query"></textarea>
+                      </div>
+                    </div>
+                  </div>
+                  <a class="btn btn-danger btn" href="#">Send</a> </form> </div>
+                 
+                  
+                  
+                  
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="close"></div>
+      </div>
+      <!-- /.row -->
+      <div class="mt-4 mt-4-mobile"></div>
+    </div>
+  </div>
+</div>
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    

@@ -1,0 +1,103 @@
+<?php // 
+$options = Zend_Controller_Front::getInstance()->getParam('bootstrap')->getOption('bootstrap');
+$resultset = $this->resultset; 
+?>
+<style type="text/css">
+    li{list-style:none; color:#ed3237; font-size:13px;}
+    ul{margin:0px; padding:0px;}
+</style>
+
+
+<div class="content">
+        
+<div class="header">
+    <h1 class="page-title">Add Social Link</h1>
+</div>
+
+<ul class="breadcrumb">
+    <li><a href="<?php echo $options['siteUrl'];?>admin/dashboard/index">Home</a> <span class="divider">/</span></li>
+    <li><a href="<?php echo $options['siteUrl'];?>admin/social/index">Manage Social Links</a> <span class="divider">/</span></li>
+    <li class="active">Add Social Link</li>
+</ul>
+
+<div class="container-fluid">
+    <div class="row-fluid">       
+   
+    <?php if($this->successMessage) { ?>
+        <div class="alert alert-info">
+        <button data-dismiss="alert" class="close" type="button">×</button>
+        <?php echo $this->successMessage; ?>
+        </div> 
+    <?php } ?>
+        
+   <?php if($this->errorMessage) { ?>
+       <div class="alert alert-error">
+           <button data-dismiss="alert" class="close" type="button">×</button>
+           <?php echo $this->errorMessage; ?>
+       </div>
+   <?php } ?>
+      
+   <?php if($this->error1Message) { ?>
+       <div class="alert alert-error">
+           <button data-dismiss="alert" class="close" type="button">×</button>
+           <?php echo $this->error1Message; ?>
+       </div>
+   <?php } ?>   
+        
+<div class="well">
+    <ul class="nav nav-tabs">
+      <li class="active"><a href="#edit_page" data-toggle="tab">Add Social Link</a></li>
+    </ul>
+     <?php $form = $this->form;?>
+    <div id="myTabContent" class="tab-content">
+      <div class="tab-pane active in" id="add_page">
+          <form id="add_footer" class="add_footer" method="<?php echo $this->form->getMethod();?>" action="<?php echo $this->form->getAction();?>" name="<?php echo $this->form->getName();?>" enctype="multipart/form-data" onclick="sociallink();">
+        <?php echo $form->id;?>
+               
+        <label>Name</label>
+        <?php echo $form->name;?>
+       
+        <label>Links</label>
+        <?php echo $form->link;?>
+        
+        <label>Status</label>
+        <?php echo $form->status_number;?>
+        
+         
+        <div style="padding-top:20px;">
+            <p class="msg" style="color:#ff0000;"></p>
+            <input type="submit" name="save" value="Save" class="btn btn-primary">
+            <button class="btn btn-primary" type="button" onclick="window.location.href='admin/social/index'">Cancel</button>
+        </div>
+        
+    </form>
+      </div>
+  </div>
+
+</div>                    
+    </div>
+</div>
+</div>
+
+<script>
+   
+    $(document).ready(function() {
+        $( ".add_social" ).on('submit',function(){
+            if($('.add_social input[name="name"]').val().trim() == ''){
+                $('.msg').html('Please enter name');
+		$('.add_social input[name="name"]').focus();return false;
+            }
+            if($('.add_social input[name="link"]').val().trim() == ''){
+                $('.msg').html('Please enter link above');
+		$('.add_social input[name="link"]').focus();return false;
+            }
+            
+            if($('.add_social input[name="status"]').val().trim() == ''){
+                $('.msg').html('Please enter status above');
+		$('.add_social input[name="status"]').focus();return false;
+            }
+            
+            //alert(data);
+        });
+    });
+</script>

@@ -1,0 +1,46 @@
+@charset "utf-8";
+/* CSS Document */
+@font-face {
+  font-family: 'icomoon';
+  src: url("../fonts/icomoon/icomoon.eot?srf3rx");
+  src: url("../fonts/icomoon/icomoon.eot?srf3rx#iefix") format("embedded-opentype"), url("../fonts/icomoon/icomoon.ttf?srf3rx") format("truetype"), url("../fonts/icomoon/icomoon.woff?srf3rx") format("woff"), url("../fonts/icomoon/icomoon.svg?srf3rx#icomoon") format("svg");
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+font-family:'WebRupee';
+src:url('WebRupee.V2.0.eot');
+src:local('WebRupee'), url('WebRupee.V2.0.ttf') format('truetype'), url('WebRupee.V2.0.woff') format('woff'), url('WebRupee.V2.0.svg') format('svg');
+font-weight:normal;
+font-style:normal;
+}
+.WebRupee {
+	font-family:'WebRupee';
+	font-style:normal;
+	display:inline-block;
+}
+
+
+@font-face {
+    font-family: 'Bebas Neue';
+    src: url('BebasNeue.woff2') format('woff2'),
+        url('BebasNeue.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Notera Personal Use Only';
+    src: url('NoteraPersonalUseOnly.woff2') format('woff2'),
+        url('NoteraPersonalUseOnly.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+body {
+  font-family: 'Roboto', sans-serif;
+  font-size: 1.25em;
+  font-weight: 300;
+  color:#000 !important;
+}

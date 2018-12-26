@@ -1,0 +1,440 @@
+<?php 
+//$arrStatusType = Zend_Controller_Action_HelperBroker::getStaticHelper('General')->getAllStatusType();
+
+$arrCustomerInvoiceData = $this->arrCustomerInvoiceData;
+//echo "<pre>";print_r($arrCustomerInvoiceData);
+$AgencySysId = $arrCustomerInvoiceData[0]['AgencySysId'];
+$CompanyName = $arrCustomerInvoiceData[0]['CompanyName'];
+$strCompanyAddress = $arrCustomerInvoiceData[0]['CompanyAddress'];
+$Pincode = $arrCustomerInvoiceData[0]['Pincode'];
+$strCityTitle = $arrCustomerInvoiceData[0]['CityTitle'];
+$strCountry = $arrCustomerInvoiceData[0]['Country'];
+$PrimaryMobileNo = $arrCustomerInvoiceData[0]['PrimaryMobileNo'];
+$PrimaryContactNo = $arrCustomerInvoiceData[0]['PrimaryContactNo'];
+$PrimaryEmail = $arrCustomerInvoiceData[0]['PrimaryEmail'];
+$companyLogo = $arrCustomerInvoiceData[0]['Logo'];
+
+
+
+//customer Details
+$arrTrevllerDetails = $this->arrTrevllerDetails;
+//customer Details
+
+$TBQAirInvenSysId = $arrCustomerInvoiceData[0]['TBQAirInvenSysId'];
+$IsInternational = $arrCustomerInvoiceData[0]['IsInternational'];
+$strFlightNumber = $arrCustomerInvoiceData[0]['FlightNumber'];
+$strSourceAirportCode = $arrCustomerInvoiceData[0]['SourceAirportCode'];
+$strDestAirportCode = $arrCustomerInvoiceData[0]['DestAirportCode'];
+$strXRefBookingId = $arrCustomerInvoiceData[0]['XRefBookingId'];
+
+$strAirLineTitle = $arrCustomerInvoiceData[0]['AirLineTitle'];
+$strAirLineCode = $arrCustomerInvoiceData[0]['AirLineCode'];
+
+$arrBookingId = explode("/", $strXRefBookingId);
+$strXRefBookingId = trim($arrBookingId[0]);
+$strBookingPNR = trim($arrBookingId[1]);
+$bookingStatus = $arrCustomerInvoiceData[0]['BookingStatusName'];
+
+
+$arrBookingDate = (array) $arrCustomerInvoiceData[0]['bookingDate'];
+$strBookingDate = Zend_Controller_Action_HelperBroker::getStaticHelper('General')->getDateFormatFromDbDates($arrBookingDate['date']);
+$arrFromUTCTime = (array) $arrCustomerInvoiceData[0]['FromUTCTime'];
+$arrToUTCTime = (array) $arrCustomerInvoiceData[0]['ToUTCTime'];
+$sourceDepartueTime = Zend_Controller_Action_HelperBroker::getStaticHelper('General')->getDateFormatFromDbDates($arrFromUTCTime['date']);
+$destinationArrivalTime = Zend_Controller_Action_HelperBroker::getStaticHelper('General')->getDateFormatFromDbDates($arrToUTCTime['date']);
+
+
+$arrAPIBookingRes = json_decode($arrCustomerInvoiceData[0]['APIBookingRes'],true);
+$arrPassenger = isset($arrAPIBookingRes['Response']['Response']['FlightItinerary']['Passenger'])?$arrAPIBookingRes['Response']['Response']['FlightItinerary']['Passenger']:'';
+$CancellationCharges = isset($arrAPIBookingRes['Response']['Response']['FlightItinerary']['CancellationCharges'])?$arrAPIBookingRes['Response']['Response']['FlightItinerary']['CancellationCharges']:'';
+$FareRuleDetails = isset($arrAPIBookingRes['Response']['Response']['FlightItinerary']['FareRules'][0]['FareRuleDetail'])?$arrAPIBookingRes['Response']['Response']['FlightItinerary']['FareRules'][0]['FareRuleDetail']:'';
+
+
+
+
+
+?>
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/html">
+  <head>
+    <title>Booking voucher</title>
+</head>
+  <body>
+      <style>
+            .alert {
+                padding: 15px;
+                margin-bottom: 20px;
+                border: 1px solid transparent;
+                border-radius: 2px;
+            }
+            
+            .alert-success {
+                color: #333333;
+                background-color: #d9edf7;
+                border-color: #bce8f1;
+            }
+            .alert-warning {
+                color: #333333;
+                background-color: #ffffff;
+                border-color: #faebcc;
+            }
+            
+            th {
+                text-align: left;
+            }
+            
+        </style>
+    <table width="800px" align="center" border="0" style="border:1px solid #e2e2e2;" cellspacing="0" cellpadding="5">
+      <tr>
+        <td style="border-bottom:3px solid #e2e2e2;"><table width="100%" style="font-family: arial, sans-serif; color: #000; font-size: 9pt;">
+          <tr>
+                <td align="left" valign="middle">
+                    <a href="javascript:void(0);">
+                        <img  src="/public/images/Logo.png" alt="" title="" border="0" />
+                    </a>
+                </td>
+                <td align="center" valign="top"><h2>Flight Itinerary</h2></td>
+                <td align="right" valign="top">
+                    <table style="font-family: arial, sans-serif; color: #000; font-size: 8pt; line-height: 1em">
+                <tr>
+                    <td style="font-size:18px; font-weight:bold; color:#1077c5; padding-bottom:10px;" align="right"><?php echo $CompanyName; ?></td>
+                </tr>
+                    <tr>
+                    
+                  <td align="right"><?php echo $strCompanyAddress; ?><br />
+                    <?php echo $strCityTitle; ?> <?php echo $strCountry; ?><br />
+                    <strong>Pin :</strong> &nbsp; <?php echo $Pincode; ?><br />
+                    <strong>Ph No :</strong> &nbsp; <?php echo $PrimaryContactNo; ?> , <?php echo $PrimaryMobileNo; ?><br />
+                    <strong>Email :</strong>  &nbsp; <a href="#" style="font-size:12px;color:#ff6600;"><?php echo $PrimaryEmail; ?></a><br />
+                 </td>
+                </tr>
+                
+            </table>
+                </td>
+          </tr>
+        </table></td>
+      </tr>
+
+      <tr>
+        <td>
+            <table width="100%" border="0" cellpadding="5" cellspacing="1" bgcolor="#E2E2E2">
+          <tr>
+            <td bgcolor="#FFFFFF">
+                <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                <tr>
+                    <td>
+                        <table width="100%" cellpadding="3" cellspacing="0" style="color: #000; font:normal 13px Arial, Helvetica, sans-serif;">              
+                            <tr>
+                                <td>&nbsp;</td>
+                            </tr>
+                            
+                            <tr>
+                                <td colspan="5" style="color: #000; font:bold 15px Arial, Helvetica, sans-serif; padding:5px 0px; border-bottom:1px solid #e2e2e2;">Passengers Details</td>
+                            </tr>
+                            <tr>
+                                <td>&nbsp;</td>
+                            </tr>
+                            
+                        <?php
+                            if (count($arrTrevllerDetails) > 0) {
+                                $intPaxCT = 1;
+                                $ARR_SALUTION = unserialize(ARR_SALUTION);
+                                foreach ($arrTrevllerDetails as $trevllerValue) {
+                                      $CustomerTitle = $trevllerValue[0]['Title'];
+                                      $CustomerTitle = $ARR_SALUTION[$CustomerTitle];
+                                      $CustomerFirstName = $trevllerValue[0]['FirstName'];
+                                      $CustomerLastName = $trevllerValue[0]['LastName'];
+                                 ?>
+                            <tr>
+                                <td><?php echo $intPaxCT; ?>. <?php echo $CustomerTitle; ?>. <?php echo $CustomerFirstName; ?> <?php echo $CustomerLastName; ?> </td>
+                                <td>&nbsp;</td>
+                            </tr>
+                            <?php $intPaxCT++;} } ?>
+                        </table> 
+                    </td>
+                </tr>
+              <tr>
+              <td>&nbsp;</td>
+              </tr>
+              <tr>
+                <td style="color: #000; font:bold 15px Arial, Helvetica, sans-serif; padding:5px 0px; border-bottom:1px solid #e2e2e2;">Flight Details</td>
+              </tr>
+                    
+              <tr>
+              <td>&nbsp;</td>
+              </tr>
+                    
+            <tr>
+              <td>        
+                    <?php
+                        if($IsInternational){
+                    ?>
+                    
+                  <table width="100%" cellpadding="3" cellspacing="0" style="color: #000; font:normal 13px Arial, Helvetica, sans-serif;">                                
+                                      <tbody>
+                                             
+                                   
+                                       <?php
+                                            //$objFlight = new Travel_Model_TblFlight();
+                                            $arrInterNationalFlightList = $this->arrInterNationalFlightList;
+                                            //echo "<pre>";print_r($arrInterNationalFlightList);echo "</pre>";
+                                            if(count($arrInterNationalFlightList) > 0){
+                                                $intI = 0;
+                                                foreach ($arrInterNationalFlightList as $flightRounds){
+                                                     $strGoingFlightFrom = $flightRounds['SourceAirportCode'];
+                                                     $strGoingFlightTo = $flightRounds['DestAirportCode'];
+                                                     $AirlineName  = $flightRounds['AirlineName'];
+                                                     $FlightNumber = $flightRounds['FlightNumber'];
+                                                     $IsRefundable = $flightRounds['IsRefundable'];
+                                                     $strAirlineCode = explode("-",trim($flightRounds['FlightNumber'])); 
+                                                     $strAirlineCode = $strAirlineCode[0];
+
+                                                     $filePath = $_SERVER['DOCUMENT_ROOT'] . "/public/upload/AirlineLogo/";
+                                                     if (file_exists($filePath . $strAirlineCode . ".gif")) {
+                                                         $strAirlineLogo = $strAirlineCode . ".gif";
+                                                         $filePath = $this->baseUrl("public/upload/AirlineLogo/") . $strAirlineLogo;
+                                                     } elseif (file_exists($filePath . $strAirlineCode . ".png")) {
+                                                         $strAirlineLogo = $strAirlineCode . ".png";
+                                                         $filePath = $this->baseUrl("public/upload/AirlineLogo/") . $strAirlineLogo;
+                                                     }elseif (file_exists($filePath . $strAirlineCode . ".jpg")) {
+                                                         $strAirlineLogo = $strAirlineCode . ".jpg";
+                                                         $filePath = $this->baseUrl("public/upload/AirlineLogo/") . $strAirlineLogo;
+                                                     }elseif (file_exists($filePath . $strAirlineCode . ".jpeg")) {
+                                                         $strAirlineLogo = $strAirlineCode . ".jpeg";
+                                                         $filePath = $this->baseUrl("public/upload/AirlineLogo/") . $strAirlineLogo;
+                                                     }else{
+                                                         $filePath = $this->baseUrl("public/upload/AirlineLogo/noimage.png");
+                                                     }
+
+                                                     $OriginDepartureTime = (array)$flightRounds['OriginDepartureTime'];
+                                                     $DestArrivalTime = (array)$flightRounds['DestArrivalTime'];
+                                                     $OriginDepartureTime = Zend_Controller_Action_HelperBroker::getStaticHelper('General')->getDateFormatFromDbDates($OriginDepartureTime['date']);
+                                                     $DestArrivalTime   = Zend_Controller_Action_HelperBroker::getStaticHelper('General')->getDateFormatFromDbDates($DestArrivalTime['date']);
+                                                     $strFareClass = $flightRounds['FareClass'];
+                                                     
+                                                     
+                                                     $result = $arrCustomerInvoiceData[0];
+                                                     
+                                                    $XRefBookingId = $result['XRefBookingId'];
+                                                    $APIBookingRes = json_decode($result['APIBookingRes'],true);
+                                                    $FareRuleDetail = isset($APIBookingRes['Response']['Response']['FlightItinerary']['FareRules'][0]['FareRuleDetail'])?$APIBookingRes['Response']['Response']['FlightItinerary']['FareRules'][0]['FareRuleDetail']:'';
+//
+                                                    //echo "<pre>";print_r($APIBookingRes);echo "</pre>";
+//
+                                                    $TicketStatus = isset($APIBookingRes['Response']['Response']['FlightItinerary']['Status'])?$APIBookingRes['Response']['Response']['FlightItinerary']['Status']:0;
+                                                    $strBookingDate = isset($APIBookingRes['Response']['Response']['FlightItinerary']['InvoiceCreatedOn'])?$APIBookingRes['Response']['Response']['FlightItinerary']['InvoiceCreatedOn']:'';
+                                                    $arrBookingDate = Zend_Controller_Action_HelperBroker::getStaticHelper('General')->getDateTimeFormatFromApiString($strBookingDate);
+                                                    $bookingDate    = $arrBookingDate['strDate'];
+                                                     
+                                                     
+                                                     
+                                            ?>
+                                          
+                                            <tr>
+                                                <td colspan="6" class="alert alert-warning">
+                                                    <strong>Itinerary Details ( <?php echo $strGoingFlightFrom; ?> - <?php echo $strGoingFlightTo; ?> )</strong>
+                                                </td>
+                                            </tr>
+                                          
+                                            <tr>
+                                                <th height="28" class="alert alert-success" bgcolor="#EEEEEE">Flight No</th>
+                                                <th height="28" class="alert alert-success" bgcolor="#EEEEEE">Origin</th>
+                                                <th height="28" class="alert alert-success" bgcolor="#EEEEEE">Destination</th>
+                                                <th height="28" class="alert alert-success" bgcolor="#EEEEEE">Dep. Date Time</th>
+                                                <th height="28" class="alert alert-success" bgcolor="#EEEEEE">Arr. Date Time</th>
+                                                <th height="28" class="alert alert-success" bgcolor="#EEEEEE">Class</th>
+                                            </tr> 
+                                          
+                                          
+                                                <tr>
+                                                    <td class="alert alert-warning">
+                                                       <img width="20" src="<?php echo $filePath; ?>" title="<?php echo $result['AirlineName']; ?>" />&nbsp;
+                                                           <?php echo $FlightNumber; ?>
+                                                   </td>
+                                                
+                                                   <td class="alert alert-warning"><?php echo $strGoingFlightFrom; ?></td>                                          
+                                                   <td class="alert alert-warning"><?php echo $strGoingFlightTo; ?></td>
+
+                                                   <td class="alert alert-warning"><?php echo $OriginDepartureTime['strDate'] . " " . $OriginDepartureTime['strTime']; ?></td>
+                                                   <td class="alert alert-warning"><?php echo $DestArrivalTime['strDate'] . " " . $DestArrivalTime['strTime']; ?></td>
+                                                   <td class="alert alert-warning"><?php echo $strFareClass; ?></td>
+                                               </tr>
+                                            <?php $intI++; } } ?>
+                                          
+                                          
+                                          <tr>
+                                                <td colspan="6">        
+                                              <table width="100%" cellpadding="3" cellspacing="0" style="color: #000; font:normal 13px Arial, Helvetica, sans-serif;">                                
+                                                  <tbody>
+                                                      <tr>
+                                                          <th class="alert alert-success" bgcolor="#EEEEEE">Booking Ref / PNR</th>
+                                                          <th class="alert alert-success" bgcolor="#EEEEEE">Status</th>
+                                                          <th class="alert alert-success" bgcolor="#EEEEEE">Date of Booking</th>
+                                                          <th class="alert alert-success" bgcolor="#EEEEEE">Payment Status</th>
+                                                      </tr>  
+                                                      <tr>
+                                                          <td class="alert alert-warning"><?php echo $XRefBookingId; ?></td>
+                                                          <td class="alert alert-warning"><?php echo ($TicketStatus == 1)?'Confirmed':''; ?></td>
+                                                          <td class="alert alert-warning"><?php echo $bookingDate; ?></td>                                          
+                                                          <td class="alert alert-warning">Paid</td>
+                                                      </tr>
+                                                  </tbody>
+                                              </table>
+                                          </td>
+                                      </tr>
+                                          
+                                          
+                                          
+                                           <tr>
+                                            <td>&nbsp;</td>
+                                          </tr>
+                                            <tr>
+                                                <td colspan="6" class="alert alert-warning">
+                                                    <strong>Fare Rule Details ( <?php echo $strDestAirportCode; ?> &#8646; <?php echo $strSourceAirportCode; ?> )</strong>
+                                                </td>
+                                            </tr>
+                                            <tr >
+                                                <td colspan="6" class="alert alert-warning" >        
+                                                    <p style="height:350px !important; overflow-y: scroll;"><?php echo $FareRuleDetail; ?></p>
+                                                </td>
+                                      </tr>
+                                    
+                                    
+                                  </tbody></table>
+                        <?php }else{ ?>
+                        
+                   
+                       <table width="100%" cellpadding="3" cellspacing="0" style="color: #000; font:normal 13px Arial, Helvetica, sans-serif;">                                
+                                      <tbody>
+                                              
+                                   
+                                       <?php 
+                                            $intCostWithGTX = 0;
+                                            $intFlightRounds = 0;
+                                            //echo "<pre>";print_r($arrCustomerInvoiceData);echo "</pre>";
+                                            foreach ($arrCustomerInvoiceData as $result){ 
+                                                $strFlightNumber = $result['FlightNumber'];
+                                                $strSourceAirportCode = $result['SourceAirportCode'];
+                                                $strDestAirportCode = $result['DestAirportCode'];
+                                                $XRefBookingId = $result['XRefBookingId'];
+                                                $APIBookingRes = !empty($result['APIBookingRes'])?json_decode($result['APIBookingRes'],true):'';
+                                                $APIBookingRes = !is_array($APIBookingRes)?json_decode($APIBookingRes,true):$APIBookingRes;
+                                                $FareRuleDetail = isset($APIBookingRes['Response']['Response']['FlightItinerary']['FareRules'][0]['FareRuleDetail'])?$APIBookingRes['Response']['Response']['FlightItinerary']['FareRules'][0]['FareRuleDetail']:'';
+
+                                                //echo "<pre>";print_r($APIBookingRes);echo "</pre>";
+                                                
+                                                $TicketStatus = isset($APIBookingRes['Response']['Response']['FlightItinerary']['Status'])?$APIBookingRes['Response']['Response']['FlightItinerary']['Status']:0;
+                                                $strBookingDate = isset($APIBookingRes['Response']['Response']['FlightItinerary']['InvoiceCreatedOn'])?$APIBookingRes['Response']['Response']['FlightItinerary']['InvoiceCreatedOn']:'';
+                                                $arrBookingDate = Zend_Controller_Action_HelperBroker::getStaticHelper('General')->getDateTimeFormatFromApiString($strBookingDate);
+                                                $bookingDate    = $arrBookingDate['strDate'];
+                                                
+                                                
+                                                $arrFromUTCTime = (array) $result['FromUTCTime'];
+                                                $arrToUTCTime = (array) $result['ToUTCTime'];
+                                                $sourceDepartueTime = Zend_Controller_Action_HelperBroker::getStaticHelper('General')->getDateFormatFromDbDates($arrFromUTCTime['date']);
+                                                $destinationArrivalTime = Zend_Controller_Action_HelperBroker::getStaticHelper('General')->getDateFormatFromDbDates($arrToUTCTime['date']);
+
+                                                
+
+
+                                            ?>
+
+                                            <tr>
+                                                <td colspan="5" class="alert alert-warning">
+                                                    <strong>Itinerary Details ( <?php echo $strDestAirportCode; ?> - <?php echo $strSourceAirportCode; ?> )</strong>
+                                                </td>
+                                            </tr>
+                                          
+                                          <tr>
+                                                <th class="alert alert-success" bgcolor="#EEEEEE">Flight No</th>
+                                                <th class="alert alert-success" bgcolor="#EEEEEE">Origin</th>
+                                                <th class="alert alert-success" bgcolor="#EEEEEE">Destination</th>
+                                                <th class="alert alert-success" bgcolor="#EEEEEE">Dep. Date Time</th>
+                                                <th class="alert alert-success" bgcolor="#EEEEEE">Arr. Date Time</th>
+<!--                                                <th height="28" class="alert alert-success" bgcolor="#EEEEEE">Class</th>-->
+                                            </tr>
+                                          
+
+                                            <tr>
+                                                <td class="alert alert-warning">
+                                                    <?php echo $strFlightNumber; ?>
+                                                </td>
+
+                                                    <?php if ($intFlightRounds > 0) { ?>
+                                                    <td class="alert alert-warning"><?php echo $strDestAirportCode; ?></td>                                          
+                                                    <td class="alert alert-warning"><?php echo $strSourceAirportCode; ?></td>
+                                                    <?php } else { ?>
+                                                    <td class="alert alert-warning"><?php echo $strSourceAirportCode; ?></td>                                          
+                                                    <td class="alert alert-warning"><?php echo $strDestAirportCode; ?></td>  
+                                                    <?php } ?>
+                                                <td class="alert alert-warning"><?php echo $sourceDepartueTime['strDate']." ".$sourceDepartueTime['strTime']; ?></td>
+                                                <td class="alert alert-warning"><?php echo $destinationArrivalTime['strDate']." ".$destinationArrivalTime['strTime']; ?></td>
+                                            </tr>
+                                          
+                                          
+                                          
+                                            <tr>
+                                                <td colspan="5">        
+                                              <table width="100%" cellpadding="3" cellspacing="0" style="color: #000; font:normal 13px Arial, Helvetica, sans-serif;">                                
+                                                  <tbody>
+                                                      <tr>
+                                                          <th class="alert alert-success" bgcolor="#EEEEEE">Booking Ref / PNR</th>
+                                                          <th class="alert alert-success" bgcolor="#EEEEEE">Status</th>
+                                                          <th class="alert alert-success" bgcolor="#EEEEEE">Date of Booking</th>
+                                                          <th class="alert alert-success" bgcolor="#EEEEEE">Payment Status</th>
+                                                      </tr>  
+                                                      <tr>
+                                                          <td class="alert alert-warning"><?php echo $XRefBookingId; ?></td>
+                                                          <td class="alert alert-warning"><?php echo ($TicketStatus == 1 || $TicketStatus == 5)?'Confirmed':''; ?></td>
+                                                          <td class="alert alert-warning"><?php echo $bookingDate; ?></td>                                          
+                                                          <td class="alert alert-warning">Paid</td>
+                                                      </tr>
+                                                  </tbody>
+                                              </table>
+                                          </td>
+                                      </tr>
+                                          
+                                          <tr>
+                <td>&nbsp;</td>
+              </tr>
+                                            <tr>
+                                                <td colspan="5" class="alert alert-warning">
+                                                    <strong>Fare Rule Details ( <?php echo $strDestAirportCode; ?> - <?php echo $strSourceAirportCode; ?> )</strong>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td class="alert alert-warning" colspan="5">  
+                                                    <div style="height:350px !important; overflow-y: scroll;"><?php echo $FareRuleDetail; ?></div>
+                                                </td>
+                                        </tr>
+                                        <tr>
+                                            <td>&nbsp;</td>
+                                        </tr>  
+
+                                             <?php $intFlightRounds++; } ?>
+                                        
+                                    
+                                    
+                                  </tbody></table>
+                  
+                  <?php } ?>
+                </td>
+              </tr> 
+                    
+                    
+                    
+              <tr>
+                <td>&nbsp;</td>
+              </tr>
+                    
+                    
+             
+            </table></td>
+          </tr>
+        </table></td>
+      </tr>
+    </table>
+
+  </body>
+</html>
+

@@ -1,0 +1,30 @@
+<?php if($this->url != "" ) {
+    
+     echo $this->url;
+    
+    ?>
+<section id="min-wrapper-">
+<div id="main-content">
+<div class="container-fluid">
+<div class="row">
+    <div class="col-md-12 text-center">
+        <h1 class="margin-top-bot" style="margin-top: 150px;"><img src="<?php echo $this->baseUrl("public/assets/images/loading.gif");?>" alt="Redirecting..." /><br>
+            <br>Please wait we are redirecting you. Please Do not refresh page or press back button.
+        </h1>
+
+       
+<script type='text/javascript'>
+    $(window).load(function() {
+               window.setTimeout(window.location.href = "<?php echo $this->url;?>",5000);
+            });
+    //window.location.href = 'http://www.google.com';
+</script>
+        
+    </div>
+</div>
+</div>
+</div>
+</section>
+<?php } else {
+    echo "prashant";exit;
+} ?>

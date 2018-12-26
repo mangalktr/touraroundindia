@@ -1,0 +1,121 @@
+<?php 
+$options = Zend_Controller_Front::getInstance()->getParam('bootstrap')->getOption('bootstrap');
+$resultset = $this->resultset; 
+?>
+
+<script>
+function HierarchyMenuDelete(hmid)
+{
+   if(hmid) {
+    window.location.href='admin/cms/delete-menu/id/'+hmid;
+   } else {
+       window.location.href='admin/cms/managemenu';
+   }
+}
+</script>
+
+<!--<link rel="stylesheet" type="text/css" href="//code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css">
+<link rel="stylesheet" type="text/css" href="lib/bootstrap/css/jquery.dataTables.css">
+<script type="text/javascript" language="javascript" src="lib/jquery.js"></script>
+<script type="text/javascript" language="javascript" src="lib/jquery.dataTables.js"></script>
+<script type="text/javascript" language="javascript" src=
+"lib/dataTables.jqueryui.js"></script>
+<script type="text/javascript" language="javascript">
+$(document).ready(function() {
+  $('#example').dataTable({
+      aLengthMenu: [[25, 50, 100, 150, -1], [25, 50, 100, 150, "All"]],    
+      
+  });
+} );
+</script>-->
+
+<div class="content">
+        
+<div class="header">
+    <h1 class="page-title">Footer Links</h1>
+</div>
+
+<ul class="breadcrumb">
+    <li><a href="<?php echo $options['siteUrl'];?>admin/dashboard/index">Home</a> <span class="divider">/</span></li>
+    <li class="active">Manage Footer Links<span class="divider">/</span></li>
+    <li><a href="<?php echo $options['siteUrl'];?>admin/footer/addfooter">Add Footer Links</a> </li>
+</ul>
+
+<div class="container-fluid">
+    <div class="row-fluid">
+     <div class="col-md-12">
+    <?php if (count($this->messages)) { ?>
+     <div class="alert alert-success" >
+         <button data-dismiss="alert" class="close" type="button">x</button>
+         <?php foreach ($this->messages as $message) {  ?>
+         <?php echo $this->escape($message); ?>
+         <?php } ?>
+     </div>
+    <?php } ?>
+</div>               
+<div class="well">
+    <table class="table display" id="example">
+      <thead>
+        <tr>
+          <th >S.No.</th>
+          <th >Column&nbsp;Name</th>
+          <th >Name</th>
+          <th >Link</th>
+          <th >Status</th>
+          <th >Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        <?php
+        if(count($resultset) >0) {
+            foreach($resultset as $key=>$val){ ?>
+
+          <tr <?php echo ($val['status']==0) ? 'style="background:#ffeeea"' : "";?>>
+
+          <td ><?php echo $key+1;?></td>
+          <td ><?php echo unserialize(CONST_FOOTER_COL)[$val['footer_column']];?></td>
+          <td ><?php echo $val['name'];?></td>
+          <td ><?php echo $val['link'];?></td>
+          <td ><?php echo ($val['status'] == 1) ? "Active" : "Deactive";?></td>
+          
+          
+          <td >
+              <a href="<?php echo $options['siteUrl'];?>admin/footer/editfooter/id/<?php echo $val['id'];?>" title="Edit"><i class="icon-pencil"></i></a>
+              
+              <a href="<?php echo $options['siteUrl'];?>admin/footer/deletefooter/id/<?php echo $val['id'];?>" class="Delete" title="Delete"><i class="icon-trash"></i></a>
+          </td>
+          
+        </tr>
+        <?php }
+        }
+        else {
+        ?>
+        <tr>
+          <td colspan="6">No data found.</td>
+        </tr>
+        <?php } ?>
+        
+      </tbody>
+    </table>
+</div>
+
+
+<!--Pagingnation Start-->
+<?php
+echo $this->paginationControl($this->resultset, 'Sliding', 'pagination.phtml');
+?>
+<!--Pagingnation End-->
+
+          
+   </div>
+</div>
+</div>
+
+<script>
+$('.Delete').click(function(){
+    if (!confirm('Are you sure you want to delete?')) {
+        return false;
+    }
+    });
+</script>
+

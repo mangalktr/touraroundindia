@@ -1,0 +1,606 @@
+<?php
+$object = Zend_Controller_Front::getInstance();
+$options = $object->getParam('bootstrap')->getOption('bootstrap');
+$baseUrl = $options['siteUrl'];
+$siteName = $options['siteName'];
+$tollfreenumber = $options['tollfreenumber'];
+$whatsappnumber = $options['whatsappnumber'];
+$modulename = $object->getRequest()->getModuleName();
+$controller = $object->getRequest()->getControllerName();
+$action = $object->getRequest()->getActionName();
+define('CONST_PACKAGE_TRAVELER_MAX_ROOM', $options['CONST_PACKAGE_TRAVELER_MAX_ROOM']);
+define('CONST_PACKAGE_TRAVELER_MAX_ADULT_IN_ROOM', $options['CONST_PACKAGE_TRAVELER_MAX_ADULT_IN_ROOM']);
+define('CONST_PACKAGE_TRAVELER_MAX_CHILD_IN_ROOM', $options['CONST_PACKAGE_TRAVELER_MAX_CHILD_IN_ROOM']);
+define('CONST_PACKAGE_TRAVELER_MAX_INFANT_IN_ROOM', $options['CONST_PACKAGE_TRAVELER_MAX_INFANT_IN_ROOM']);
+$mydevice = Zend_Controller_Action_HelperBroker::getStaticHelper('General')->getDevice();
+$getMypopCookie = Zend_Controller_Action_HelperBroker::getStaticHelper('General')->getMypopCookie('MyCookies'); // get the popup sessions
+$MyCookiesEnquiry = Zend_Controller_Action_HelperBroker::getStaticHelper('General')->getMypopCookie('MyCookiesEnquiry'); // get the popup sessions
+$contactDetail = Zend_Controller_Action_HelperBroker::getStaticHelper('Custom')->getContactDetailForFooter();
+$tollfreenumber = ($contactDetail['phone']) ? $contactDetail['phone'] : $tollfreenumber;
+$whatsappnumber = ($contactDetail['whatsapp_no']) ? $contactDetail['whatsapp_no'] : $whatsappnumber;
+
+if (($modulename == 'agentlogin' ) && ($controller == 'index' ) && ($action == 'index')) {
+    ?>
+    <!DOCTYPE html>
+    <html lang="en">
+        <head>
+            <title><?php echo $options['siteName']; ?> Travel Agent Login</title>
+            <base href="<?php echo Catabatic_Helper::getSiteUrl(); ?>"/>
+            <meta charset="UTF-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <!--	<link rel="icon" type="image/png" href="<?php //echo $baseUrl;   ?>public/vendor/images/icons/favicon.ico"/>-->
+            <link rel="shortcut icon" href="<?php echo $baseUrl; ?>public/images/fav-icon.png">
+            <link rel="stylesheet" type="text/css" href="<?php echo $baseUrl; ?>public/vendor/bootstrap/css/bootstrap.min.css">
+            <link rel="stylesheet" type="text/css" href="<?php echo $baseUrl; ?>public/vendor/fonts/font-awesome-4.7.0/css/font-awesome.min.css">
+            <link rel="stylesheet" type="text/css" href="<?php echo $baseUrl; ?>public/vendor/fonts/Linearicons-Free-v1.0.0/icon-font.min.css">
+            <link rel="stylesheet" type="text/css" href="<?php echo $baseUrl; ?>public/vendor/animate/animate.css">
+            <link rel="stylesheet" type="text/css" href="<?php echo $baseUrl; ?>public/vendor/css-hamburgers/hamburgers.min.css">
+            <link rel="stylesheet" type="text/css" href="<?php echo $baseUrl; ?>public/vendor/animsition/css/animsition.min.css">
+            <link rel="stylesheet" type="text/css" href="<?php echo $baseUrl; ?>public/vendor/select2/select2.min.css">
+            <link rel="stylesheet" type="text/css" href="<?php echo $baseUrl; ?>public/vendor/daterangepicker/daterangepicker.css">
+            <link rel="stylesheet" type="text/css" href="<?php echo $baseUrl; ?>public/vendor/css/util.css">
+            <link rel="stylesheet" type="text/css" href="<?php echo $baseUrl; ?>public/vendor/css/main.css">
+            <script>
+                var SITEURL = '<?php echo $baseUrl ?>';
+                var appmode = '<?php echo $options['appmode'] ?>';
+                var dvc = '<?php echo ($mydevice == "mobile") ? "m" : "d" ?>';
+            </script>
+        </head>
+        <body>
+            <?php
+            echo $this->layout()->content;
+            ?>
+            <form id="auth_login_B2B_submit" method="POST" action="<?php echo $baseUrl; ?>agentlogin/index/agentlogin"> 
+                <div class="auth_login_submit_B2B">
+                    <input type="hidden" name="EmailId" id="EmailIdB2B">
+                    <input type="hidden" name="UserSysId" id="UserSysIdB2B">
+                    <input type="hidden" name="CustomerSysId" id="CustomerSysIdB2B">
+                    <input type="hidden" name="AgencySysId" id="AgencySysId_B2B">
+                    <input type="hidden" name="MasterAgencySysId" id="MasterAgencySysIdB2B">
+                    <input type="hidden" name="FirstName" id="FirstNameB2B">
+                    <input type="hidden" name="LastName" id="LastNameB2B">
+                    <input type="hidden" name="Password_cu" id="Password_cuB2B">
+                    <input type="hidden" name="AgencyName" id="AgencyNameB2B">
+                    <input type="hidden" name="AgencyCode" id="AgencyCodeB2B">
+                    <input type="hidden" name="ContactNo1" id="Contact_noB2B">
+                </div>
+            </form>
+            <script type="text/javascript" src="<?php echo $baseUrl; ?>public/vendor/jquery/jquery-3.2.1.min.js"></script>
+            <script type="text/javascript" src="<?php echo $baseUrl; ?>public/vendor/animsition/js/animsition.min.js"></script>
+            <script type="text/javascript" src="<?php echo $baseUrl; ?>public/vendor/bootstrap/js/popper.js"></script>
+            <script type="text/javascript" src="<?php echo $baseUrl; ?>public/vendor/bootstrap/js/bootstrap.min.js"></script>
+            <script type="text/javascript" src="<?php echo $baseUrl; ?>public/vendor/select2/select2.min.js"></script>
+            <script type="text/javascript" src="<?php echo $baseUrl; ?>public/vendor/daterangepicker/moment.min.js"></script>
+            <script type="text/javascript" src="<?php echo $baseUrl; ?>public/vendor/daterangepicker/daterangepicker.js"></script>
+            <script type="text/javascript" src="<?php echo $baseUrl; ?>public/vendor/countdowntime/countdowntime.js"></script>
+            <script type="text/javascript" src="<?php echo $baseUrl; ?>public/vendor/js/main.js"></script>
+            <script type="text/javascript" src="<?php echo $baseUrl; ?>public/js/login.js"></script>
+
+        </body>
+    </html>
+<?php } else { ?>
+
+    <!DOCTYPE html>
+    <html>
+        <head>
+            <meta charset="UTF-8">
+            <meta http-equiv="X-UA-Compatible" content="IE=edge">
+            <meta name="viewport" content="width=device-width, initial-scale=1">
+            <link rel="shortcut icon" href="<?php echo $baseUrl; ?>public/images/fav-icon.png">
+            <?php
+            if (($modulename == 'detail' ) && ($controller == 'index' ) && ($action == 'index')) {
+                $detailLayout = $this->detailLayout;
+                ?>
+                <title><?php echo $detailLayout['PackageTitle']; ?></title>
+                <meta name="description" content="<?php echo $detailLayout['Description']; ?>" />
+                <meta name="keywords" content="<?php echo $detailLayout['Keyword']; ?>" />
+                <?php
+            } else if (($modulename == 'blogs' ) && ($controller == 'index' ) && ($action == 'blog-detail')) {
+                $resultsetSeoForBlog = $this->resultsetSeoForBlog;
+                ?>
+                <title><?php echo $resultsetSeoForBlog['BlogTitle']; ?></title>
+                <meta name="description" content="<?php echo $resultsetSeoForBlog['description']; ?>" />
+                <meta name="keywords" content="<?php echo $resultsetSeoForBlog['keyword']; ?>" />
+                <?php
+            } else if (($modulename == 'cms' ) && ($controller == 'index' ) && ($action == 'index')) {
+                $resultsetSeoForCmsPages = $this->resultsetSeoForCmsPages;
+                ?>
+                <title><?php echo $resultsetSeoForCmsPages['Title']; ?></title>
+                <meta name="description" content="<?php echo $resultsetSeoForCmsPages['Description']; ?>" />
+                <meta name="keywords" content="<?php echo $resultsetSeoForCmsPages['Keyword']; ?>" />
+            <?php } else {
+                ?>
+                <title><?php echo $options['siteName']; ?></title>
+                <meta name="description" content="" />
+                <meta name="keywords" content="" />
+            <?php } ?>
+            <title><?php echo $options['siteName']; ?></title>
+            <base href="<?php echo Catabatic_Helper::getSiteUrl(); ?>"/>
+            <!-- Font Styles -->
+            <link href='http://fonts.googleapis.com/css?family=Fira+Sans:400,500,700,400italic' rel='stylesheet' type='text/css'>
+            <link href='http://fonts.googleapis.com/css?family=Montserrat:400,700' rel='stylesheet' type='text/css'>
+
+            <!--Stylesheets -->
+            <link rel="stylesheet" href="<?php echo $baseUrl; ?>public/css/font-awesome.min.css" type="text/css" media="all">
+            <link rel="stylesheet" href="<?php echo $baseUrl; ?>public/css/owl.carousel.css" type="text/css" media="all">
+            <link rel="stylesheet" href="<?php echo $baseUrl; ?>public/css/select2.min.css" type="text/css" media="all">
+            <link rel="stylesheet" href="<?php echo $baseUrl; ?>public/css/slick.css" type="text/css" media="all">
+            <link rel="stylesheet" href="<?php echo $baseUrl; ?>public/css/slicknav.css" type="text/css" media="all">
+            <link rel="stylesheet" href="<?php echo $baseUrl; ?>public/css/animate.min.css" type="text/css" media="all">
+            <link rel="stylesheet" href="<?php echo $baseUrl; ?>public/css/bootstrap.css" type="text/css" media="all">
+            <link rel="stylesheet" href="<?php echo $baseUrl; ?>public/css/main.css" type="text/css" media="all">
+            <link rel="stylesheet" href="<?php echo $baseUrl; ?>public/css/responsive.css" type="text/css" media="all">
+            <?php if (( $modulename == 'default') && ($controller == 'customer') && ($action == 'myprofile')) { ?>
+                <link href="<?php echo $baseUrl; ?>public/css/jquery.atAccordionOrTabs.css" rel="stylesheet" type="text/css">
+            <?php } ?>
+            <link rel="stylesheet" href="<?php echo $baseUrl; ?>public/css/smoothness/jquery-ui.css">
+            <link rel="stylesheet" href="<?php echo $baseUrl; ?>public/css/custom.css">
+            <?php if (( $modulename == 'detail') && ($controller == 'index') && ($action == 'index')) { ?>
+                <link rel="stylesheet" type="text/css" href="<?php echo $baseUrl; ?>public/highslide/highslide.css" />
+                <link rel="stylesheet" href="<?php echo $baseUrl; ?>public/css/images-grid.css">
+            <?php } ?>
+                 <link rel="stylesheet" href="public/countrycode/style.css" >
+            <script>
+                var SITEURL = '<?php echo $baseUrl ?>';
+                var appmode = '<?php echo $options['appmode'] ?>';
+                var dvc = '<?php echo ($mydevice == "mobile") ? "m" : "d" ?>';
+            </script>
+            <script type="text/javascript">
+                var CONST_PACKAGE_TRAVELER_MAX_ROOM = '<?php echo CONST_PACKAGE_TRAVELER_MAX_ROOM ?>';
+                var CONST_PACKAGE_TRAVELER_MAX_ADULT_IN_ROOM = '<?php echo CONST_PACKAGE_TRAVELER_MAX_ADULT_IN_ROOM ?>';
+                var CONST_PACKAGE_TRAVELER_MAX_CHILD_IN_ROOM = '<?php echo CONST_PACKAGE_TRAVELER_MAX_CHILD_IN_ROOM ?>';
+                var CONST_PACKAGE_TRAVELER_MAX_INFANT_IN_ROOM = '<?php echo CONST_PACKAGE_TRAVELER_MAX_INFANT_IN_ROOM ?>';
+                var HOTEL_CATEGORY = {"Standard": [1], "Deluxe": [2], "Luxury": [3], "Budget": [4], "Premium": [5]};
+            </script>
+        </head>
+        <body ng-app="CentralAsiaApp">
+            <div id="page" class="hfeed site">
+                <?php
+                echo $this->render("header.phtml");
+                echo $this->partial('models/modal-enquiry.phtml', ['baseUrl' => $baseUrl,'siteName' => $siteName, 'tollfreenumber' => $tollfreenumber, 'POPUPCOOKIESENQUIRY' => $getMypopCookie]);
+                echo $this->partial('models/modal-signin.phtml', ['baseUrl' => $baseUrl]);
+                ?>
+                <div class="rightFloat">
+                    <div class="rightFloatIn"><a href="tel:<?php echo $tollfreenumber; ?>">
+                            <div class="rightFloatLeft"><i class="fa fa-phone"></i></div>
+                            <div class="rightFloatRight">
+                                <p><?php echo $tollfreenumber; ?></p>
+                            </div>
+                        </a>
+                        <div class="cl"></div>
+                    </div>
+                    <?php
+                    if (( $modulename != 'detail') && $mydevice === 'desktop') {
+                        ?>
+                        <div class="rightFloatIn"><a href="#" data-target="#myModa1Enquiry" data-toggle="modal">
+                                <div class="rightFloatLeft"><i class="fa fa-edit"></i></div>
+                                <div class="rightFloatRight">
+                                    <p>Request A Call Back</p>
+                                </div>
+                            </a>
+                            <div class="cl"></div>
+                        </div>
+                    <?php } ?>
+                </div>    
+                <?php
+                echo $this->layout()->content;
+                echo $this->render("footer.phtml");
+                ?>
+                <div class="filter-bot">
+                    <?php if (($modulename == 'tours') && ($controller == 'package') && ($action == 'index')) { ?>
+                                            <!--<a data-toggle="tooltip" data-placement="top" title="Filter" href="javascript:void(0);" > <i class=" fa fa-arrow-up"></i><i class=" fa fa-arrow-down"></i> <br>Sort</a>--> 
+                        <a data-placement="top" title="" href="javascript:void(0);" data-target="#myModa1Filter" data-toggle="modal"><i class=" fa fa-filter"></i> <br>Filter</a> 
+                    <?php } ?>
+                    <a data-toggle="tooltip" data-placement="top" title="" href="tel:<?php echo $tollfreenumber; ?>" > <i class=" fa fa-phone"></i> <br>Call</a>
+                    <a data-placement="top" title="" href="javascript:void(0);" data-target="#myModa1Enquiry" data-toggle="modal"><i class=" fa fa-edit"></i> <br>Enquiry</a>
+                    <a data-toggle="tooltip" data-placement="top" title="" href="whatsapp://send?text=Hello&phone=<?php echo $whatsappnumber; ?>" data-original-title="whatsapp" style="border-right: 1px solid #ccc;"> <i class=" fa fa-whatsapp"></i> <br>Whatsapp</a>
+                </div>
+            </div>
+            <script type="text/javascript" src="<?php echo $baseUrl; ?>public/js/jquery.js"></script>
+            <script type="text/javascript" src="<?php echo $baseUrl; ?>public/js/jquery-2.1.3.min.js"></script> 
+            <script type="text/javascript" src="<?php echo $baseUrl; ?>public/js/jquery-migrate.js"></script> 
+            <script type="text/javascript" src="<?php echo $baseUrl; ?>public/js/bootstrap.min.js"></script> 
+            <script type="text/javascript" src="<?php echo $baseUrl; ?>public/js/respond.min.js"></script> 
+            <script type="text/javascript" src="<?php echo $baseUrl; ?>public/js/owl.carousel.min.js"></script> 
+            <script type="text/javascript" src="<?php echo $baseUrl; ?>public/js/select2.full.min.js"></script> 
+            <script type="text/javascript" src="<?php echo $baseUrl; ?>public/js/slick.min.js"></script> 
+            <script type="text/javascript" src="<?php echo $baseUrl; ?>public/js/jquery.slicknav.min.js"></script> 
+            <script type="text/javascript" src="<?php echo $baseUrl; ?>public/js/animate.js"></script> 
+            <script type="text/javascript" src="<?php echo $baseUrl; ?>public/js/cagt.js"></script> 
+            <script type="text/javascript" src="<?php echo $baseUrl; ?>public/js/script.js"></script> 
+            <script type="text/javascript" src="<?php echo $baseUrl; ?>public/js/jquery-ui.js"></script> 
+            <script type="text/javascript" src="<?php echo $baseUrl; ?>public/js/jquery.parallax-1.1.3.resize.js"></script> 
+            <script type="text/javascript" src="<?php echo $baseUrl; ?>public/js/jquery.appear.js"></script> 
+            <?php if (( $modulename == 'default') && ($controller == 'customer') && ($action == 'myprofile')) { ?>               
+                <script type="text/javascript" src="<?php echo $baseUrl; ?>public/js/jquery.bbq.js"></script> 
+                <script type="text/javascript" src="<?php echo $baseUrl; ?>public/js/jquery.atAccordionOrTabs.js"></script> 
+                <script type="text/javascript">
+                    $('.demo').accordionortabs();
+                </script>
+            <?php } ?>
+            <script type="text/javascript" src="<?php echo $baseUrl; ?>public/js/jquery.caroufredsel.js"></script> 
+            <script type="text/javascript" src="<?php echo $baseUrl; ?>public/js/custom.js"></script> 
+            <!--<script type="text/javascript" src="<?php // echo $baseUrl; ?>public/js/checkrate_sendenquiry.js"></script>--> 
+            <script type="text/javascript" src="<?php echo $baseUrl; ?>public/js/jquery-ui-1.12.1.js"></script>
+            <script type="text/javascript" src="<?php echo $baseUrl; ?>public/js/jquery.validate.min.js"></script>
+            <script type="text/javascript" src="<?php echo $baseUrl; ?>public/js/login.js"></script>
+            <script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?sensor=false"></script> 
+            <?php
+            $scriptsAngular = $this->headScript(); // include the angular js here
+
+            $scriptsAngular->appendFile($baseUrl . "public/js/ng/angular.min.js")
+                    ->appendFile($baseUrl . "public/js/ng/angular-route.min.js")
+                    ->appendFile($baseUrl . "public/js/ng/app.js")
+                    ->appendFile($baseUrl . "public/js/ng/ngfactory.js")
+                    ->appendFile($baseUrl . "public/js/ng/ngsortingorder.js")
+                    ->appendFile($baseUrl . "public/js/ng/filters.js");
+
+
+            if (($modulename == 'tours') && ($controller == 'package') && ($action == 'index')) {
+                $scriptsAngular->appendFile($baseUrl . "public/js/ng/package_search.js");
+            }
+            echo $scriptsAngular;
+            ?>
+            <script type="text/javascript">
+                setTimeout(function () {
+                    $.getJSON('public/data/dynamic/package_destinations.json', function (destinations) {
+                        $(".destinationBox").autocomplete({
+                            minLength: 3,
+                            source: destinations,
+                            autoFocus: true,
+                            select: function (event, ui) {
+                                var code = ui.item.code;
+                                var cityid = ui.item.id;
+
+                                $(".cityid").val(cityid);
+                                $(".hcode").val(code);
+                            }
+                        });
+                    });
+                }, 1000);
+                // Get the modal
+                var modal = document.getElementById('id02');
+
+                // When the user clicks anywhere outside of the modal, close it
+                window.onclick = function (event) {
+                    if (event.target == modal) {
+                        modal.style.display = "none";
+                    }
+                }
+                $(document).ready(function () {
+
+                    setTimeout(function () {
+                        $("#rightFloatInTollFreeNumber").stop().animate({
+                            right: 215
+                        }, 215);
+                    }, 4000);
+
+                    setInterval(function () {
+                        $("#rightFloatInTollFreeNumber").stop().animate({
+                            right: 50
+                        }, 215);
+                    }, 10000);
+
+
+                    $('.rightFloat div').mouseover(function () {
+                        $(this).stop().animate({
+                            right: 215
+                        }, 215);
+                    }).mouseout(function () {
+                        $(this).stop().animate({
+                            right: 50
+                        }, 215)
+                    });
+                });
+
+                $(".shortlistBox label").click(function () {
+                    $(this).toggleClass("activeLabel");
+                });
+
+                $(".compareBox label").click(function () {
+                    $(this).toggleClass("activeLabel1");
+                });
+
+                $(".maleIcon").click(function () {
+                    $(this).toggleClass('maleIconActive');
+                });
+                $(".femaleIcon").click(function () {
+                });
+                
+            </script>
+            <?php
+            if (( $modulename == 'detail') && ($controller == 'index') && ($action == 'index')) {
+                $data = ['baseUrl' => $baseUrl, 'AgencySysId' => $options['gtxagencysysid'], 'modulename' => $modulename,
+                    'CONST_PACKAGE_TRAVELER_MAX_ROOM' => CONST_PACKAGE_TRAVELER_MAX_ROOM,
+                    'CONST_PACKAGE_TRAVELER_MAX_ADULT_IN_ROOM' => CONST_PACKAGE_TRAVELER_MAX_ADULT_IN_ROOM,
+                    'CONST_PACKAGE_TRAVELER_MAX_CHILD_IN_ROOM' => CONST_PACKAGE_TRAVELER_MAX_CHILD_IN_ROOM,
+                    'CONST_PACKAGE_TRAVELER_MAX_INFANT_IN_ROOM' => CONST_PACKAGE_TRAVELER_MAX_INFANT_IN_ROOM,
+                    'POPUPCOOKIES' => $getMypopCookie,
+                ];
+                echo $this->partial('models/send-enquiry-modal.phtml', $data);
+//                echo $this->partial('models/modal-checkrate-enquiry.phtml', $data);
+                echo $this->partial('models/modal-hotel-view-and-options.phtml', ['baseUrl' => $baseUrl]);
+                if ($mydevice == "mobile")
+                    $charlimit = 150;
+                else
+                    $charlimit = 400;
+                ?>
+                <script type="text/javascript">
+
+                    trimcontent(<?php echo $charlimit; ?>);
+
+                    function openpopupModel(n, type) {
+                        var hotelId = n;
+                        var type = type;
+                        var categoryId = $("#categoryId").val();
+                        var packageId = $("#packageId").val();
+                        var gtxID = $("#gtxID").val();
+
+                        $.ajax({
+                            type: "POST",
+                            url: "<?php echo $baseUrl; ?>cms/index/get-hotel-detail",
+                            async: true,
+                            data: "type=" + type + "&hotelId=" + hotelId + "&categoryId=" + categoryId + "&packageId=" + packageId + "&gtxID=" + gtxID,
+                            beforeSend: function () {
+                                $("#myModa1hotelview").modal();
+                                $('#hotelDetailViewList').html('<div style="text-align:center;padding-top:30px;"><img src="<?php echo $baseUrl; ?>public/images/loader.gif"/></div>');
+                            },
+                            success: function (data) {
+                                $("#hotelDetailViewList").html(data);
+                            }
+                        });
+                    }
+
+                    $("#selectDestination").autocomplete({
+                        source: function (request, response) {
+                            var query = $("#selectDestination").val();
+                            var countryId = '';
+                            $.getJSON("/index/autosuggest", {query: query, countryId: countryId},
+                            response);
+                        },
+                        minLength: 2,
+                        autoFocus: true,
+                        select: function (event, ui) {
+                            var CityId = ui.item.CityId;
+                            var CityName = ui.item.CityName;
+                            $("#hidden_selected_hotel_cityid").val(CityId);
+                            $("#hidden_selected_city_name").val(CityName);
+                        }
+                    });
+
+                    $('#travelerDatePicker').datepicker({
+                        dateFormat: 'dd/mm/yy',
+                        minDate: 0,
+                        numberOfMonths: 1,
+                    });
+                </script> 
+                <script>
+        
+        
+                $("#detailbtn").click(function(){
+                        $("#expanddetail").slideDown('slow');
+
+                });
+                $("#detailbtn1").click(function(){
+                        $("#expanddetail").slideUp('slow');
+
+                });
+       
+		$(document).ready(function(){
+                    $('[data-toggle="tooltip"]').tooltip();   
+                });
+		
+        </script>
+                <script type="text/javascript" src="<?php echo $baseUrl; ?>public/highslide/highslide-with-gallery.js"></script> 
+                <script type="text/javascript" src="<?php echo $baseUrl; ?>public/js/images-grid.js"></script>  
+                <script src="<?php echo $baseUrl; ?>public/js/script.js"></script> 
+
+
+                <script type="text/javascript">
+                    $(".myId1").click(function () {
+                        var check = $(this).hasClass("deluxe1Active");
+                        if (check !== true) {
+                            $(".myId1").removeClass("deluxe1Active");
+                            $(".myId2").removeClass("deluxe2Active");
+                            $(".myId3").removeClass("deluxe3Active");
+                            $(".myId4").removeClass("deluxe4Active");
+                            $(".myId5").removeClass("deluxe5Active");
+                            $(this).addClass("deluxe1Active");
+                            var TPId = $(this).attr('dataTpId');
+                            var getPrice = $("#getPrice" + TPId).html();
+                            $("#displayPrice").html(getPrice);
+                        }
+                    });
+
+                    $(".myId2").click(function () {
+                        var check = $(this).hasClass("deluxe2Active");
+                        var url = $("#url").val();
+                        if (check !== true) {
+                            $(".myId1").removeClass("deluxe1Active");
+                            $(".myId2").removeClass("deluxe2Active");
+                            $(".myId3").removeClass("deluxe3Active");
+                            $(".myId4").removeClass("deluxe4Active");
+                            $(".myId5").removeClass("deluxe5Active");
+                            $(this).addClass("deluxe2Active");
+                            var TPId = $(this).attr('dataTpId');
+                            var getPrice = $("#getPrice" + TPId).html();
+                            $("#displayPrice").html(getPrice);
+                        }
+                    });
+
+                    $(".myId3").click(function () {
+                        var check = $(this).hasClass("deluxe3Active");
+                        var url = $("#url").val();
+                        if (check !== true) {
+                            $(".myId1").removeClass("deluxe1Active");
+                            $(".myId2").removeClass("deluxe2Active");
+                            $(".myId3").removeClass("deluxe3Active");
+                            $(".myId4").removeClass("deluxe4Active");
+                            $(".myId5").removeClass("deluxe5Active");
+                            $(this).addClass("deluxe3Active");
+                            var TPId = $(this).attr('dataTpId');
+                            var getPrice = $("#getPrice" + TPId).html();
+                            $("#displayPrice").html(getPrice);
+                        }
+                    });
+
+                    $(".myId4").click(function () {
+                        var check = $(this).hasClass("deluxe4Active");
+                        var url = $("#url").val();
+                        if (check !== true) {
+                            $(".myId1").removeClass("deluxe1Active");
+                            $(".myId2").removeClass("deluxe2Active");
+                            $(".myId3").removeClass("deluxe3Active");
+                            $(".myId4").removeClass("deluxe4Active");
+                            $(".myId5").removeClass("deluxe5Active");
+                            $(this).addClass("deluxe4Active");
+                            var TPId = $(this).attr('dataTpId');
+                            var getPrice = $("#getPrice" + TPId).html();
+                            $("#displayPrice").html(getPrice);
+                        }
+                    });
+
+                    $(".myId5").click(function () {
+                        var check = $(this).hasClass("deluxe5Active");
+                        var url = $("#url").val();
+                        if (check !== true) {
+                            $(".myId1").removeClass("deluxe1Active");
+                            $(".myId2").removeClass("deluxe2Active");
+                            $(".myId3").removeClass("deluxe3Active");
+                            $(".myId4").removeClass("deluxe4Active");
+                            $(".myId5").removeClass("deluxe5Active");
+                            $(this).addClass("deluxe5Active");
+                            var TPId = $(this).attr('dataTpId');
+                            var getPrice = $("#getPrice" + TPId).html();
+                            $("#displayPrice").html(getPrice);
+                        }
+                    });
+                </script>
+
+                <script>
+                    $(document).ready(function () {
+                        $('[data-toggle="tooltip"]').tooltip();
+                    });
+                </script>
+
+                <script src="<?php echo $baseUrl; ?>public/js/jquery-scrolltofixed.js" type="text/javascript"></script>
+                <script type="text/javascript">
+                     
+         if (dvc == "d") { 
+            
+                        function fixDiv() {
+                            if($(window).scrollTop() < 350){
+                            $('.booking-price-single').removeClass('booking-price-single-addbyjs');
+                        }
+                            if ($(window).scrollTop() > 350) {
+                                 $('.Package-wrapper').css({'position': 'fixed', 'top': '0px', 'width': '100%', 'z-index': '999'});
+                            }
+                            else {
+                               $('.Package-wrapper').css({'position': 'static', 'top': 'auto'});
+                            }
+                            if ($(window).scrollTop() > 700) {
+                                $('.filterByScroll-tab').css({'position': 'fixed', 'top': '77px', 'width': '86.8%', 'z-index': '99999'});
+                            }
+                            else {
+                                $('.filterByScroll-tab').css({'position': 'static', 'top': 'auto', 'width': '100%'});
+                            }
+                            if ($(window).scrollTop() > 750) {
+                                 $('.filterByScroll-tab-new').css({'position': 'static', 'padding-top': '90px'});
+                            }
+                            else {
+                                  $('.filterByScroll-tab-new').css({'position': 'static', 'padding-top': '0px'});
+                            }
+                            
+
+                        }
+        } else { 
+           
+                        function fixDiv() {
+                            
+//                            if ($(window).scrollTop() > 350) {
+//                                $('.Package-wrapper').css({'position': 'fixed', 'top': '0px', 'width': '100%', 'z-index': '999'});
+//                            }
+//                            else {
+//                                 $('.Package-wrapper').css({'position': 'static', 'top': 'auto'});
+//                            }
+                            if ($(window).scrollTop() > 350) {
+                                //$('.booking-price-single').css({'padding-top': '279px'});
+//                                $('.filterByScroll-tab').css({'position': 'fixed', 'top': '135px', 'width': '86.8%', 'z-index': '99999'});
+                            }
+                            else {
+                                // $('.booking-price-single').css({'padding-top': '0px',});
+//                                $('.filterByScroll-tab').css({'position': 'static', 'top': 'auto', 'width': '100%'});
+                            }
+                            if ($(window).scrollTop() > 750) {
+                                $('.filterByScroll-tab-new').css({'position': 'static', 'padding-top': '90px'});
+                            
+        }
+                            else {
+                                 $('.filterByScroll-tab-new').css({'position': 'static', 'padding-top': '0px'});
+                            
+        }
+
+                        }
+       }
+
+                    $(window).scroll(fixDiv);
+
+                    $(document).ready(function () {
+
+                        var summaries = $('.righContainerIn');
+                        summaries.each(function (i) {
+                            var summary = $(summaries[i]);
+                            var next = summaries[i + 1];
+
+                            summary.scrollToFixed({
+                                marginTop: $('#tropical-banner').outerHeight(true) + 0,
+                                limit: function () {
+                                    var limit = 0;
+                                    if (next) {
+                                        limit = $(next).offset().top - $(this).outerHeight(true) - 10;
+                                    } else {
+                                        limit = $('.related-tours').offset().top - $(this).outerHeight(true) - 10;
+                                    }
+                                    return limit;
+                                },
+                                zIndex: 999
+                            });
+                        });
+                    });
+                </script>
+            <?php }
+            ?>
+                <script>
+
+    //script for number counter
+    $('.counter').counterUp({
+        delay: 10,
+        time: 1000
+    });
+    //end script for number counter
+
+</script>
+            <script src="<?php echo $baseUrl; ?>public/js/gototop.js" type="text/javascript"></script>
+            <script src="public/countrycode/script.js?rv=1144"></script>
+<script>
+$(function() {
+    $('.notSpace').on('keypress', function(e) {
+        if (e.which === 32)
+            return false;
+    });
+});
+</script>
+<?php if (( $modulename == 'default') && ($controller == 'index') && ($action == 'index')) { 
+  if(isset($_SESSION['callbackPop']) && ($_SESSION['callbackPop']['sessionCallback'] == 1)){ 
+    ?>
+<?php  }else{ ?>
+<script>
+//$(function() {
+//    $('#myModa1Enquiry').modal('show');
+//    })
+</script>
+<?php  } }?>
+        </body>
+    </html>
+<?php } ?>

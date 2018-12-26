@@ -1,0 +1,194 @@
+<?php
+$object = Zend_Controller_Front::getInstance();
+$options = Zend_Controller_Front::getInstance()->getParam('bootstrap')->getOption('bootstrap');
+$modulename = $object->getRequest()->getModuleName();
+$controller = $object->getRequest()->getControllerName();
+$action = $object->getRequest()->getActionName();
+$mydevice = Zend_Controller_Action_HelperBroker::getStaticHelper('General')->getDevice();
+$destinations = Zend_Controller_Action_HelperBroker::getStaticHelper('Custom')->destinationForHeader();
+$contactDetail = Zend_Controller_Action_HelperBroker::getStaticHelper('Custom')->getContactDetailForFooter();
+$baseUrl = $options['siteUrl'];
+$destinationsForHeader = $destinations['destinations'];
+$regionNamesForHeader = $destinations['region_name'];
+$regionlabelForHeader = $destinations['region_label'];
+$regionimageForHeader = $destinations['region_image'];
+//echo "<pre>";print_r($destinations);die;$_SERVER['REQUEST_URI']
+?>
+
+
+
+
+ <header id="masthead" class="site-header header-scroll" role="banner">
+    <div class="site-header-head clearfix">
+            <div class="container header-user h-card">
+                <div class="header-user-name pull-left">
+                    <a class="u-url <?php if($modulename == 'cms' && $controller == 'index' && $_SERVER['REQUEST_URI'] =='/cms/p/about-us'){echo "active";}?>" href="<?php echo $baseUrl; ?>cms/p/about-us">About Us</a> | <a class="u-url" href="<?php echo $baseUrl; ?>blogs">Blog</a>
+                </div>
+                 <?php 
+                            if(isset($_SESSION['User']['session']) ){
+               $namefull = (trim($_SESSION['User']['session']['FirstName']).' '.trim($_SESSION['User']['session']['LastName']));
+                ?>
+                <div class="header-tour-package pull-right">
+                    <span>Welcome <?php if(!empty($namefull) && trim($namefull) != ''){echo ($namefull);}else{echo ($_SESSION['User']['session']['EmailId']); } ?></span>
+                    <b class="caret drop-non"></b>
+                    <section class="header-tour-listing clearfix">                    
+                        <article class="header-tour clearfix">
+                            
+                            <div class="contents">
+                                <h6 class="entry-title"><a href="/customer/myprofile"> <i class="fa fa-user"></i> My Profile</a></h6>
+                               
+                            </div>
+                        </article>
+                        <article class="header-tour clearfix">
+                            
+                             <h6 class="entry-title"><a href="/index/logout"> <i class="fa fa-lock"></i> Log Out</a></h6>
+                        </article>
+                        
+                    </section>
+                </div>
+                
+                
+                
+                <?php } else if(isset($_SESSION['TravelAgent']['session']) ){
+               $namefull = (trim($_SESSION['TravelAgent']['session']['FirstName']).' '.trim($_SESSION['TravelAgent']['session']['LastName']));
+                ?>
+                
+                <div class="header-tour-package pull-right">
+                    <span>Welcome <?php if(!empty($namefull) && trim($namefull) != ''){echo ($namefull);}else{echo ($_SESSION['TravelAgent']['session']['EmailId']); } ?></span>
+                    <b class="caret drop-non"></b>
+                    <section class="header-tour-listing clearfix">                    
+<!--                        <article class="header-tour clearfix">
+                            
+                            <div class="contents">
+                                <h6 class="entry-title"><a href="about_us.html"> <i class="fa fa-user"></i> My Profile</a></h6>
+                               
+                            </div>
+                        </article>-->
+                        <article class="header-tour clearfix">
+                            
+                             <h6 class="entry-title"><a href="/agentlogin/index/logout"> <i class="fa fa-lock"></i> Log Out</a></h6>
+                        </article>
+                        
+                    </section>
+                </div>
+                
+                 <?php }else { ?>
+                
+                <div class="header-user-email  pull-right"> 
+                
+                <a class="u-url" title="Traveller Login" href="javascript:void(0);" data-target="#myModa1sign-in" data-toggle="modal">
+                Login
+                </a>
+                </div> 
+                  <?php } ?>
+                
+                
+                
+                
+                
+                <div class="header-user-tel pull-right">
+                    <i class="fa fa-mobile-phone fa-lg"></i>
+                    <span class="tel"><?php echo $contactDetail['mobile']; ?></span>
+                </div>                
+                
+                <div class="header-user-email pull-right">
+                    <i class="fa fa-envelope-o"></i>
+                    <a class="u-url" href="mailto:<?php echo $contactDetail['email']; ?>" ><?php echo $contactDetail['email']; ?></a>
+                </div>
+            </div>
+        </div>
+    
+    
+      
+    <div class="site-branding">
+      <div class="container">
+        <h1 class="site-title pull-left"> <a href="<?php echo $baseUrl; ?>" rel="home"> <img src="<?php echo $baseUrl; ?>public/images/logo.png" alt="logo"/> </a> </h1>
+        <nav class="main-nav pull-right" role="navigation">
+          <div class="menu-primary-menu-container">
+            <ul id="menu-primary-menu" class="main-menu">
+              <li> <a href="<?php echo $baseUrl; ?>">Home</a> </li>
+              <li class="mega-menu-nav"> <a href="javascript:void(0);" class="<?php if($modulename == 'default' && $controller == 'index' && $action == 'destination'){echo 'active';}?>">Destinations <b class="caret drop-non"></b></a>
+                            <ul class="mega-menu clearfix">
+                                <?php foreach ($regionlabelForHeader as $key => $value) { ?>  
+                                    <li class="pull-left wrap clearfix"> 
+                                        <img class="pull-left menu-img" style="width:120px;height:233px;" src="<?php echo $baseUrl; ?>public/upload/region/small/<?php echo $regionimageForHeader[$key]; ?>" onerror="this.src='<?php echo $baseUrl;?>public/images/mega-menu-img-min.jpg'" alt="<?php echo $value; ?>"/>
+                                        <ul class="mega-sub-menu">
+                                            <li><?php echo $regionNamesForHeader[$key]; ?></li>
+                                            <?php $mn = 1;
+                                            foreach ($destinationsForHeader as $keys => $values) {
+                                              
+                                                if ($value === $keys) {
+                                                    foreach ($destinationsForHeader[$value] as $keyss => $valuess) {
+                                                       if($mn <5){  ?>
+                                                        <li><a href="<?php echo $baseUrl ?>tours/package?key=<?php echo $valuess['Title']; ?>"><?php echo $valuess['Title']; ?></a></li>   
+                                                        <?php
+                                                       }$mn++;}
+                                                
+                                               }
+                                               
+                                            }
+                                            ?> 
+                                            <li><a href="<?php echo $baseUrl; ?>index/destination?region=<?php echo $value; ?>">SEE MORE</a></li>
+                                        </ul>
+                                    </li>
+                                    <?php
+                                }
+                                if ($mydevice === 'desktop') {
+                                        if (count($regionNamesForHeader) == 1) {
+                                            ?>
+                                            <li class="pull-left wrap clearfix"> 
+                                            </li>
+                                            <li class="pull-left wrap clearfix"> 
+                                            </li>
+                                        <?php } if (count($regionNamesForHeader) == 2) {
+                                            ?>
+                                            <li class="pull-left wrap clearfix"> 
+                                            </li> 
+                                        <?php
+                                        }
+                                    }
+                                ?>
+                            </ul>
+                        </li>
+<!--              <li class="mega-menu-nav"> <a href="#">Private Tours <b class="caret drop-non"></b></a>
+                <ul class="mega-menu clearfix">
+                  <li class="pull-left wrap clearfix"> <img class="pull-left menu-img" src="images/mega-menu-img-min.jpg" alt="Mega Menu Image"/>
+                    <ul class="mega-sub-menu">
+                      <li>EUROPE</li>
+                      <li><a href="european-discovery.html">European Discovery</a></li>
+                      <li><a href="beach-holidays.html">Beach Holidays</a></li>
+                      <li><a href="european-highlights.html">European Highlights</a></li>
+                      <li><a href="all-tours.html">SEE MORE</a></li>
+                    </ul>
+                  </li>
+                  <li class="pull-left wrap clearfix"> <img class="pull-left menu-img" src="images/mega-menu-img-min.jpg" alt="Mega Menu Image"/>
+                    <ul class="mega-sub-menu">
+                      <li>ASIA</li>
+                      <li><a href="tropical-island.html">Tropical Island</a></li>
+                      <li><a href="resorts.html">Resorts</a></li>
+                      <li><a href="single-where-we-go.html">Asian Adventure</a></li>
+                      <li><a href="all-tours.html">SEE MORE</a></li>
+                    </ul>
+                  </li>
+                  <li class="pull-left wrap clearfix"> <img class="pull-left menu-img" src="images/mega-menu-img-min.jpg" alt="Mega Menu Image"/>
+                    <ul class="mega-sub-menu">
+                      <li>AFRICA</li>
+                      <li><a href="western-africa.html">Western Africa</a></li>
+                      <li><a href="south-africa.html">South Africa</a></li>
+                      <li><a href="island-hopper-east.html">Island Hopper East</a></li>
+                      <li><a href="all-tours.html">SEE MORE</a></li>
+                    </ul>
+                  </li>
+                </ul>
+              </li>-->
+                <!--<li><a href="<?php echo $baseUrl ?>tours/package?key=PRIVATE">Private Departures</a></li>-->
+                <!--<li><a href="<?php echo $baseUrl ?>tours/package?key=FIX">Group Departures</a></li>-->
+             
+            </ul>
+          </div>
+        </nav>
+      </div>
+      <!-- .container --> 
+    </div>
+    <!-- .site-branding --> 
+  </header>

@@ -1,0 +1,1 @@
+{"status":"success","url":"http:\/\/demo.tripsbank.com\/","availability":true,"addtional":{"TaxRate":5,"MyCost":14685,"AgencyMarkUp":1335,"AgencyExtraMarkUp":0,"AgencyDiscount":0,"GSTAmount":734.25,"AmountWithGST":15419.25}}

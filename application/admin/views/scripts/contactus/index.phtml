@@ -1,0 +1,99 @@
+<?php 
+$options = Zend_Controller_Front::getInstance()->getParam('bootstrap')->getOption('bootstrap');
+$resultset = $this->resultset; 
+?>
+
+<script>
+function HierarchyMenuDelete(hmid)
+{
+   if(hmid) {
+    window.location.href='admin/cms/delete-menu/id/'+hmid;
+   } else {
+       window.location.href='admin/cms/managemenu';
+   }
+}
+</script>
+
+<!--<link rel="stylesheet" type="text/css" href="//code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css">
+<link rel="stylesheet" type="text/css" href="lib/bootstrap/css/jquery.dataTables.css">
+<script type="text/javascript" language="javascript" src="lib/jquery.js"></script>
+<script type="text/javascript" language="javascript" src="lib/jquery.dataTables.js"></script>
+<script type="text/javascript" language="javascript" src=
+"lib/dataTables.jqueryui.js"></script>
+<script type="text/javascript" language="javascript">
+$(document).ready(function() {
+  $('#example').dataTable({
+      aLengthMenu: [[25, 50, 100, 150, -1], [25, 50, 100, 150, "All"]],    
+      
+  });
+} );
+</script>-->
+
+<div class="content">
+        
+<div class="header">
+    <h1 class="page-title">Manage Contact Queries</h1>
+</div>
+
+<ul class="breadcrumb">
+    <li><a href="<?php echo $options['siteUrl'];?>admin/dashboard/index">Home</a> <span class="divider">/</span></li>
+    <li class="active">Manage Contact Queries</li>
+</ul>
+
+<div class="container-fluid">
+    <div class="row-fluid">
+                    
+<div class="well">
+    <table class="table display" id="example">
+      <thead>
+        <tr>
+          <th >Id</th>
+          <th >Name</th>
+          <th >Email</th>
+          <th >Source</th>
+          <th >Subject</th>
+          <th >Message</th>
+          <th >Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        <?php
+        if(count($resultset) >0) {
+            foreach($resultset as $key=>$val){ ?>
+        <tr>
+          <td><?php echo $val['sid'];?></td>
+          <td ><?php echo $val['name'];?></td>
+          <td><?php echo $val['email'];?></td>
+          <td ><?php echo $val['website'];?></td>
+          <td ><?php echo $val['subject'];?></td>
+          <td ><?php echo $val['message'];?></td>
+          <td >
+              <!--<a href="<?php echo $options['siteUrl'];?>admin/contactus/edit/id/<?php echo $val['sid'];?>" title="Edit"><i class="icon-pencil"></i></a>-->                 
+          </td>
+          
+        </tr>
+        <?php }
+        }
+        else {
+        ?>
+        <tr>
+          <td colspan="6">No data found.</td>
+        </tr>
+        <?php } ?>
+        
+      </tbody>
+    </table>
+</div>
+
+
+<!--Pagingnation Start-->
+<?php
+echo $this->paginationControl($this->resultset, 'Sliding', 'pagination.phtml');
+?>
+<!--Pagingnation End-->
+
+          
+   </div>
+</div>
+</div>
+

@@ -1,0 +1,42 @@
+<?php 
+$options = Zend_Controller_Front::getInstance()->getParam('bootstrap')->getOption('bootstrap');
+$authStorage = Zend_Auth::getInstance()->getStorage();
+//echo "<pre>"; print_r($authStorage->read()); die;
+$type = $authStorage->read()->role;
+$admin_name = $authStorage->read()->firstname;
+
+if($type=="superadmin")
+{
+   $admin_type = "Super Admin";
+}else if($type=="admin"){
+   $admin_type = "Admin";
+}
+?>
+
+<div class="navbar">
+    <div class="navbar-inner">
+        <ul class="nav pull-right">
+
+            <li id="fat-menu" class="dropdown">
+                
+                <a href="#" role="button" class="dropdown-toggle" data-toggle="dropdown">
+                   <?php echo $admin_type; ?> | 
+                    <i class="icon-user"></i> <?php echo ucfirst($admin_name);?>
+                    <i class="icon-caret-down"></i>
+                </a>
+
+                <ul class="dropdown-menu">
+                    <li><a tabindex="-1" href="<?php echo $options['siteUrl'];?>admin/dashboard/index">My Account</a></li>
+                    <li class="divider"></li>
+                    <li><a tabindex="-1" href="<?php echo $options['siteUrl'];?>" target="_blank">Go to Website</a></li>
+                    <li class="divider"></li>
+                    <li><a tabindex="-1" class="visible-phone" href="#">Settings</a></li>
+                    <li class="divider visible-phone"></li>
+                    <li><a tabindex="-1" href="<?php echo $options['siteUrl'];?>admin/index/logout">Logout</a></li>
+                </ul>
+            </li>
+
+        </ul>
+        <a class="brand"><span class="second"><?php echo $options['siteName']?></span></a>
+    </div>
+</div>

@@ -1,0 +1,138 @@
+<?php
+$options = Zend_Controller_Front::getInstance()->getParam('bootstrap')->getOption('bootstrap');
+$resultset = $this->resultset;
+?>
+
+<script>
+    function HierarchyMenuDelete(hmid)
+    {
+        if (hmid) {
+            window.location.href = 'admin/cms/delete-menu/id/' + hmid;
+        } else {
+            window.location.href = 'admin/cms/managemenu';
+        }
+    }
+</script>
+
+<!--<link rel="stylesheet" type="text/css" href="//code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css">
+<link rel="stylesheet" type="text/css" href="lib/bootstrap/css/jquery.dataTables.css">
+<script type="text/javascript" language="javascript" src="lib/jquery.js"></script>
+<script type="text/javascript" language="javascript" src="lib/jquery.dataTables.js"></script>
+<script type="text/javascript" language="javascript" src=
+"lib/dataTables.jqueryui.js"></script>
+<script type="text/javascript" language="javascript">
+$(document).ready(function() {
+  $('#example').dataTable({
+      aLengthMenu: [[25, 50, 100, 150, -1], [25, 50, 100, 150, "All"]],    
+      
+  });
+} );
+</script>-->
+
+<div class="content">
+
+    <div class="header">
+        <h1 class="page-title">Testimonial List</h1>
+    </div>
+
+    <ul class="breadcrumb">
+        <li><a href="<?php echo $options['siteUrl']; ?>admin/dashboard/index">Home</a> <span class="divider">/</span></li>
+        <li class="active">Manage <span class="divider">/</span></li>
+        <li><a href="<?php echo $options['siteUrl']; ?>admin/testimonial/edittestimonial">Add Testimonial</a> </li>
+    </ul>
+
+    <div class="container-fluid">
+        <div class="row-fluid">
+            <div class="col-md-12">
+                <?php if (count($this->messages)) { ?>
+                    <div class="alert alert-success" >
+                        <button data-dismiss="alert" class="close" type="button">x</button>
+                        <?php foreach ($this->messages as $message) { ?>
+                            <?php echo $this->escape($message); ?>
+                        <?php } ?>
+                    </div>
+                <?php } ?>
+            </div> 
+        <!--<img src="<?php // echo $baseUrl; ?>public/upload/testimonial/<?php // echo $val['Image']; ?>" border="0" alt="image" width="100" height="100" />-->
+        
+                                    
+
+            <div class="well">
+                <table id="tt" class="easyui-datagrid" style="width:100%;" url="admin/testimonial/index"
+                       iconCls="icon-save" toolbar="#tb" rownumbers="true" pagination="true" fitColumns="true" view="scrollview" nowrap="false" >
+                    <thead>
+                        <tr>
+                            <th field="name" data-options="width:160">Name</th>
+                            <th data-options="field:'message',width:150,align:'center',formatter:formatTestiMessageAction">Message</th>
+                            <th data-options="field:'Image',width:100,align:'center',formatter:formatImageAction">Image</th>
+                            <th field="IsFeatured" data-options="width:100,align:'center',formatter:formatStatusAction">DOH</th>
+                            <th data-options="field:'firma1',width:80,align:'center',formatter:formatTestiAction">Action</th>
+                        </tr>
+                    </thead>
+                </table>
+            </div>          
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    function formatTestiAction(val, row) {
+        var href = 'admin/testimonial/edittestimonial/id/' + row.id;
+        var hrefDel = 'admin/testimonial/deletetesti/id/' + row.id;
+
+        return '<a href="' + href + '" title="Edit"><i class="icon-pencil"></i></a> &nbsp; <a href="' + hrefDel + '" onclick="return confirm(\'Are you sure you want to delete?\')" class="Delete" title="Delete"><i class="icon-trash"></i></a>';
+    }
+    
+    function formatTestiMessageAction(val, row) {
+        var message  = row.message;
+        
+        return message.substring(0, 150);
+//        console.log(message);
+        
+    }
+    
+    function formatImageAction(val, row) {
+    var Image = row.Image;
+    if ((Image !== null) && (Image !== '')) {
+        return '<img src="public/upload/testimonial/' + Image + '" border="0" alt="image" style="width:122px;height:119px;">';
+
+    }
+    else {
+        return '<img src="public/images/icon-package.jpg" border="0" style="width:122px;height:119px;">';
+    }
+}
+
+function formatStatusAction(val, row, idx) {
+    if (val != "" && val == 1) {
+        var checked = "checked";
+    }
+    else {
+        var checked = "";
+    }
+    return '<input type="checkbox" ' + checked + ' onClick="Active(\'' + row.id + '\')" id="Active_' + row.id + '" name="Active" value="1">';
+
+}
+    function Active(a) {
+        if ($('#Active_' + a).prop("checked") === true) {
+            var values = 1;
+        } else if ($('#Active_' + a).prop("checked") === false) {
+            values = 0;
+        }
+
+        $.ajax({
+            url: '<?php echo $options['siteUrl']; ?>admin/testimonial/active/id/' + a + '/val/' + values,
+            type: 'POST',
+            dataType: 'json',
+            success: function (result) {
+                if (result.status) {
+                    alert('Record Update successfully.');
+                }
+            },
+            error: function (result) {
+                alert('Execution error activation!!');
+            }
+        });
+
+    }
+</script>
+

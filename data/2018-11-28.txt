@@ -1,0 +1,42 @@
+2018-11-28 19:02:57 - 127.0.0.1 - <br />
+<b>Notice</b>:  Undefined offset: 0 in <b>D:\xampp\htdocs\b2bzend\application\modules\gtxwebservices\controllers\QueryProposalController.php</b> on line <b>63</b><br />
+<br />
+<b>Notice</b>:  Undefined offset: 0 in <b>D:\xampp\htdocs\b2bzend\application\modules\gtxwebservices\controllers\QueryProposalController.php</b> on line <b>64</b><br />
+<br />
+<b>Fatal error</b>:  Uncaught exception 'Zend_Db_Statement_Sqlsrv_Exception' with message '[Microsoft][ODBC Driver 11 for SQL Server][SQL Server]Cannot insert the value NULL into column 'AssignUserSysId', table 'DemoGTXHotel.dbo.TB_Agency_CRM_LeadAccount'; column does not allow nulls. INSERT fails.' in D:\xampp\htdocs\b2bzend\library\Zend\Db\Statement\Sqlsrv.php:206
+Stack trace:
+#0 D:\xampp\htdocs\b2bzend\library\Zend\Db\Statement.php(320): Zend_Db_Statement_Sqlsrv-&gt;_execute(Array)
+#1 D:\xampp\htdocs\b2bzend\library\Zend\Db\Adapter\Abstract.php(481): Zend_Db_Statement-&gt;execute(Array)
+#2 D:\xampp\htdocs\b2bzend\library\Zend\Db\Adapter\Sqlsrv.php(380): Zend_Db_Adapter_Abstract-&gt;query('INSERT INTO &quot;TB...', Array)
+#3 D:\xampp\htdocs\b2bzend\library\Zend\Db\Table\Abstract.php(1075): Zend_Db_Adapter_Sqlsrv-&gt;insert('TB_Agency_CRM_L...', Array)
+#4 D:\xampp\htdocs\b2bzend\application\models\CRM\AgencyLeadAccount.php(25): Zend_Db_Table_Abstract-&gt;insert(Array)
+#5 D:\xampp\htdocs\b2bzend\application\modules\gtxwebservices\controllers\QueryPr in <b>D:\xampp\htdocs\b2bzend\library\Zend\Db\Statement\Sqlsrv.php</b> on line <b>206</b><br />
+
+2018-11-28 19:04:02 - 127.0.0.1 - <br />
+<b>Notice</b>:  Undefined offset: 0 in <b>D:\xampp\htdocs\b2bzend\application\modules\gtxwebservices\controllers\QueryProposalController.php</b> on line <b>63</b><br />
+<br />
+<b>Notice</b>:  Undefined offset: 0 in <b>D:\xampp\htdocs\b2bzend\application\modules\gtxwebservices\controllers\QueryProposalController.php</b> on line <b>64</b><br />
+<br />
+<b>Fatal error</b>:  Uncaught exception 'Zend_Db_Statement_Sqlsrv_Exception' with message '[Microsoft][ODBC Driver 11 for SQL Server][SQL Server]Cannot insert the value NULL into column 'AssignUserSysId', table 'DemoGTXHotel.dbo.TB_Agency_CRM_LeadAccount'; column does not allow nulls. INSERT fails.' in D:\xampp\htdocs\b2bzend\library\Zend\Db\Statement\Sqlsrv.php:206
+Stack trace:
+#0 D:\xampp\htdocs\b2bzend\library\Zend\Db\Statement.php(320): Zend_Db_Statement_Sqlsrv-&gt;_execute(Array)
+#1 D:\xampp\htdocs\b2bzend\library\Zend\Db\Adapter\Abstract.php(481): Zend_Db_Statement-&gt;execute(Array)
+#2 D:\xampp\htdocs\b2bzend\library\Zend\Db\Adapter\Sqlsrv.php(380): Zend_Db_Adapter_Abstract-&gt;query('INSERT INTO &quot;TB...', Array)
+#3 D:\xampp\htdocs\b2bzend\library\Zend\Db\Table\Abstract.php(1075): Zend_Db_Adapter_Sqlsrv-&gt;insert('TB_Agency_CRM_L...', Array)
+#4 D:\xampp\htdocs\b2bzend\application\models\CRM\AgencyLeadAccount.php(25): Zend_Db_Table_Abstract-&gt;insert(Array)
+#5 D:\xampp\htdocs\b2bzend\application\modules\gtxwebservices\controllers\QueryPr in <b>D:\xampp\htdocs\b2bzend\library\Zend\Db\Statement\Sqlsrv.php</b> on line <b>206</b><br />
+
+2018-11-28 19:06:25 - 127.0.0.1 - <br />
+<b>Notice</b>:  Undefined offset: 0 in <b>D:\xampp\htdocs\b2bzend\application\modules\gtxwebservices\controllers\QueryProposalController.php</b> on line <b>63</b><br />
+<br />
+<b>Notice</b>:  Undefined offset: 0 in <b>D:\xampp\htdocs\b2bzend\application\modules\gtxwebservices\controllers\QueryProposalController.php</b> on line <b>64</b><br />
+<br />
+<b>Fatal error</b>:  Uncaught exception 'Zend_Db_Statement_Sqlsrv_Exception' with message '[Microsoft][ODBC Driver 11 for SQL Server][SQL Server]Cannot insert the value NULL into column 'AssignUserSysId', table 'DemoGTXHotel.dbo.TB_Agency_CRM_LeadAccount'; column does not allow nulls. INSERT fails.' in D:\xampp\htdocs\b2bzend\library\Zend\Db\Statement\Sqlsrv.php:206
+Stack trace:
+#0 D:\xampp\htdocs\b2bzend\library\Zend\Db\Statement.php(320): Zend_Db_Statement_Sqlsrv-&gt;_execute(Array)
+#1 D:\xampp\htdocs\b2bzend\library\Zend\Db\Adapter\Abstract.php(481): Zend_Db_Statement-&gt;execute(Array)
+#2 D:\xampp\htdocs\b2bzend\library\Zend\Db\Adapter\Sqlsrv.php(380): Zend_Db_Adapter_Abstract-&gt;query('INSERT INTO &quot;TB...', Array)
+#3 D:\xampp\htdocs\b2bzend\library\Zend\Db\Table\Abstract.php(1075): Zend_Db_Adapter_Sqlsrv-&gt;insert('TB_Agency_CRM_L...', Array)
+#4 D:\xampp\htdocs\b2bzend\application\models\CRM\AgencyLeadAccount.php(25): Zend_Db_Table_Abstract-&gt;insert(Array)
+#5 D:\xampp\htdocs\b2bzend\application\modules\gtxwebservices\controllers\QueryPr in <b>D:\xampp\htdocs\b2bzend\library\Zend\Db\Statement\Sqlsrv.php</b> on line <b>206</b><br />
+

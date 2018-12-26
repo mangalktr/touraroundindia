@@ -1,0 +1,77 @@
+<div class="limiter">
+    <div class="container-login100">
+        <div class="wrap-login100">
+            <div class="login100-form-title" style="background-image: url(public/vendor/images/bg-01.png);width: 670px;height: 200px" >
+                <span class="login100-form-title-1">
+                    Sign In
+                </span>
+            </div>
+            <div id="loginPanel">
+                <form id="agentLoginForm" autocomplete="off" class="login100-form" method="post" >
+                    <div class="wrap-input100 validate-input m-b-26">
+                        <span class="label-input100">Email Id</span>
+                        <input autocomplete="off" id="usrName" class="input100" type="text" name="username" placeholder="Email Id">
+                        <span class="focus-input100"></span>
+                    </div>
+
+                    <div class="wrap-input100 validate-input m-b-18">
+                        <span class="label-input100">Password</span>
+                        <input autocomplete="off" id="usrPwd" class="input100" type="password" name="pass" placeholder="Password">
+                        <span class="focus-input100"></span>
+                    </div>
+
+                    <div class="flex-sb-m w-full p-b-30">
+                        <div class="contact100-form-checkbox">
+                            <!--<input class="input-checkbox100" id="ckb1" type="checkbox" name="remember">-->
+                            <!--<label class="label-checkbox100" for="ckb1">-->
+                                &nbsp;
+                            <p id="msg"></p>
+                            <!--</label>-->
+                        </div>
+
+                        <div>
+                            <a href="javascript:void(0);" class="txt1 forgotpass_agent">
+                                Forgot Password?
+                            </a>
+                        </div>
+                    </div>
+
+                    <div class="container-login100-form-btn">
+                        <button type="submit" class="login100-form-btn loging">
+                            Login
+                        </button>
+                    </div>
+                </form>
+            </div>
+            <form id="forgot_password_agent" autocomplete="off" class="login100-form" method="post" style="display: none;">
+                <div class="wrap-input100 validate-input m-b-26">
+                    <span class="label-input100">Email Id</span>
+                    <input autocomplete="off" id="forget" type="text" class="input100" name="forget" placeholder="Enter Registered Email Id">
+                    <span class="focus-input100"></span>
+                </div>
+
+                <div class="flex-sb-m w-full p-b-30">
+                    <div class="contact100-form-checkbox">
+                        <!--<input class="input-checkbox100" id="ckb1" type="checkbox" name="remember-me">-->
+                        <!--<label class="label-checkbox100" for="ckb1">-->
+                        &nbsp;
+                        <p id="msgs"></p>
+                        <!--</label>-->
+                    </div>
+
+                    <div>
+                        <a href="javascript:void(0);" class="txt1 login_agent">
+                            Login
+                        </a>
+                    </div>
+                </div>
+
+                <div class="container-login100-form-btn">
+                    <button type="submit" class="login100-form-btn forgotpasswordagent">
+                        Submit
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

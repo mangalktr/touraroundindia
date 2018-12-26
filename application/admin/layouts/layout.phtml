@@ -1,0 +1,92 @@
+<?php
+$options = Zend_Controller_Front::getInstance()->getParam('bootstrap')->getOption('bootstrap');
+?>
+<?php echo $this->doctype();?>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <?php echo $this->headTitle($options['siteName'] . " :: AdminPanel");?>
+    <base href="<?php echo $options['siteUrl'];?>" />
+    <script type="text/javascript">
+      baseurl = '<?php echo $options['siteUrl'];?>';
+    </script>
+    <meta content="IE=edge,chrome=1" http-equiv="X-UA-Compatible">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" type="img/png" sizes="32x32" href="public/images/favicon-icon.png">
+        <link rel="icon" type="img/png" sizes="96x96" href="public/images/favicon-icon.png">
+        <link rel="apple-touch-icon" sizes="57x57" href="public/images/favicon-icon.png">
+        <link rel="apple-touch-icon" sizes="114x114" href="public/images/favicon-icon.png">
+    <?php 
+       echo $this->headLink()->prependStylesheet('public/admin/lib/bootstrap/css/bootstrap.css')
+                             ->appendStylesheet('public/admin/stylesheets/theme.css')
+                             ->appendStylesheet('public/admin/lib/font-awesome/css/font-awesome.css');
+    ?>
+    <?php
+     echo $this->headScript()->prependFile('public/admin/lib/jquery-1.7.2.min.js')
+                             ->appendFile('public/admin/lib/bootstrap/js/bootstrap.js')
+                             ->appendFile('public/ckeditor/ckeditor.js');
+    ?>
+    <!-- Demo page code -->
+    <style type="text/css">
+        #line-chart {
+            height:300px;
+            width:800px;
+            margin: 0px auto;
+            margin-top: 1em;
+        }
+        .brand { font-family: georgia, serif; }
+        .brand .first {
+            color: #ccc;
+            font-style: italic;
+        }
+        .brand .second {
+            color: #fff;
+            font-weight: bold;
+        }
+    </style>
+
+    <!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
+    <!--[if lt IE 9]>
+      <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+    <!-- Le fav and touch icons -->
+    <link rel="shortcut icon" href="../assets/ico/favicon.ico">
+    <link rel="apple-touch-icon-precomposed" sizes="144x144" href="../assets/ico/apple-touch-icon-144-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" sizes="114x114" href="../assets/ico/apple-touch-icon-114-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" sizes="72x72" href="../assets/ico/apple-touch-icon-72-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" href="../assets/ico/apple-touch-icon-57-precomposed.png">
+    <link rel="stylesheet" type="text/css" href="public/admin/stylesheets/easyui.css">
+<link rel="stylesheet" type="text/css" href="public/admin/stylesheets/icon.css">
+<link rel="stylesheet" type="text/css" href="public/admin/stylesheets/color.css">
+<link rel="stylesheet" type="text/css" href="public/admin/stylesheets/demo.css">
+  </head>
+
+  <!--[if lt IE 7 ]> <body class="ie ie6"> <![endif]-->
+  <!--[if IE 7 ]> <body class="ie ie7 "> <![endif]-->
+  <!--[if IE 8 ]> <body class="ie ie8 "> <![endif]-->
+  <!--[if IE 9 ]> <body class="ie ie9 "> <![endif]-->
+  <!--[if (gt IE 9)|!(IE)]><!--> 
+  <body class=""> 
+  <!--<![endif]-->
+<!-- Start top header menu section -->    
+<?php echo $this->render('header_menu.phtml'); ?>
+<!-- End top header menu section -->  
+<!-- Start left menu section --> 
+<?php echo $this->render('left_menu.phtml'); ?>
+<!-- End left menu section --> 
+
+<!-- Start main content section --> 
+<?php echo $this->layout()->content; ?>
+<!-- End main content section --> 
+
+ <!-- Start footer section --> 
+<?php echo $this->render('footer.phtml'); ?>
+<!-- End footer section --> 
+
+<script type="text/javascript" src="public/admin/lib/jquery-1.9.1.min.js"></script>
+<script type="text/javascript" src="public/admin/lib/jquery.easyui.min.js"></script>
+  </body>
+</html>

@@ -1,0 +1,53 @@
+<?php
+$options = Zend_Controller_Front::getInstance()->getParam('bootstrap')->getOption('bootstrap');
+$resultset = $this->resultset;
+$baseUrl = $this->baseUrl;
+?>
+
+<div class="content">
+        
+<div class="header">
+    <h1 class="page-title">Sync Items</h1>
+</div>
+
+<ul class="breadcrumb">
+    <li><a href="<?php echo $options['siteUrl'];?>admin/dashboard/index">Home</a> <span class="divider">/</span></li>
+    <li class="active">Sync Items<span class="divider">/</span></li>
+</ul>
+
+<div class="container-fluid">
+    <div class="row-fluid">
+     <div class="col-md-12">
+    <?php if (count($this->messages)) { ?>
+     <div class="alert alert-success" >
+         <button data-dismiss="alert" class="close" type="button">x</button>
+         <?php foreach ($this->messages as $message) {  ?>
+         <?php echo $this->escape($message); ?>
+         <?php } ?>
+     </div>
+    <?php } ?>
+</div>
+
+<div class="well">
+    <a href="<?php echo $baseUrl?>admin/sync/destinations" class="btn btn-primary">Sync Destination(s)</a>
+    <!--<a href="<?php echo $baseUrl?>admin/sync/packages" class="btn btn-primary">Sync Package(s)</a>-->
+    <!--<a href="<?php echo $baseUrl?>admin/sync/hotels" class="btn btn-primary">Sync Hotel(s)</a>-->
+    <!--<a href="<?php echo $baseUrl?>admin/sync/activities" class="btn btn-primary">Sync Activity(s)</a>-->
+    <!--<a href="<?php echo $baseUrl?>admin/sync/footerdestinations" class="btn btn-primary">Sync Footer Destinations(s)</a>-->
+
+    <a href="<?php echo $baseUrl?>admin/sync/filterdestinamtion" class="btn btn-primary">filter Destinations(s)</a>
+
+</div>
+     
+   </div>
+</div>
+</div>
+
+<script>
+$('.Delete').click(function(){
+    if (!confirm('Are you sure you want to delete?')) {
+        return false;
+    }
+    });
+</script>
+

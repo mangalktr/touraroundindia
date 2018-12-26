@@ -1,0 +1,301 @@
+<?php
+$baseUrl = $this->baseUrl;
+$siteName = $this->siteName;
+$resultset = $this->resultset;
+$getMypopCookie = $this->getMypopCookie;
+$contactDetail = Zend_Controller_Action_HelperBroker::getStaticHelper('Custom')->getContactDetailForFooter();
+$socialLinksForFooterLink = Zend_Controller_Action_HelperBroker::getStaticHelper('Custom')->selectSocialLinksForFooterLink();
+//echo $this->action;die;
+//echo "<pre>";print_r($this->getAboutUsDetailForContactUs);die;
+$string = strip_tags($this->getAboutUsDetailForContactUs['page_description']);
+if (strlen($string) > 300) {
+
+    // truncate string
+    $stringCut = substr($string, 0, 200);
+    $endPoint = strrpos($stringCut, ' ');
+
+    //if the string doesn't contain any space then it will cut without word basis.
+    $string = $endPoint? substr($stringCut, 0, $endPoint):substr($stringCut, 0);
+}
+//echo $string;die;
+
+$recentBlogs = Zend_Controller_Action_HelperBroker::getStaticHelper('Custom')->getrecentpost();
+$_SESSION['captcha_contact']= rand(1000,9999);
+
+if (isset($_SESSION['User']['session']) && !empty($_SESSION['User']['session'])) {
+    $name = (trim($_SESSION['User']['session']['FirstName']) || trim($_SESSION['User']['session']['LastName'])) ? trim($_SESSION['User']['session']['FirstName']) . ' ' . trim($_SESSION['User']['session']['LastName']) : '';
+    $email = (trim($_SESSION['User']['session']['EmailId'])) ? trim($_SESSION['User']['session']['EmailId']) : '';
+    $mobile = (trim($_SESSION['User']['session']['ContactNo1'])) ? trim($_SESSION['User']['session']['ContactNo1']) : '';
+}else if(isset($_SESSION['TravelAgent']['session']) && !empty($_SESSION['TravelAgent']['session'])){
+   $name = (trim($_SESSION['TravelAgent']['session']['FirstName']) || trim($_SESSION['TravelAgent']['session']['LastName'])) ? trim($_SESSION['TravelAgent']['session']['FirstName']) . ' ' . trim($_SESSION['TravelAgent']['session']['LastName']) : '';
+    $email = (trim($_SESSION['TravelAgent']['session']['EmailId'])) ? trim($_SESSION['TravelAgent']['session']['EmailId']) : '';
+    $mobile = (trim($_SESSION['TravelAgent']['session']['ContactNo1'])) ? trim($_SESSION['TravelAgent']['session']['ContactNo1']) : '';
+}else{
+   $name = isset($getMypopCookie['name']) && !empty($getMypopCookie['name']) ? $getMypopCookie['name'] : '';
+   $email = isset($getMypopCookie['email']) && !empty($getMypopCookie['email']) ? $getMypopCookie['email'] : '';
+   $mobile = isset($getMypopCookie['mobile']) && !empty($getMypopCookie['mobile']) ? $getMypopCookie['mobile'] : '';
+}
+
+?>
+
+<?php if ($this->pagedetail['identifier'] == 'contact-us') { ?>
+<div id="content" class="site-content">
+        <div id="tropical-banner" class=" text-center clearfix">
+            <?php if(!empty($this->pagedetail['background_image']) && ($this->pagedetail['background_image'] != '') && (file_exists('public/upload/static_pages/'.$this->pagedetail['background_image']))){ ?>
+    
+            <img src="<?php echo $baseUrl; ?>public/upload/static_pages/<?php echo $this->pagedetail['background_image'] ?>" alt="banner" style="height: 320px !important; width: 1349px !important" />
+    <?php  }  else {?>    
+               <img src="<?php echo $baseUrl; ?>public/images/contactus-min.jpg" alt="banner" style="height: 320px !important;width: 1349px !important"/>
+    <?php } ?>
+            
+
+            
+            
+            <div class="container banner-contents clearfix">
+                <h2 class="template-title p-name"><strong>Contact Us</strong></h2>
+            </div>
+            <div class="breadcrumb-wrapper clearfix">
+                <div class="container">
+                    <ol class="breadcrumb">
+                        <li><a href="<?php echo $baseUrl; ?>" >Home</a></li>
+                        <li class="active">Contact</li>
+                    </ol>
+                </div>
+            </div>
+            <span class="overlay"></span>
+        </div>
+
+        <section class="contact-template clearfix">
+          
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-9 col-sm-8">
+                        <section class="contact-details animatedParent clearfix">
+                            
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <address class="animated fadeInDownShort">
+                                        <h5 class="title"><i class="fa fa-map-marker"></i>Address<span></span></h5>
+                                        <p>
+                                            <?php echo $contactDetail['location']; ?> 
+                                        </p>
+                                    </address>
+                                    <div class="email-section animated fadeInUpShort">
+                                        <h5 class="title"><i class="fa fa-envelope"></i>Email address<span></span></h5>
+                                        <p class="email" href="#"><?php echo $contactDetail['email']; ?>
+                                        <?php if (isset($contactDetail['secondEmail']) && !empty($contactDetail['secondEmail'])) { ?>
+                                          / <?php echo $contactDetail['secondEmail']; ?>
+                                        <?php } ?>
+                                        </p>                               
+                                    </div>
+                                    <div class="phone-section animated fadeInDownShort">
+                                        <h5 class="title"><i class="fa fa-mobile"></i>Mobile Number <span></span></h5>
+                                        <span class="number"><?php echo $contactDetail['mobile']; ?>  </span>
+                                    </div>
+                                    <div class="phone-section animated fadeInDownShort">
+                                        <h5 class="title"><i class="fa fa-phone"></i>Phone Number <span></span></h5>
+                                        <span class="number"><?php echo $contactDetail['phone']; ?> </span>
+                                    </div>
+                                </div>
+                                <div class="col-md-8">
+                                
+                                <div class="contact-from animatedParent clearfix">
+                            <h3 class="respond-title animated fadeInDownShort">Send us your message</h3>
+                                <form method="post" class="talktous" name="talktous_cms">
+                                    <input type="hidden" name="form_type" value="contact_us">
+                                <fieldset class="animated fadeInLeftShort">
+                                    <p class="form-name">
+                                        <label for="name">name <span class="required">*</span></label>
+                                        <input type="text" name="name" id="name"  maxlength="50"  placeholder="Name" aria-label="Name" value="<?php echo $name;?>">
+                                    </p>
+                                    <p class="form-email">
+                                        <label for="email">Email <span class="required">*</span></label>
+                                        <input type="text" name="email" id="email" placeholder="Email" aria-label="Email" maxlength="50" value="<?php echo $email;?>">
+                                    </p>
+                                    <p class="form-url">
+                                        <label for="number">Phone Number <span class="required">*</span></label>
+                                        <input type="text" name="mobile" id="mobile" maxlength="10" placeholder="Phone Number" aria-label="Phone Number" value="<?php echo $mobile;?>">
+                                    </p>
+                                    <p class="form-url">
+                                        <label for="number">Captcha Code <span class="required">*</span></label><br>
+                                        <input type="text" name="captcha" class="text_field" style="width:176px;" id="captcha" value="" placeholder="Capcha code*" tabindex="10" autocomplete="off">&nbsp;&nbsp;&nbsp;<img src="public/captcha/verificationimage.php?rand_string=<?php echo @$_SESSION['captcha_contact'];?>" alt="verification image, type it in the box" width="60" height="30" align="absbottom" />
+                                    </p>
+                                    <p class="msg"></p>
+                                </fieldset>
+                                <fieldset class="animated fadeInRightShort">
+                                    <p class="form-comment">
+                                        <label for="message">Comment <span class="required">*</span></label>
+                                        <textarea name="message" cols="45" rows="9" id="textfield" class="txtField" placeholder="Message/Query" aria-label="Message/Query"></textarea>
+                                    </p>
+                                     <!--<span align="center"  class="border-right" bgcolor="#ececec"><img src="public/captcha/captcha.php" alt="CAPTCHA code" id="captcha_one" height="50" ></span>-->
+<!--                                     <span style="padding-left:10px;"> <a  href="javascript:void(0);" onclick="
+                        document.getElementById('captcha_one').src='public/captcha/captcha.php?'+Math.random();
+                        document.getElementById('captcha').focus();"
+                        id="change-image"> <img src="public/images/refresh.png" alt="Refresh image" border="0" width="22" title="Refresh" >
+                     </a>                                      
+                    </span>-->
+                                     
+                                    
+                                     <p class="form-submit" style="padding-top:10px;">
+                                        <input name="submit" type="submit" id="submit" class="submit sendingP" value="Post Comment">
+                                    </p>
+                                </fieldset>
+                            </form>
+                        </div>
+                                    
+                                </div>
+                                
+                            </div>
+                            
+                        </section>
+                      
+                    </div>
+                    <div class="col-md-3 col-sm-4">
+                        <aside class="sidebar">                            
+                            <section class="widget recent-post-widget animatedParent">
+                                <h5 class="widget-title animated fadeInDownShort">Recent Blog Post</h5>
+                                <?php foreach($recentBlogs as $blog){ ?>
+                                <article class="post blog-post-widget clearfix animated fadeInUpShort">
+                                    <figure class="blog-feature-img pull-right">
+                                        <?php                                    
+                                    $filename=$_SERVER["DOCUMENT_ROOT"]."/public/upload/travelogues/small/".$blog['TravImage'];
+                                   
+                                    if(file_exists($filename) && !empty($blog['TravImage'])){
+                                        $disImg=$baseUrl."public/upload/travelogues/small/".$blog['TravImage'];
+                                    }else{ 
+                                      $filename=$baseUrl."public/images/no-image.jpg";      
+                                      $disImg=$filename;   
+                                    }
+                                    ?>
+                                        <img src="<?php echo $disImg; ?>" alt="<?php echo ucfirst($blog['TravTitle']); ?>" width="65" height="66"/>
+                                    </figure>
+                                    <h6 class="title"><a href="<?php echo $baseUrl; ?>/blogs/index/blog-detail/id/<?php echo $blog['TravId'] ?>"><?php echo ucfirst($blog['TravTitle']); ?></a></h6>
+                                    <time datetime="2007-08-29T13:58Z"  class="post-meta"><i class="fa fa-clock-o"></i> <?php echo date('d M Y',  strtotime($blog['CreateDate'])); ?></time>
+                                </article>   
+                                <?php } ?>
+                            </section>
+                            
+                            <section class="widget widget-text animatedParent">
+                                <h5 class="widget-title animated fadeInDownShort">About us</h5>
+                                <p class="animated fadeInUpShort">
+                                <?php echo $string;  ?>
+                                <a href="<?php echo $baseUrl; ?>cms/p/about-us">+ More...</a>         
+                                </p>
+                            </section>
+                        </aside>
+                    </div>
+                </div>
+                
+                <section class="contact-from animatedParent clearfix">
+                        <div class="map-wrap animated fadeInRightShort clearfix">
+                            <div id="location-map">
+
+                                    <!--<iframe src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d14015.140837009149!2d77.1627384!3d28.5762119!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x535a7b57cec4d428!2sRAO+TRAVELS+INDIA+PVT.+LTD.!5e0!3m2!1sen!2sin!4v1542090613453" width="100%" height="300" frameborder="0" style="border:3" allowfullscreen></iframe>-->
+                                    <iframe src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d7008.223058230917!2d77.18787683068287!3d28.566413480154747!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x699e79abd772a0bb!2sUnique+Holidays!5e0!3m2!1sen!2sin!4v1545723908915" width="600" height="450" frameborder="0" style="border:3" allowfullscreen></iframe>
+                            </div>
+                                    </div>
+                        </section>
+            </div>
+        </section>
+
+
+
+    </div>
+<?php }else { ?>
+<div id="content" class="site-content">
+        <div id="tropical-banner" class=" text-center clearfix">
+                        <?php if(!empty($this->pagedetail['background_image']) && ($this->pagedetail['background_image'] != '') && (file_exists('public/upload/static_pages/'.$this->pagedetail['background_image']))){ ?>
+    
+                <img src="<?php echo $baseUrl; ?>public/upload/static_pages/<?php echo $this->pagedetail['background_image'] ?>" alt="banner" style="height: 320px !important;width: 1349px !important"/>
+    <?php  }  else {?>    
+               <img src="<?php echo $baseUrl; ?>public/images/about-min.jpg" alt="banner" style="height: 320px !important;width: 1349px !important"/>
+    <?php } ?>
+            <div class="container banner-contents clearfix">
+                <h2 class="template-title p-name"><strong><?php echo $this->pagedetail['page_title']; ?></strong></h2>
+            </div>
+            <div class="breadcrumb-wrapper clearfix">
+                <div class="container">
+                    <ol class="breadcrumb">
+                        <li><a href="<?php echo $baseUrl; ?>" >Home</a></li>
+                        <li class="active"><?php echo $this->pagedetail['page_title']; ?></li>
+                    </ol>
+                </div>
+            </div>
+            <span class="overlay"></span>
+        </div>
+
+        <section class="contact-template clearfix">
+          
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-9 col-sm-8">
+                        <article class="blog-post">
+                            <!--<figure class="feature-img">
+                                <img src="images/blog-img-single-min.jpg" alt="Image"/>
+                            </figure>-->
+                            <div class="entry-contents animatedParent clearfix">
+                                <h4 class="entry-title animated fadeInUpShort"><a href="#"><?php echo $this->pagedetail['page_title']; ?></a></h4>
+                                <?php echo $this->pagedetail['page_description']; ?>                                
+                            </div>
+                            
+                        </article>
+                      
+                    </div>
+                    <div class="col-md-3 col-sm-4">
+                        <aside class="sidebar">                            
+                            <section class="widget recent-post-widget animatedParent">
+                                <h5 class="widget-title animated fadeInDownShort">Recent Blog Post</h5>
+                                <?php foreach($recentBlogs as $blog){ ?>
+                                <article class="post blog-post-widget clearfix animated fadeInUpShort">
+                                    <figure class="blog-feature-img pull-right">
+                                        <?php                                    
+                                    $filename=$_SERVER["DOCUMENT_ROOT"]."/public/upload/travelogues/small/".$blog['TravImage'];
+                                   
+                                    if(file_exists($filename) && !empty($blog['TravImage'])){
+                                        $disImg=$baseUrl."public/upload/travelogues/small/".$blog['TravImage'];
+                                    }else{ 
+                                      $filename=$baseUrl."public/images/no-image.jpg";      
+                                      $disImg=$filename;   
+                                    }
+                                    ?>
+                                        <img src="<?php echo $disImg; ?>" alt="<?php echo ucfirst($blog['TravTitle']); ?>" width="65" height="66"/>
+                                    </figure>
+                                    <h6 class="title"><a href="<?php echo $baseUrl; ?>/blogs/index/blog-detail/id/<?php echo $blog['TravId'] ?>"><?php echo ucfirst($blog['TravTitle']); ?></a></h6>
+                                    <time datetime="2007-08-29T13:58Z"  class="post-meta"><i class="fa fa-clock-o"></i> <?php echo date('d M Y',  strtotime($blog['CreateDate'])); ?></time>
+                                </article>   
+                                <?php } ?>
+                            </section>
+                            
+                            <section class="widget contact-widget clearfix animatedParent">
+                                <h5 class="widget-title animated fadeInDownShort">Contact us</h5>
+                                <address class="animated fadeInUpShort">
+                                <strong> Address:</strong> 
+                                <?php echo $contactDetail['location']; ?>                                 
+                                </address>
+                                <p class="phone-number animated fadeInUpShort"><strong>Phone:</strong> <?php echo $contactDetail['phone']; ?> </p>
+                                <p class="phone-number animated fadeInUpShort"><strong>Mobile:</strong> <?php echo $contactDetail['mobile']; ?>  </p>
+                                <p class="email animated fadeInUpShort"><strong>Email:</strong> <?php echo $contactDetail['email']; ?> 
+                                <?php if (isset($contactDetail['secondEmail']) && !empty($contactDetail['secondEmail'])) { ?>
+                                          / <?php echo $contactDetail['secondEmail']; ?>
+                                <?php } ?>
+                                </p>
+                                <ul class="social-nav text-center clearfix animated fadeInUpShort">
+                                <?php foreach($socialLinksForFooterLink as $key=>$value) {?>
+                                      <li><a target="_blank" title="<?php echo $value['name']; ?>" href="<?php echo $value['link']; ?>"><i class="fa fa-<?php echo strtolower($value['name']); ?>"></i></a></li>
+                                <?php } ?>
+                                </ul>
+                            </section>
+                            
+                        </aside>
+                    </div>
+                    
+                </div>
+                
+                
+            </div>
+        </section>
+
+
+
+    </div>
+<?php } ?>

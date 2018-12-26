@@ -1,0 +1,152 @@
+<?php 
+$object = Zend_Controller_Front::getInstance();
+$options = Zend_Controller_Front::getInstance()->getParam('bootstrap')->getOption('bootstrap');
+$baseUrl    =  $options['siteUrl'];
+$siteName    =  $options['siteName'];
+$contactDetail = Zend_Controller_Action_HelperBroker::getStaticHelper('Custom')->getContactDetailForFooter();
+$staticPageLink = Zend_Controller_Action_HelperBroker::getStaticHelper('Custom')->staticPageLink();
+$destinationForFooterLink = Zend_Controller_Action_HelperBroker::getStaticHelper('Custom')->selectDestinationForFooterLink();
+$packTypeForFooterLink = Zend_Controller_Action_HelperBroker::getStaticHelper('Custom')->selectPackTypeForFooterLink();
+$socialLinksForFooterLink = Zend_Controller_Action_HelperBroker::getStaticHelper('Custom')->selectSocialLinksForFooterLink();
+//echo "<pre>";print_r($destinationForFooterLink);die;
+?>
+<footer class="site-footer animatedParent" role="contentinfo">
+    <div class="footer-wrapper clearfix">
+      <div class="container">
+        <div class="row">
+          <div class="col-sm-4">
+            <section class="widget widget_pages animated flipInX slower clearfix">
+              <h5 class="widget-title">Company</h5>
+              <ul>
+              <?php foreach($staticPageLink as $key=>$value) {?>
+              <li><a href="<?php echo $baseUrl; ?>cms/p/<?php echo $value['identifier']; ?>"><?php echo $value['page_title'];?></a></li>     
+              <?php } ?>
+              <li><a class="" href="<?php echo $baseUrl; ?>blogs">Blog</a></li>
+              </ul>
+<!--			  <div class="clearfix"></div>
+			  &nbsp;
+                          <h5 class="widget-title">Travel Agents</h5>
+              <ul>
+                  <li> <a target="_blank" class="btn btn-danger" href="<?php // echo $baseUrl?>agentlogin">Agent Login</a> </li>
+              </ul>-->
+               
+          </div>
+          <div class="col-sm-4">
+            <section class="widget widget_recent_entries animated flipInX slower clearfix">
+              <h5 class="widget-title">Theme</h5>
+              <ul>
+               <?php foreach($packTypeForFooterLink as $key=>$value) {?>
+              <li><a href="<?php echo $baseUrl?>tours/package?cat=<?php echo trim($value['Title']); ?>"><?php echo $value['Title'];?></a></li>     
+              <?php } ?>
+              </ul>
+              <div class="clearfix"></div>
+              <br/>
+              <br/>
+			  &nbsp;
+             
+            </section>
+            </section>
+          </div>
+          <div class="col-sm-4">
+            <section class="widget contact-widget animated flipInX slower clearfix">
+              <h5 class="widget-title">Contact Address</h5>
+              <address>
+              <strong> Address:</strong> 
+              <?php echo $contactDetail['location']; ?>
+              </address>
+              <p class="phone-number"><strong>Phone: </strong> <?php echo $contactDetail['phone']; ?> </p>
+              <p class="phone-number"><strong>Mobile: </strong> <?php echo $contactDetail['mobile']; ?> </p>
+              <p class="email"><strong>Email : </strong> <a href="mailto:<?php echo $contactDetail['email']; ?>"><?php echo $contactDetail['email']; ?></a>
+                  <?php if (isset($contactDetail['secondEmail']) && !empty($contactDetail['secondEmail'])) { ?>
+                  / <a href="mailto:<?php echo $contactDetail['secondEmail']; ?>"><?php echo $contactDetail['secondEmail']; ?></a>
+                  <?php } ?>
+              </p>
+            </section>
+          </div>
+            <div class="col-sm-4">
+            <section class="widget widget_recent_entries animated flipInX slower clearfix">
+              <h5 class="widget-title">Destinations</h5>
+              <ul>
+               <?php foreach($destinationForFooterLink as $key=>$value) {?>
+              <li><a href="<?php echo $baseUrl?>index/destination?region=<?php echo $value['label']; ?>"><?php echo $value['title']; ?></a></li>     
+              <?php } ?>
+              </ul>
+              <div class="clearfix"></div>
+              <br/>
+              <br/>
+			  &nbsp;
+             
+            </section>
+            </section>
+          </div>
+<!--          <div class="col-sm-4">
+            <section class="widget tour-gallery animated flipInX slower clearfix">
+              <h5 class="widget-title">Destinations</h5>
+              <ul>
+              <?php // foreach($regionNamesForFooter as $key=>$value) {?>
+
+              <li> 
+                  <a href="<?php // echo $baseUrl; ?>index/destination?region=<?php // echo $value; ?>"><?php // echo $value;?></a>
+                  <div style="height:0%;padding:3.9rem 0;" class="over"> <a href="<?php // echo $baseUrl?>tours/package?key=<?php // echo $value['Title']; ?>"><?php // echo $value['Title']; ?></a> </div>                
+                  <div style="height:0%;padding:<?php // if(strlen($value) > 12){?>2.7<?php // }else{?>3.9<?php // } ?>rem 0;" class="over"> <a href="<?php // echo $baseUrl; ?>index/destination?region=<?php // echo $value; ?>"><?php // echo $value; ?></a> </div>                
+                  <img style="width:99px;height:100px;" src="<?php // echo $baseUrl; ?>public/images/download.jpg" onerror="this.src='<?php // echo $baseUrl;?>public/images/tour-gallery-img-min.jpg'" alt="Tour"/>
+              </li>     
+              <?php // }    ?> 
+              </ul>
+            </section>
+          </div>-->
+          <div class="col-sm-4">
+            <section class="widget widget_mc4wp_widget animated flipInX slower clearfix">
+              <h5 class="widget-title">stay in the <?php echo $siteName;?></h5>
+              <div id="mc4wp-form-1" class="form mc4wp-form clearfix">
+                <p>Register now to get updates on promotions..</p>
+                <form id="subscribe-form" autocomplete="off" method="post" class="clearfix">
+                  <input id="send_email" type="text" autocomplete="off" name="email" maxlength="25" class="form-control" placeholder="Enter Email" />
+                  <input class="subscribeBtn" type="submit" value="Submit">                                   
+                </form>
+              </div>
+              <span id="eml"></span>
+              <h5 class="widget-title " style="margin-bottom:10px;">Connect with us</h5>
+              <ul class="social-nav text-center clearfix animated fadeInUpShort">
+              <?php foreach($socialLinksForFooterLink as $key=>$value) {?>
+                  <li><a target="_blank" title="<?php echo $value['name']; ?>" href="<?php echo $value['link']; ?>"><i class="fa fa-<?php echo strtolower(str_replace(" ","-",$value['name'])); ?>"></i></a></li>
+              <?php } ?>
+<!--                <li><a href="#"><i class="fa fa-facebook"></i></a></li>
+                <li><a href="#"><i class="fa fa-twitter"></i></a></li>
+                <li><a href="#"><i class="fa fa-google-plus"></i></a></li>
+                <li><a href="#"><i class="fa fa-linkedin"></i></a></li>
+                <li><a href="#"><i class="fa fa-dribbble"></i></a></li>-->
+              </ul>
+              <!-- / MailChimp for WP Plugin --> 
+            </section>
+          </div>
+          <div class="col-sm-4">
+            <section class="widget credit-cards-widget animated flipInX slower clearfix">
+              <h5 class="widget-title">supported credit cards</h5>
+              <img src="<?php echo $baseUrl; ?>public/images/pyment-imgs-min.png" alt="Clients"/> </section>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="site-info text-center animated pulse">
+      <div class="container">
+          <div class="col-md-6 text-left"> Copyright <?php echo date('Y'); ?> | All Rights Reserved </div>
+          <div class="col-md-6 text-right"><a href="https://www.catpl.co.in/travel-technology.php" style="display:none;"/>Travel Portal Development</a> Powered by <a target="_blank" href="http://hellogtx.com/"><img src="<?php echo $baseUrl; ?>public/images/hellogtx.png"></a> </div>
+      </div>
+      <div class="clearfix"></div>
+    </div>
+    <!-- .site-info --> 
+  </footer>
+
+<form id="auth_login_submit"  method="POST" action="<?php echo $baseUrl;?>index/customerlogin"> 
+    <div class="auth_login_submit">
+        <input type="hidden" name="EmailId" id="EmailId">
+        <input type="hidden" name="CustomerSysId" id="CustomerSysId">
+        <input type="hidden" name="AgencySysId" id="AgencySysId_">
+        <input type="hidden" name="FirstName" id="FirstName">
+        <input type="hidden" name="LastName" id="LastName">
+        <input type="hidden" name="Password_cu" id="Password_cu">
+        <input type="hidden" name="ContactNo1" id="Contacts">
+       
+    </div>
+</form>

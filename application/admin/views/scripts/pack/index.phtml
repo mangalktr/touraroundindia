@@ -1,0 +1,118 @@
+<?php
+$options = Zend_Controller_Front::getInstance()->getParam('bootstrap')->getOption('bootstrap');
+$resultset = $this->resultset;
+?>
+
+<script>
+    function HierarchyMenuDelete(hmid)
+    {
+        if (hmid) {
+            window.location.href = 'admin/cms/delete-menu/id/' + hmid;
+        } else {
+            window.location.href = 'admin/cms/managemenu';
+        }
+    }
+</script>
+
+<div class="content">
+
+    <div class="header">
+        <h1 class="page-title">Home Page Themes</h1>
+    </div>
+
+    <ul class="breadcrumb">
+        <li><a href="<?php echo $options['siteUrl']; ?>admin/dashboard/index">Home</a> <span class="divider">/</span></li>
+        <li class="active">Manage Home Page Themes</li>
+    </ul>
+
+    <div class="container-fluid">
+        <div class="row-fluid">
+            <div class="col-md-12">
+                <?php if (count($this->messages)) { ?>
+                    <div class="alert alert-success" >
+                        <button data-dismiss="alert" class="close" type="button">x</button>
+                        <?php foreach ($this->messages as $message) { ?>
+                            <?php echo $this->escape($message); ?>
+                        <?php } ?>
+                    </div>
+                <?php } ?>
+            </div>               
+            <div class="well">
+                <table id="tt" class="easyui-datagrid" style="width:100%;" url="admin/pack/index"
+                       iconCls="icon-save" toolbar="#tb" rownumbers="true" pagination="true" fitColumns="true" view="scrollview" nowrap="false" >
+                    <thead>
+                        <tr>
+                            <th field="Title" data-options="width:100">Title</th>
+                            <th field="DisplayOnFooter" data-options="width:100,align:'center',formatter:formatFooterAction">DIF</th>                       
+                            <th data-options="field:'firma1',width:80,align:'center',formatter:formatStaticAction">Action</th>                       
+                        </tr>
+                    </thead>
+                </table>
+                <div id="tb" style="padding:3px;">
+                    <span>Title</span>
+                    <input id="Title" onkeyup="doSearch()" style="line-height:26px;border: 1px solid #ccc">&nbsp;&nbsp;&nbsp;
+                </div>
+
+                <script type="text/javascript">
+                    function doSearch() {
+                        $('#tt').datagrid('load', {
+                            Title: $('#Title').val()
+                        });
+                    }
+                    function formatStaticAction(val, row) {
+                        var href = 'admin/pack/editpack/id/' + row.packType;
+                        return '<a href="' + href + '" title="Edit"><i class="icon-pencil"></i></a>';
+                    }
+                    function formatFooterAction(val, row, idx) {
+                        if (val != "" && val == 1) {
+                            var checked = "checked";
+                        }
+                        else {
+                            checked = "";
+                        }
+                        return '<input type="checkbox" ' + checked + ' onClick="DisplayOnFooter(\'' + row.packType + '\')" id="DisplayActive_' + row.packType + '" name="DisplayActive" value="1">';
+
+                    }
+                    function DisplayOnFooter(a) {
+                        if ($('#DisplayActive_' + a).prop("checked") === true) {
+                            var values = 1;
+                        } else if ($('#DisplayActive_' + a).prop("checked") === false) {
+                            values = 0;
+                        }
+                        //alert(values); return false;
+                        $.ajax({
+                            url: '<?php echo $options['siteUrl']; ?>admin/pack/display/id/' + a + '/val/' + values,
+                            type: 'POST',
+                            dataType: 'json',
+                            success: function (result) {
+                                if (result.status) {
+                                    alert('Record Update successfully.');
+                                } else {
+                                    if (result.message === 'Limit Exceed!!') {
+                                        alert(result.message);
+                                        $('#DisplayActive_' + a).prop("checked", false);
+
+                                    }
+
+                                }
+                            },
+                            error: function (result) {
+                                alert('Execution error activation!!');
+                            }
+                        });
+
+                    }
+                </script> 
+
+
+
+
+            </div>
+
+
+
+        </div>
+    </div>
+</div>
+
+

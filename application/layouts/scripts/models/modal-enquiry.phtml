@@ -1,0 +1,91 @@
+<?php
+$siteName = $this->siteName; 
+$POPUPCOOKIESENQUIRY = $this->POPUPCOOKIESENQUIRY;
+
+?>
+<div class="modal fade" id="myModa1Enquiry" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+
+            <div class="modal-header label-primary white">
+                <h4 class="modal-title" style="color:#FFF;">Request A Call Back <button type="button" class="close pull-right close-pop-timeout button-close" data-dismiss="modal" aria-hidden="true">×</button></h4>
+
+            </div>
+
+
+            <div class="modal-body">
+                <div class="panel-body pop-up-view" >
+                    <div class="package_det_d_left_form no-padding">
+                        <h5 class="alert alert-warning"> <strong class="text-danger"><i class="fa fa-phone-square"></i> Call us at : </strong> <span style="font-size:15px;"><?php echo $this->tollfreenumber; ?></span> <span style="font-size:8px;">(Toll free)</span></h5>
+                        <p align="center">OR</p>
+                        <h6>Give us your requirement for Customizable holiday </h6>
+                        <form id="sendEnquiry" method="post" autocomplete="off">
+                            <input type="hidden" name="planType" value="5">
+                            <input type="hidden" name="cityid" class="cityid" value="<?php echo isset($POPUPCOOKIESENQUIRY['cityid']) && !empty($POPUPCOOKIESENQUIRY['cityid']) ? $POPUPCOOKIESENQUIRY['cityid'] : ''; ?>">
+                            <!--              <div class="colspan-enquiry">
+                                            <div class="inputBox ">
+                                              <div class="inputBoxIn destination">
+                                                  <input autocomplete="off" type="text" name="Destination" id="Destination" class="txtField destinationBox" placeholder="Destination" aria-label="Name" value="<?php //echo  isset($POPUPCOOKIESENQUIRY['Destination']) && !empty($POPUPCOOKIESENQUIRY['Destination']) ? $POPUPCOOKIESENQUIRY['Destination'] : '' ;  ?>">
+                                              </div>
+                                            </div>
+                                          </div>-->
+                            <div class="colspan-enquiry">
+                                <div class="inputBox">
+                                    <div class="inputBoxIn name">
+                                         <?php if (isset($_SESSION['User']['session']) && !empty($_SESSION['User']['session'])) { ?>
+                                        <input autocomplete="off" type="text" name="inputName" id="inputName" class="txtField" placeholder="Full Name" aria-label="Full Name" value="<?php echo (trim($_SESSION['User']['session']['FirstName']) || trim($_SESSION['User']['session']['LastName'])) ? trim($_SESSION['User']['session']['FirstName']) . ' ' . trim($_SESSION['User']['session']['LastName']) : '' ?>">
+                                        <?php } else if (isset($_SESSION['TravelAgent']['session']) && !empty($_SESSION['TravelAgent']['session'])) { ?>
+                                        <input autocomplete="off" type="text" name="inputName" id="inputName" class="txtField" placeholder="Full Name" aria-label="Full Name" value="<?php echo (trim($_SESSION['TravelAgent']['session']['FirstName']) || trim($_SESSION['TravelAgent']['session']['LastName'])) ? trim($_SESSION['TravelAgent']['session']['FirstName']) . ' ' . trim($_SESSION['TravelAgent']['session']['LastName']) : '' ?>">
+                                        <?php } else { ?>
+                                        <input autocomplete="off" type="text" name="inputName" id="inputName" class="txtField" placeholder="Full Name" aria-label="Full Name" value="<?php echo isset($POPUPCOOKIESENQUIRY['name']) && !empty($POPUPCOOKIESENQUIRY['name']) ? $POPUPCOOKIESENQUIRY['name'] : ''; ?>">
+                                        <?php } ?>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="colspan-enquiry">
+                                <div class="inputBox">
+                                    <div class="inputBoxIn mobile">
+                                        <?php if (isset($_SESSION['User']['session']) && !empty($_SESSION['User']['session'])) { ?>
+                                            <input autocomplete="off" type="text" name="inputPhone" id="inputPhone" class="txtField" maxlength="10" placeholder="Phone Number" aria-label="Phone Number" value="<?php echo (trim($_SESSION['User']['session']['ContactNo1'])) ? trim($_SESSION['User']['session']['ContactNo1']) : '' ?>">
+                                        <?php } else if (isset($_SESSION['TravelAgent']['session']) && !empty($_SESSION['TravelAgent']['session'])) { ?>
+                                            <input autocomplete="off" type="text" name="inputPhone" id="inputPhone" class="txtField" maxlength="10" placeholder="Phone Number" aria-label="Phone Number" value="<?php echo (trim($_SESSION['TravelAgent']['session']['ContactNo1'])) ? trim($_SESSION['TravelAgent']['session']['ContactNo1']) : '' ?>">
+                                        <?php } else { ?>
+                                            <input autocomplete="off" type="text" name="inputPhone" id="inputPhone" class="txtField" maxlength="10" placeholder="Phone Number" aria-label="Phone Number" value="<?php echo isset($POPUPCOOKIESENQUIRY['mobile']) && !empty($POPUPCOOKIESENQUIRY['mobile']) ? $POPUPCOOKIESENQUIRY['mobile'] : ''; ?>">
+                                        <?php } ?>
+
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="colspan-enquiry">
+                                <div class="inputBox">
+                                    <div class="inputBoxIn mail">
+                                        <?php if (isset($_SESSION['User']['session']) && !empty($_SESSION['User']['session'])) { ?>
+                                        <input autocomplete="off" type="text" name="inputEmail" id="inputEmail" class="txtField" placeholder="Email Address" aria-label="Email Address" value="<?php echo (trim($_SESSION['User']['session']['EmailId'])) ? trim($_SESSION['User']['session']['EmailId']) : '' ?>">
+                                        <?php } else if (isset($_SESSION['TravelAgent']['session']) && !empty($_SESSION['TravelAgent']['session'])) { ?>
+                                        <input autocomplete="off" type="text" name="inputEmail" id="inputEmail" class="txtField" placeholder="Email Address" aria-label="Email Address" value="<?php echo (trim($_SESSION['TravelAgent']['session']['EmailId'])) ? trim($_SESSION['TravelAgent']['session']['EmailId']) : '' ?>">
+                                         <?php } else { ?>
+                                        <input autocomplete="off" type="text" name="inputEmail" id="inputEmail" class="txtField" placeholder="Email Address" aria-label="Email Address" value="<?php echo isset($POPUPCOOKIESENQUIRY['email']) && !empty($POPUPCOOKIESENQUIRY['email']) ? $POPUPCOOKIESENQUIRY['email'] : ''; ?>">
+                                    <?php } ?>
+                                    </div>
+                                </div>
+                            </div>
+                            <label class="checkbox inlinebl">
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                <input type="checkbox" name="optionscheckbox" id="optionscheckbox1" value="option1" class="icheck-green">
+                                <span style="font-size:12px;">I request and authorize <?php echo $siteName;?> to contact me. </span> </label>
+                            <p id="msg"></p>
+                            <p> 
+                                <input type="submit" class="btn btn-danger sendEnquiry" value="Send Enquiry">
+                            </p>               
+                        </form>            
+                    </div>                    
+                    <div> </div>
+                </div>
+
+
+                <div class="clear"></div>
+            </div>
+
+        </div>
+    </div>
+</div>

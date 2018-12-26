@@ -1,0 +1,171 @@
+<?php
+$hotelData = $this->hotelData;
+$baseUrl = $this->baseUrl;
+$type = $this->type;
+//echo"<pre>";print_r($hotelData);echo"</pre>";
+if ($type == 'H') {
+    ?>
+    <div class="modal-content">
+        <div class="modal-header label-primary white">
+            <h4 class="modal-title" style="color:#FFF;">More Details <button type="button" class="close pull-right close-pop-timeout button-close" data-dismiss="modal" aria-hidden="true">×</button></h4>
+        </div>
+        <div class="modal-body">
+            <div class="panel-body pop-up-view" >
+                <section id="fancyTabWidget" class="tabs t-tabs">
+                    <ul class="nav nav-tabs fancyTabs no-margin" role="tablist">
+                        <?php if (!empty($hotelData['MainImg']) || !empty($hotelData['Brief'])) { ?>
+                        <li class="tab fancyTab active">
+                            <div class="arrow-down">
+                                <div class="arrow-down-inner"></div>
+                            </div>
+                            <a id="tab0" href="#tabBody0" role="tab" aria-controls="tabBody0" aria-selected="true" data-toggle="tab" tabindex="0"><span >Overview</span></a>
+                            <div class="whiteBlock"></div>
+                        </li>
+                        <?php } if (!empty($hotelData['AccoAminities'])) { ?>
+                            <li class="tab fancyTab">
+                                <div class="arrow-down">
+                                    <div class="arrow-down-inner"></div>
+                                </div>
+                                <a id="tab1" href="#tabBody1" role="tab" aria-controls="tabBody1" aria-selected="true" data-toggle="tab" tabindex="0"><span >Amenities</span></a>
+                                <div class="whiteBlock"></div>
+                            </li>
+                            <?php
+                        }
+                        if (!empty($hotelData['Images']['Image'])) {
+                            ?>
+                            <li class="tab fancyTab">
+                                <div class="arrow-down">
+                                    <div class="arrow-down-inner"></div>
+                                </div>
+                                <a id="tab2" href="#tabBody2" role="tab" aria-controls="tabBody2" aria-selected="true" data-toggle="tab" tabindex="0"><span>Photos</span></a>
+                                <div class="whiteBlock"></div>
+                            </li>
+                        <?php } ?>
+                        <li class="tab fancyTab">
+                            <div class="arrow-down">
+                                <div class="arrow-down-inner"></div>
+                            </div>
+                            <a id="tab3" href="#tabBody3" role="tab" aria-controls="tabBody3" aria-selected="true" data-toggle="tab" tabindex="0"><span >Map</span></a>
+                            <div class="whiteBlock"></div>
+                        </li>
+                    </ul>
+                    <div id="myTabContent" class="tab-content fancyTabContent" aria-live="polite">
+                        <?php if (!empty($hotelData['MainImg']) || !empty($hotelData['Brief'])) { ?>
+                        <div class="tab-pane  fade active in" id="tabBody0" role="tabpanel" aria-labelledby="tab0" aria-hidden="false" tabindex="0">
+                            <div>
+                                <div class="row">
+                                    <div class="col-md-12 mob-pad col-sm-12 package_det_hotel">
+                                        <h2><?php echo ucfirst($hotelData['Name']); ?></h2>
+                                        <h5>Why stay here?</h5>                   
+                                        <img style="width:272px;height:239px;" src="<?php
+                                        if ((trim($hotelData['MainImg']) == "No File") || (trim($hotelData['MainImg']) == "0") || (trim($hotelData['MainImg']) == "")) {
+                                            echo Catabatic_Helper::getNoImage('hotel');
+                                        } else {
+                                            echo $hotelData['MainImg'];
+                                        }
+                                        ?>" class="imgBhutanCl pull-right" onerror="this.src='<?php echo Catabatic_Helper::getNoImage('hotel'); ?>'" />
+                                        <p><?php echo html_entity_decode($hotelData['Brief']); ?></p>
+                                    </div>
+                                    <div class="cl"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <?php } if (!empty($hotelData['AccoAminities'])) { ?>
+                            <div class="tab-pane  fade" id="tabBody1" role="tabpanel" aria-labelledby="tab1" aria-hidden="true" tabindex="0">
+                                <div class="row">
+                                    <div class="col-md-12 no-padding package_det_hotel">
+                                        <ul class="roomactivities">
+                                            <?php foreach ($hotelData['AccoAminities'] as $AccoAminitieskey => $AccoAminitiesVal) { ?>
+                                                <li><span><?php echo $AccoAminitiesVal['Title'] ?></span></li>
+                                            <?php } ?>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        <?php } if (!empty($hotelData['Images']['Image'])) { ?>
+                            <div class="tab-pane  fade" id="tabBody2" role="tabpanel" aria-labelledby="tab2" aria-hidden="true" tabindex="0">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div id="gallery2"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        <?php } ?>
+                        <div class="tab-pane  fade active in" id="tabBody3" role="tabpanel" aria-labelledby="tab3" aria-hidden="true" tabindex="0">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <?php if ($hotelData['Location']['Lat'] != 0 && $hotelData['Location']['Long'] != 0) { ?>
+                                        <iframe src="//maps.google.com/maps?q=<?php echo trim($hotelData['Location']['Address']); ?>&loc:<?php echo trim($hotelData['Location']['Lat']); ?>+<?php echo trim($hotelData['Location']['Long']); ?>&z=9&output=embed" width="100%" height="390" frameborder="0" style="border:0" allowfullscreen></iframe>
+                                    <?php } else { ?>
+                                        <div class="alert alert-danger">
+                                            <span>Map location is not available.</span>
+                                        </div> 
+                                    <?php } ?>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+                <p></p>
+                <div> </div>
+            </div>
+            <div class="clear"></div>
+        </div>
+    </div>
+<script type="text/javascript">
+                $(document).ready(function () {
+                    var numItems = $('li.fancyTab').length;
+                    
+                    if (numItems == 12) {
+                        $("li.fancyTab").width('8.3%');
+                    }
+                    if (numItems == 11) {
+                        $("li.fancyTab").width('9%');
+                    }
+                    if (numItems == 10) {
+                        $("li.fancyTab").width('10%');
+                    }
+                    if (numItems == 9) {
+                        $("li.fancyTab").width('11.1%');
+                    }
+                    if (numItems == 8) {
+                        $("li.fancyTab").width('12.5%');
+                    }
+                    if (numItems == 7) {
+                        $("li.fancyTab").width('14.2%');
+                    }
+                    if (numItems == 6) {
+                        $("li.fancyTab").width('16.666666666666667%');
+                    }
+                    if (numItems == 5) {
+                        $("li.fancyTab").width('20%');
+                    }
+                    if (numItems == 4) {
+                        $("li.fancyTab").width('25%');
+                    }
+                    if (numItems == 3) {
+                        $("li.fancyTab").width('33.3%');
+                    }
+                    if (numItems == 2) {
+                        $("li.fancyTab").width('50%');
+                    }
+                });
+
+                var images = [ ];
+                <?php 
+                    foreach ($hotelData['Images']['Image'] as $imageVal) {
+                        if ($imageVal['URL']) { ?>
+                            images.push(['<?php echo $imageVal['URL']; ?>']);
+                       <?php }
+                    }
+                    ?>
+                $(function () {
+                    $('#gallery2').imagesGrid({
+                        images: images
+                    });
+
+                });
+
+            </script>
+            
+<?php } ?>

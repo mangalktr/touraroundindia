@@ -1,0 +1,120 @@
+<?php // 
+$options = Zend_Controller_Front::getInstance()->getParam('bootstrap')->getOption('bootstrap');
+$resultset = $this->resultset; 
+?>
+<style type="text/css">
+    li{list-style:none; color:#ed3237; font-size:13px;}
+    ul{margin:0px; padding:0px;}
+</style>
+
+
+<div class="content">
+        
+<div class="header">
+    <h1 class="page-title">Add Destination Region For Header</h1>
+</div>
+
+<ul class="breadcrumb">
+    <li><a href="<?php echo $options['siteUrl'];?>admin/dashboard/index">Home</a> <span class="divider">/</span></li>
+    <li><a href="<?php echo $options['siteUrl'];?>admin/destination/region">Manage Destination Region List For Header</a> <span class="divider">/</span></li>
+    <li class="active">Add Region For Header
+</li>
+</ul>
+
+<div class="container-fluid">
+    <div class="row-fluid">       
+   
+    <?php if($this->successMessage) { ?>
+        <div class="alert alert-info">
+        <button data-dismiss="alert" class="close" type="button">×</button>
+        <?php echo $this->successMessage; ?>
+        </div> 
+    <?php } ?>
+        
+   <?php if($this->errorMessage) { ?>
+       <div class="alert alert-error">
+           <button data-dismiss="alert" class="close" type="button">×</button>
+           <?php echo $this->errorMessage; ?>
+       </div>
+   <?php } ?>
+      
+   <?php if($this->error1Message) { ?>
+       <div class="alert alert-error">
+           <button data-dismiss="alert" class="close" type="button">×</button>
+           <?php echo $this->error1Message; ?>
+       </div>
+   <?php } ?>   
+        
+<div class="well">
+    <ul class="nav nav-tabs">
+      <li class="active"><a href="#edit_page" data-toggle="tab">Add Region For Header</a></li>
+    </ul>
+     <?php $form = $this->form;?>
+    <div id="myTabContent" class="tab-content">
+      <div class="tab-pane active in" id="add_page">
+          <form id="add_destination" class="add_destination" method="<?php echo $this->form->getMethod();?>" action="<?php echo $this->form->getAction();?>" name="<?php echo $this->form->getName();?>" enctype="multipart/form-data">
+        <?php echo $form->sid;?>
+               
+        <label>Title</label>
+        <?php echo $form->title;?>
+        
+        <label>Status</label>
+        <?php echo $form->status;?>
+       
+     
+        <div style="padding-top:20px;">
+            <p class="msg" style="color:#ff0000;"></p>
+            <input type="submit" name="save" value="Save" class="btn btn-primary">
+            <button class="btn btn-primary" type="submit" onclick="window.location.href='admin/destination/region'">Cancel</button>
+        </div>
+        
+    </form>
+      </div>
+  </div>
+
+</div>                    
+    </div>
+</div>
+</div>
+
+<script>
+    $(document).ready(function() {
+        $( ".add_destination" ).on('submit',function(){
+            if($('.add_destination input[name="title"]').val().trim() == ''){
+                $('.msg').html('Please enter title above');
+		$('.add_destination input[name="title"]').focus();return false;
+            }
+            if($('.add_destination input[name="activities"]').val().trim() == ''){
+                $('.msg').html('Please enter activities above');
+		$('.add_destination input[name="activities"]').focus();return false;
+            }
+            
+            if($('.add_destination input[name="tours"]').val().trim() == ''){
+                $('.msg').html('Please enter tours above');
+		$('.add_destination input[name="tours"]').focus();return false;
+            }
+            
+            if($('.add_destination input[name="hotels"]').val().trim() == ''){
+                $('.msg').html('Please enter hotels above');
+		$('.add_destination input[name="hotels"]').focus();return false;
+            }
+            
+            if($('.add_destination input[name="image"]').val().trim() == ''){
+                $('.msg').html('Please enter image above');
+		$('.add_destination input[name="image"]').focus();return false;
+            }
+            
+            if($('.add_destination input[name="banner_image"]').val().trim() == ''){
+                $('.msg').html('Please enter banner image above');
+		$('.add_destination input[name="banner_image"]').focus();return false;
+            }
+            
+            if($('.add_destination input[name="countries"]').val().trim() == ''){
+                $('.msg').html('Please enter countries above');
+		$('.add_destination input[name="countries"]').focus();return false;
+            }
+            
+            //alert(data);
+        });
+    });
+</script>

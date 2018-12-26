@@ -1,0 +1,1035 @@
+<?php
+$object = Zend_Controller_Front::getInstance();
+$options = $object->getParam('bootstrap')->getOption('bootstrap');
+$modulename = $object->getRequest()->getModuleName();
+$getMypopCookie = Zend_Controller_Action_HelperBroker::getStaticHelper('General')->getMypopCookie('MyCookies');
+
+$mydevice = Zend_Controller_Action_HelperBroker::getStaticHelper('General')->getDevice();
+if($mydevice == 'desktop'){
+    $sectionshow1 = 'sectionshow1';
+}else{
+     $sectionshow1 = 'content';
+}
+$url = $this->url();
+$paramss = $this->params;
+$callusnumber = $this->callusnumber;
+$detail = $this->detail;
+//echo"<pre>";print_r($detail['itementries']['IsBusRoutePackage']);echo"</pre>";exit;
+$mealplantype = $this->mealplantype;
+$relatedPackages = $this->relatedPackages;
+$priceJsonViewFile = $this->priceJsonViewFile;
+$isModified = $this->isModified;
+$bannerArray = $this->bannerArray;
+$destinationView = explode(",", $detail['Destinations']);
+$destinationViewId = explode(",", $detail['DestinationsId']);
+$objHelper = Zend_Controller_Action_HelperBroker::getStaticHelper('General');
+$packageTypeStatic = 2;
+$packageSubTypeStatic = 1;
+$hidden = 'hidden';
+$displaycheckbox = 'none'; // none | block   // for dynamic package hidden input field
+$defaultImgPath = $this->baseUrl . 'public/images/';
+
+$dayViewNew = $detail['dayViewNew'];
+$dayview = $detail['dayView'];
+
+$dayItineraryArray = [];
+$iti = '';
+$tempArr = [];
+for ($r = 0; $r < count($dayViewNew); $r++) {
+    $iti = $dayViewNew[$r]['day']['Day'];
+    if (!in_array($iti, $tempArr)) {
+        $dayItineraryArray[$iti] = $dayViewNew[$r];
+        $tempArr[] = $iti;
+    } else {
+        $dayItineraryArray[$iti]['repeat'] = 1;
+        $dayItineraryArray[$iti]['day']['Title'] = [$dayViewNew[$r - 1]['day']['Title'], $dayViewNew[$r]['day']['Title']];
+        $dayItineraryArray[$iti]['day']['Program'] = [$dayViewNew[$r - 1]['day']['Program'], $dayViewNew[$r]['day']['Program']];
+        $dayItineraryArray[$iti]['Hotels'] = [$dayViewNew[$r - 1]['Hotels'], $dayViewNew[$r]['Hotels']];
+        $dayItineraryArray[$iti]['Activities'] = [$dayViewNew[$r - 1]['Activities'], $dayViewNew[$r]['Activities']];
+        $dayItineraryArray[$iti]['SightSeeings'] = [$dayViewNew[$r - 1]['SightSeeings'], $dayViewNew[$r]['SightSeeings']];
+    }
+}
+
+//echo "<pre>";print_r($dayItineraryArray);exit;
+
+if (!empty($detail)) {
+    $PackageType = $detail['PackageType'];
+    $PackageSubType = $detail['PackageSubType'];
+    $GTXPkgId = $this->gtxId;
+    $PkgSysId = $this->packageId;
+    $catId = $this->catId;
+    $tourtype = $this->tourtype;
+    $BookingValidUntil = $detail['BookingValidUntil'];
+
+    if ($PackageType == $packageTypeStatic) {
+        $TPId = $detail['TPId'];
+    } else {
+        $TPId = $detail['tourType'][$objHelper->getTourTypeChar($tourtype)][Catabatic_Helper::getPackageType($catId)]['TPId'];
+    }
+// do dynamic
+    $CitiesArray = $detail['finalArray']['city'];
+    $hotelHotelArray = array();
+    $transfersArray = $ItineraryIdArray = [];
+    $CitiesArray = $detail['CitiesArray'];
+    $CategoriesArray = $detail['CategoriesArray'];
+    $hotelHotelArray = $detail['hotelHotelArray'];
+    $hotelIdArray = $detail['hotelIdArray'];
+    $ActivitiesArray = $detail['ActivitiesArray'];
+    $SightSeeingsArray = $detail['SightSeeingsArray'];
+    $transfersArray = $detail['transfersArray'];
+    $TransfersMaster = $detail['TransfersMaster'];
+    $OtherServices = $detail['OtherServices'];
+    $itinerariesDays = $detail['itinerariesDays'];
+    $ItineraryIdArray = $detail['ItineraryIdArray'];
+    $itinerariesArray = $detail['itinerariesArray'];
+    $cityMaster = isset($detail['cityMaster']) ? $detail['cityMaster'] : [];
+    $masterDataHotel = $objHelper->getMasterData($PkgSysId, 'h');
+    $masterDataCity = $objHelper->getMasterData($PkgSysId, 'city');
+
+    foreach ($detail['itementries']['Itineraries']['Itinerary'] as $itineraries) {
+        $itinerariesDays[] = $itineraries['Day'];
+        $ItineraryIdArray[] = $itineraries['ItineraryId'];
+
+
+        foreach ($itineraries['ItineraryItem'] as $itinerariesItem) {
+            if ($itinerariesItem['Type'] == 'HOTEL') {
+                foreach ($itinerariesItem['Items'] as $itinerariesHotel) {
+                    if ($itinerariesHotel['Id'] == $this->catId) {
+                        if (isset($itinerariesHotel['Item'])) {
+                            foreach ($itinerariesHotel['Item'] as $itinerariesDayHotel) {
+                                if ($itinerariesDayHotel['IsIncluded'] == true) {
+                                    $hotelHotelArray[] = $itinerariesDayHotel['Id'];
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+
+            if ($itinerariesItem['Type'] == 'TRANSFERS') {
+
+                foreach ($itinerariesItem['Items'] as $itinerariesHotel) {
+
+                    if (isset($itinerariesHotel['Type'])) {
+                        foreach ($itinerariesHotel['Item'] as $itinerariesDayHotel) {
+                            if ($itinerariesDayHotel['IsIncluded'] == true) {
+                                $transfersArray[$itinerariesHotel['Type']][$itineraries['Day']][] = $itinerariesDayHotel['Id'];
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    foreach ($detail['CategoriesArray'] as $value) {
+        if (is_array($value)) {
+            foreach ($value as $key) {
+                foreach ($key['price'] as $pricedetail) {
+                    $pricedetail['PricePerPerson'];
+                }
+            }
+        }
+    }
+
+    $ActivitiesArray = array();
+    foreach ($detail['dayView'] as $itineraries) {
+        foreach ($itineraries['Activities'] as $itinerariesItem) {
+
+            if ($itinerariesItem['Type'] == 'ACTIVITY') {
+                foreach ($itinerariesItem['Items'] as $itinerariesHotel) {
+                    foreach ($itinerariesHotel['Item'] as $itinerariesDayHotel) {
+                        if ($itinerariesDayHotel['IsIncluded'] == true) {
+                            $ActivitiesArray[] = $itinerariesDayHotel['Id'];
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    $SightSeeingsArray = array();
+    foreach ($detail['dayView'] as $itineraries) {
+        foreach ($itineraries['SightSeeings'] as $itinerariesItem) {
+
+            if ($itinerariesItem['Type'] == 'SIGHTSEEING') {
+                foreach ($itinerariesItem['Items'] as $itinerariesHotel) {
+                    foreach ($itinerariesHotel['Item'] as $itinerariesDayHotel) {
+                        if ($itinerariesDayHotel['IsIncluded'] == true) {
+                            $SightSeeingsArray[] = $itinerariesDayHotel['Id'];
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    $TransfersMaster = $detail['itementries']['TransfersMaster'];
+    $itinerariesDays = array_unique($itinerariesDays);
+    $totalActivitiesArray = array_unique($ActivitiesArray);
+    $totalSightSeeingsArray = array_unique($SightSeeingsArray);
+    $baseUrl = $this->baseUrl;
+
+    $Inclusions = explode(',', trim($detail['itementries']['Inclusions'], ","));
+    // $removeArrayItem = array('Hotel', '', 'Sightseeing', 'Activity');
+    $removeArrayItem = array('');
+    $Inclusions = array_diff($Inclusions, $removeArrayItem);
+    if (!empty($Inclusions)) {
+        $Inclusions = implode(',', $Inclusions);
+    } else {
+        $Inclusions = "";
+    }
+    // echo "<pre>";print_r($Inclusions);exit;
+    $InclusionsMaster = unserialize(CONST_INCLUSIONS_MASTER);
+    $CONST_MEAL_PLAN_ARR = unserialize(CONST_MEAL_PLAN_ARR);
+    //echo "<pre>";print_r($InclusionsMaster);exit;
+    $hotels_array_included_only = $detail['hotels_array_included_only'];
+
+    $inner_hotels = $temparray = $hotels_array_included_only_view = [];
+    foreach ($hotels_array_included_only as $key => $value_hotel) {
+        $inner_hotels = $value_hotel[Catabatic_Helper::getPackageType($catId)];
+        $hotel_id = '';
+        foreach ($inner_hotels as $k => $val) {
+            if ($PackageSubType == 1) {
+                if ($CONST_MEAL_PLAN_ARR[$val['mp']] == $detail['MPType']) {
+                    $hotel_id = $val['id'];
+                }
+            } else {
+                $hotel_id = $val['id'];
+            }
+        }
+
+        $value = ($hotel_id) ? $masterDataHotel[$hotel_id] : [];
+
+        if (array_key_exists('RefHotelId', $value) && !in_array($hotel_id, $temparray)) {
+            $hotels_array_included_only_view[] = $value;
+        }
+        $temparray[] = $hotel_id;
+    }
+
+    $hotelHotelArrayU = $hotels_array_included_only_view;
+} else {
+    echo "This Package is not Valid";
+}
+//echo"<pre>";print_r($this->bannerArray);die;
+if ($bannerArray) {
+    $checkBanner = $_SERVER['DOCUMENT_ROOT'] . "/public/upload/destinations/" . $bannerArray[0]['DesSysId'] . "/banner/large/" . $bannerArray[0]['Bannerimg'];
+    $checkBanner2 = $_SERVER['DOCUMENT_ROOT'] . "/public/upload/destinations/" . $bannerArray[1]['DesSysId'] . "/banner/large/" . $bannerArray[1]['Bannerimg'];
+    if (file_exists($checkBanner)) {
+        $bannerImage = $baseUrl . "public/upload/destinations/" . $bannerArray[0]['DesSysId'] . "/banner/large/" . $bannerArray[0]['Bannerimg'];
+    } else if (file_exists($checkBanner2)) {
+        $bannerImage = $baseUrl . "public/upload/destinations/" . $bannerArray[1]['DesSysId'] . "/banner/large/" . $bannerArray[1]['Bannerimg'];
+    } else {
+        $bannerImage = $baseUrl . "public/images/big_singapore-with-bintan-min.jpg";
+    }
+} else {
+    $bannerImage = $baseUrl . "public/images/big_singapore-with-bintan-min.jpg";
+}
+$enqueryArray = [
+    'CategoriesArray' => $detail['CategoriesArray']['P'],
+    'catId' => $catId,
+];
+
+
+$IsBusRoutePackage = $detail['itementries']['IsBusRoutePackage'];
+$BuspickupLocation = $detail['itementries']['BuspickupLocation'];
+
+
+?>
+<div id="content" class="site-content ">
+    <div id="tropical-banner" class=" text-center clearfix no-margin">
+        <img src="<?php echo $bannerImage; ?>" alt="banner"/>
+        <!--<div class="container banner-contents clearfix">
+                    <h2 class="template-title p-name"><strong><?php echo $detail['itementries']['Name']; ?></strong></h2>
+                </div>-->
+        <div class="breadcrumb-wrapper clearfix" id="sectionshow1">
+            <div class="container">
+                <ol class="breadcrumb">
+                    <li><a href="<?php echo $baseUrl; ?>" >Home</a></li>
+                    <li><a href="<?php echo $baseUrl; ?>tours/package" >Packages </a></li>
+                    <li class="active"><?php echo $detail['itementries']['Name']; ?></li>
+                </ol>
+            </div>
+        </div>
+        <span class="overlay"></span>
+    </div>
+    <section class="tour-single clearfix Package-wrapper"  >
+        <div class="container package-center-cont">
+
+            <div class="col-lg-4 col-sm-12 border-line padd_box_mob"> <h2 title="<?php echo $detail['itementries']['Name']; ?> "><?php echo $objHelper->trimContent($detail['itementries']['Name'],27); ?> 
+                    <!--<a href="#"><i class="fa fa-edit"></i></a>-->
+                </h2>
+                <?php echo count($detail['dayItineraryArray']); ?> Day<?php if(count($detail['dayItineraryArray'])>1){?>s  / <?php echo count($detail['dayItineraryArray']) - 1; ?> Nights  <?php } ?>
+            </div>
+
+            <div class="col-lg-4 col-sm-12 border-line padd_box_mob"> 
+                <div class="space space-1"></div>   
+                <?php if ($CategoriesArray['NetPrice'] !== $CategoriesArray['DiscountNetPrice']) { ?>
+                    <h3><span class="WebRupee">Rs</span><?php echo $objHelper->moneyFormatINR(@round($CategoriesArray['DiscountNetPrice'])); ?></h3>
+                <?php } ?>
+                <?php if ($PackageType == $packageTypeStatic) { ?>
+                    <input type="<?php echo $hidden ?>" id="original_pkgprice_<?php echo $PkgSysId; ?>"  class="original_pkgprice_<?php echo $PkgSysId; ?>" value="<?php echo (isset($CategoriesArray['NetPrice'])) ? $CategoriesArray['NetPrice'] : 0; ?>" />
+                    <input type="<?php echo $hidden ?>" id="updated_pkgprice_<?php echo $PkgSysId; ?>" class="updated_pkgprice_<?php echo $PkgSysId; ?>" value="<?php echo ($this->sessionPrice) ? $this->sessionPrice : ((isset($CategoriesArray['NetPrice'])) ? $CategoriesArray['NetPrice'] : 0); ?>" />
+                <?php } ?>
+                <h3 class="pkgprice_html_<?php echo $PkgSysId; ?>"><span class="WebRupee">Rs.</span><span id = "displayPrice"><?php echo $objHelper->moneyFormatINR(($this->sessionPrice) ? round($this->sessionPrice) : round($CategoriesArray['NetPrice']) ); ?></span>
+                    <span class="person">
+                        <?php
+                        if ($PackageType == $packageTypeStatic) {
+                            if ($tourtype == 1) {
+                                $sizeT = $detail['itementries']['AllowMinPax'];
+                            } else {
+                                $sizeT = $detail['itementries']['GroupSize'];
+                            }
+                            echo "Per Person For a Group Size of $sizeT Pax";
+                        } else {
+                            ?>
+                            Per Person <?php if(count($detail['dayItineraryArray'])>1){?> twin sharing <?php }?>
+                        <?php } ?>
+                    </span>
+
+                </h3> 
+            </div>
+             <input type="hidden" id="isFixedDeparture" value="<?php echo $detail['isFixedDeparture']; ?>" />
+            <input type="hidden" id="PkgSysIdHTML" value="<?php echo $PkgSysId; ?>" />
+            <input type="hidden" id="packagetype_<?php echo $PkgSysId; ?>" value="<?php echo $PackageType; ?>" />
+            <input type="hidden" id="gtxpackage_<?php echo $PkgSysId; ?>" value="<?php echo $GTXPkgId; ?>" />
+            <input type="hidden" id="tourtype_<?php echo $PkgSysId; ?>" value="<?php echo $tourtype; ?>" />
+            <div style="display:none ">
+                <input type="radio" name="hotelTypeElement_<?php echo $PkgSysId; ?>" checked="" value="<?php echo Catabatic_Helper::getPackageType($this->catId); ?>" />
+                <input type="radio" name="tType_<?php echo $PkgSysId; ?>" value="<?php echo $this->tourtype; ?>" checked="" />
+            </div>
+            <input type="hidden" id="gtxpackagebookingvaliduntil_<?php echo $PkgSysId; ?>" value="<?php echo $BookingValidUntil; ?>" />
+            <input type="hidden" id="hotelcategoryid_<?php echo $PkgSysId; ?>" value="<?php echo $catId; ?>" />
+            <input type="hidden" id="packagetpid_<?php echo $PkgSysId; ?>" value="<?php echo $TPId; ?>" />
+            <input type="hidden" id="packagename_<?php echo $PkgSysId; ?>" value="<?php echo $detail['itementries']['Name']; ?>" />
+            <input type="hidden" id="mealplantype_<?php echo $PkgSysId; ?>" value="<?php echo (!empty($detail['MPType'])) ? Catabatic_Helper::getMealPlanType($detail['MPType']) : ''; ?>" />
+            <!--<input type="hidden" id="packagedesname_<?php echo $PkgSysId; ?>" value="<?php echo isset($destinationView) ? $destinationView[0] : '' ?>" />-->
+            <input type="hidden" id="packagedesname_<?php echo $PkgSysId; ?>" value="<?php echo isset($destinationView) ? $destinationView[0] : '' ?>" />
+            <input type="hidden" id="packagedesid_<?php echo $PkgSysId; ?>" value="<?php echo isset($destinationViewId) ? $destinationViewId[0] : '' ?>" />
+            <input type="hidden" id="url" value="<?php echo $url; ?>">
+            <div class="col-lg-4 col-sm-12 padd_box_mob">
+                <div class="space1"></div>
+                <span class="m-top-btn m-top-btn Ceck-rate-btn-right">
+                <a href="javascript:void(0);" data-target="#myModa1packageEnquiry"     data-toggle="modal" class="btn btn-black btn-sm sendEnuiryPackage" data-rv="<?php echo $PkgSysId; ?>"> Request a callback </a>
+                <?php if (isset($_SESSION['TravelAgent']['session'])) { ?>
+                    <a href="javascript:void(0);" data-target="#myModa1packageRateEnquiry" data-toggle="modal"  class="btn btn-danger btn-sm sendRateEnuiryPackage" data-rvs="<?php echo $PkgSysId; ?>">Get Proposal</a>
+                    <!--<a href="<?php // echo $url; ?>#<?php // echo $sectionshow1; ?>" class="btn btn-primary btn-sm mSendEnuiryCheckRatePackage" id="mSendEnuiryCheckRatePackage" data-rvs="<?php // echo $PkgSysId; ?>">Get Proposal</a>-->
+                <?php } else { ?>
+                    <a href="javascript:void(0);" data-target="#myModa1packageRateEnquiry" data-toggle="modal"  class="btn btn-danger btn-sm sendRateEnuiryPackage" data-rvs="<?php echo $PkgSysId; ?>">Book Now</a>
+                    <!--<a href="<?php // echo $url; ?>#<?php // echo $sectionshow1; ?>" class="btn btn-danger btn-sm mSendEnuiryCheckRatePackage" id="mSendEnuiryCheckRatePackage" data-rvs="<?php // echo $PkgSysId; ?>">Book Now</a>-->
+                <?php } ?>
+                </span>    
+            </div>
+        </div>
+    </section>
+<!--    <section class="booking-single clearfix"> 
+               <div class="container">
+                <?php // echo $this->partial('index/request-checkrate-enquiry.phtml', ['baseUrl' => $baseUrl, 'paramArray' => $enqueryArray, 'objHelper' => $objHelper,'dayItineraryArray' =>$detail['dayItineraryArray'],'IsBusRoutePackage'=>$IsBusRoutePackage,'BuspickupLocation'=>$BuspickupLocation]); ?>
+
+          </div>
+          <div class="clearfix"></div>
+          </section>-->
+    <section class="tour-single clearfix">
+        <div class="container">
+
+            <div class="row">
+                <div class="col-lg-5 col-sm-8">
+                    <?PHP
+                    $Images = explode(",", $detail['Image']);
+                    // echo "<pre>";print_r($Images);exit;
+                    $PkgSysId = explode("_", $Images[0]);
+                    $PkgSysId = $PkgSysId[0];
+                    if (!empty($PkgSysId)) {
+                        ?>
+                        <article class="tour-post-single clearfix">
+                            <div class="tour-single-slider animatedParent clearfix">
+                                <div class="slier tour-single-slider-for animated fadeInUpShort">
+                                    <?php foreach ($Images as $name) { ?>
+                                        <div class="item"><img src="<?php echo $baseUrl; ?>public/upload/tours/<?php echo $PkgSysId; ?>/images/large/<?php echo $name; ?>" alt="Tour Single"/></div>                        
+                                    <?php } ?>                               
+                                </div>
+                                <div class="slider tour-single-slider-nav animated fadeInUpShort">                  
+                                    <?php foreach ($Images as $key => $name) { ?>
+                                        <div class="item <?php echo $key == 1 ? 'slick-active' : ''; ?>"><img src="<?php echo $baseUrl; ?>public/upload/tours/<?php echo $PkgSysId; ?>/images/thumb/<?php echo $name; ?>" alt="Tour Single"/></div>                        
+                                    <?php } ?>
+                                </div>
+                            </div>
+                        </article>
+                    <?php } ?>
+
+                </div>
+                <div class="col-lg-7 col-sm-4">
+                    <header class="entry-header animatedParent clearfix">
+                        <h3 class="tour-single-title animated growIn slower"><?php echo $detail['itementries']['Name']; ?>                                                                                                                      
+                        </h3>
+                        <div class="Package-right-side">
+                            <p>
+                                <i class="fa fa-sun-o"></i> <?php echo count($detail['dayItineraryArray']); ?> Day<?php if(count($detail['dayItineraryArray'])>1){ ?>s <span class="line-1"> / </span> <i class="fa fa-moon-o"></i> <?php echo count($detail['dayItineraryArray']) - 1; ?> Nights<?php }?> <span class="line-1"> | </span>   <?php echo $detail['itementries']['Countries']; ?> , <?php echo $destinationView[0]; ?> 
+                            </p>
+
+                            <div class="clearfix"></div>
+                            <?php if (isset($detail['PackageCategory']) && !empty($detail['PackageCategory'])) { ?>
+                                <div class="margin-tag">
+                                    <?php
+                                    $categoryTypeArray = explode(',', $detail['PackageCategory']);
+                                    foreach ($categoryTypeArray as $value) {
+                                        ?>
+                                        <span class="tags-link"><?php echo $value; ?></span>
+                                    <?php }
+                                    ?>
+                                </div>
+                            <?php } ?>
+                        </div>
+                        <h4>
+                            <i class="fa fa-trophy"></i>  Most Popular
+                        </h4>
+                        <span>Starting From</span>
+
+                        <div class="clearfix"></div>
+                        <div class="select-Box">
+                            <?php
+                       
+                            $count = 0;
+                            $counter = 0;
+                            //echo "<pre>";print_r($detail['CategoriesArray']['P']);exit;
+
+                            foreach ($detail['CategoriesArray']['P'] as $key => $value) {
+                                if (count($detail['CategoriesArray']['P']) > 0) {
+//                                    if ($catId == 1 && $i == 1) {
+//                                       
+//                                        $count++;
+//                                    }
+//                                    if ($catId == 2 && $i == 2) {
+//                                        
+//                                        $count++;
+//                                    }
+//                                    if ($catId == 3 && $i == 3) {
+//                                      
+//                                        $count++;
+//                                    }
+//                                    if ($catId == 4 && $i == 4) {
+//                                     
+//                                        $count++;
+//                                    }
+//                                    if ($catId == 5 && $i == 5) {
+//                                        
+//                                        $count++;
+//                                    }
+
+                                    if ($key == 'Budget') {
+                                        $active = 'deluxe1Active';
+                                        $i = 1;
+                                    }
+                                    if ($key == 'Standard') {
+                                          $active = 'deluxe2Active';
+                                          $i = 2;
+                                    }
+                                    if ($key == 'Deluxe') {
+                                          $active = 'deluxe3Active';
+                                        $i = 3;
+                                    }
+                                    if ($key == 'Luxury') {
+                                           $active = 'deluxe4Active';
+                                        $i = 4;
+                                    }
+                                    if ($key == 'Premium') {
+                                        $i = 5;
+                                        $active = 'deluxe5Active';
+                                    }
+                                    ?>
+                                    <span class="deluxe <?php
+                                    if ($catId == $i) {
+                                        echo $active;
+                                      //  $counter++;
+                                    } else {
+                                        echo '';
+                                    }
+                                    ?> selectedTpId myId<?php echo $i; ?>" datacatId="<?php echo $i; ?>" dataTpId="<?php echo $value['TPId']; ?>" onclick="changeContentByCategory('<?php echo $paramss['countryname']; ?>', '<?php echo Catabatic_Helper::getSeoName($detail['itementries']['Name']); ?>', '<?php echo $this->packageId; ?>', '<?php echo $i; ?>', '<?php echo $this->gtxId; ?>', '<?php echo $this->tourtype; ?>', '<?php echo $this->mealplantype; ?>')">
+                                    <?php
+                                } else {
+                                    ?>
+                                        <span class="deluxe deluxe1Active selectedTpId myId<?php echo $i; ?>" datacatId="<?php echo $i; ?>" dataTpId="<?php echo $value['TPId']; ?>" onclick="changeContentByCategory('<?php echo $paramss['countryname']; ?>', '<?php echo Catabatic_Helper::getSeoName($detail['itementries']['Name']); ?>', '<?php echo $this->packageId; ?>', '<?php echo $i; ?>', '<?php echo $this->gtxId; ?>', '<?php echo $this->tourtype; ?>', '<?php echo $this->mealplantype; ?>')">
+
+                                      <?php } ?>
+                                        <div class="middle_box">
+                                            <div class="middle_box_content">
+                                                <span class="small-1-2"><?php echo $key; ?> Category</span>
+                                                <h3><span class="WebRupee">Rs</span> <span id="getPrice<?php echo $value['TPId']; ?>"> 
+    <?php
+    echo $objHelper->moneyFormatINR(round($value['price'][0]['priceDoubleOcc']));
+    ?>
+                                                    </span></h3>
+                                                <span class="small-1-2">per person <?php if(count($detail['dayItineraryArray'])>1){?> twin sharing <?php }?> </span>  
+                                            </div>
+                                        </div>
+                                    </span>
+                                        <input type="hidden" id="priceTripleOccVal<?php echo $i;?>" value="<?php echo (round($value['price'][0]['priceTripleOcc']));?>"> 
+                                        <input type="hidden" id="priceDoubleOccVal<?php echo $i;?>" value="<?php echo (round($value['price'][0]['priceDoubleOcc']));?>"> 
+                                        <input type="hidden" id="priceSingleOccVal<?php echo $i;?>" value="<?php echo (round($value['price'][0]['priceSingleOcc']));?>"> 
+                                        <input type="hidden" id="priceExtraBedVal<?php echo $i;?>" value="<?php echo (round($value['price'][0]['priceExtraBed']));?>"> 
+                                        <input type="hidden" id="priceWithoutBedVal<?php echo $i;?>" value="<?php echo (round($value['price'][0]['priceWithoutBed']));?>"> 
+                               
+    <?php
+   
+}
+?>
+                                <div class="line"></div>
+                                <div class="cal-back-cont">
+                                    <span class="m-top-btn m-top-btn Ceck-rate-btn-right">
+
+                                        <?php if (isset($_SESSION['TravelAgent']['session'])) { ?>
+                    <a href="javascript:void(0);" data-target="#myModa1packageRateEnquiry" data-toggle="modal"  class="btn btn-primary btn-sm sendRateEnuiryPackage" data-rvs="<?php echo $this->packageId; ?>" style="margin:0.5rem;">Get Proposal</a>
+                    <!--<a href="<?php // echo $url; ?>#<?php // echo $sectionshow1; ?>" class="btn btn-danger mSendEnuiryCheckRatePackage" id="mSendEnuiryCheckRatePackage" data-rvs="<?php // echo $this->packageId; ?>" style="margin:0.5rem;">Get Proposal</a>-->
+                <?php } else { ?>
+                    <a href="javascript:void(0);" data-target="#myModa1packageRateEnquiry" data-toggle="modal"  class="btn btn-primary btn-sm sendRateEnuiryPackage" data-rvs="<?php echo $this->packageId; ?>" style="margin:0.5rem;">Book Now</a>
+                    <!--<a href="<?php // echo $url; ?>#<?php // echo $sectionshow1; ?>" class="btn btn-danger mSendEnuiryCheckRatePackage" id="mSendEnuiryCheckRatePackage" data-rvs="<?php // echo $this->packageId; ?>" style="margin:0.5rem;">Book Now</a>-->
+                <?php } ?>
+                                    </span>
+                                </div>
+                        </div>
+<?php
+if ($Inclusions != '') {
+    ?>
+                            <h4>Inclusions </h4>
+                            <div class="widget_package">
+                                <ul>
+    <?php 
+//    echo $Inclusions;
+    foreach (explode(',', $Inclusions) as $inc) {
+        if ($inc) { if($inc == 'B/fast & Dinner'){$inc = 'bf & dinner';}
+            ?>
+                                            <li>
+                                                <img style="cursor:pointer;" title="<?php echo $inc; ?>" src="<?php echo $baseUrl; ?>public/images/<?php echo strtolower($inc); ?>.png" alt="">
+            <!--                                                <a href="javascript:void(0);" data-toggle="tooltip" data-placement="top" title="<?php echo $inc; ?>"> <i class="fa fa-<?php echo $InclusionsMaster[$inc]; ?>"></i> </a> -->
+                                            </li>
+            <?php
+        }
+    }
+    ?> 
+                                </ul>
+                            </div>
+
+<?php } ?>
+
+                    </header>
+
+                </div>
+            </div>
+            <div class="clearfix"></div>
+            <div class="m-top"></div>
+
+
+            <!--            <h3 class="no-margin">Overview </h3>
+                        <p>Cast away your never ending work with this customizable 6 nights 7 days Dubai Desert Safari & Ferrari World tour package from India and take that much-needed break you've forever longed for. This fun-filled 7-day Dubai holiday takes you on a guided city tour of Dubai and Abu Dhabi. <a href="#">+ More...</a></p>-->
+
+            <div class="home_tabs1" id="changeContentByajax">
+
+                <input type="radio" id="tab1" name="tab-control" checked>
+                <input type="radio" id="tab2" name="tab-control" >
+                <input type="radio" id="tab3" name="tab-control" >
+                <input type="radio" id="tab4" name="tab-control" >
+
+                <ul class="filterByScroll-tab">
+                    <li title="Trip"><label for="tab1" role="button">Itinerary</label></li>
+                    <li title="Daily"><label for="tab2" role="button">Hotels</label></li>
+                    <li title="Hotels"><label for="tab3" role="button">Inc & Exc</label></li>   
+                    <li title="Inclusions"><label for="tab4" role="button"><?php if($mydevice == 'desktop'){?>Terms & Conditions<?php }else{?>T & C<?php }?></label></li>
+
+                </ul>
+<?php
+                       
+                            $count = 0;
+                            $counter = 0;
+//                            echo "<pre>";print_r($detail['CategoriesArray']['P']);exit;
+
+                            foreach ($detail['CategoriesArray']['P'] as $key => $value) {
+                                if (count($detail['CategoriesArray']['P']) > 1) {
+
+                                    $keyname = '';
+                                    if ($key == 'Budget') {
+                                        $active = 'deluxe1Active';
+                                        $i = 1;
+                                        $keyname == 'Budget';
+                                    }
+                                    if ($key == 'Standard') {
+                                          $active = 'deluxe2Active';
+                                          $i = 2;
+                                           $keyname == 'Standard';
+                                    }
+                                    if ($key == 'Deluxe') {
+                                          $active = 'deluxe3Active';
+                                        $i = 3;
+                                         $keyname == 'Deluxe';
+                                    }
+                                    if ($key == 'Luxury') {
+                                           $active = 'deluxe4Active';
+                                        $i = 4;
+                                        $keyname == 'Luxury';
+                                    }
+                                    if ($key == 'Premium') {
+                                        $i = 5;
+                                        $active = 'deluxe5Active';
+                                         $keyname == 'Premium';
+                                    }
+                                    
+                                   if ($catId == $i) {
+                                  
+                                       $CategoryDateArray = array(); $checkCategoryDateArray = array();
+                                foreach ($detail['CategoriesArray']['P'][$key]['price'] as $pkey => $pvalue) {
+                                      if(!in_array(trim($pvalue['From']), $checkCategoryDateArray)){
+                                        array_push($checkCategoryDateArray, trim($pvalue['From']));
+                                $CategoryDateArray[] = [
+                                        'From' =>$pvalue['From'],
+                                        'To' =>$pvalue['To'],
+                                ];
+                                }
+                                }     
+                                   }
+                                    
+                                } else {
+                                     $CategoryDateArray = array();
+                                     $checkCategoryDateArray = array();
+                                foreach ($detail['CategoriesArray']['P'][$key]['price'] as $pkey => $pvalue) {
+                                    if(!in_array(trim($pvalue['From']), $checkCategoryDateArray)){
+                                        array_push($checkCategoryDateArray, trim($pvalue['From']));
+                                   
+                                $CategoryDateArray[] = [
+                                        'From' =>$pvalue['From'],
+                                        'To' =>$pvalue['To'],
+                                ];
+                                }
+                                }
+                                   } ?>
+                                      
+
+    <?php
+   
+}
+?>
+             
+                <div id="getCategorydateselect" style="display:none;">
+               <select class="en_customertripdate txtField form-control" name="date">
+                                                <?php foreach($CategoryDateArray as $dKey => $dValue){
+                                                    $FromDate = explode('-',$dValue['From']);
+                                   $finDate = $FromDate[2].'/'.$FromDate[1].'/'.$FromDate[0];
+                                                    ?>
+                                                   <option value="<?php echo $finDate;?>" <?php if(isset($getMypopCookie) && $getMypopCookie['date'] == $finDate){?>selected<?php }?>><?php echo $finDate;?></option>
+                                                <?php } ?>
+                                            </select>
+                
+         </div>
+
+                <div class="content filterByScroll-tab-new">        
+                    <section>
+                        <div class="animate-box resp-tab-contentn">
+                            <!--                            <div class="col-md-12">
+                                                            <div class="hed-space">
+                                                                <h3>Itinerary </h3>
+                                                                <h6> <strong>Price Include:</strong>
+<?php
+//                                        $incStr = '';
+//                                        $incStr .= (count($hotelHotelArrayU)) ? count($hotelHotelArrayU) . " Hotel(s)" : "";
+//                                        $incStr .= (count($totalActivitiesArray)) ? ", " . count($totalActivitiesArray) . " Activities" : "";
+//                                        $incStr .= (count($totalSightSeeingsArray)) ? ", " . count($totalSightSeeingsArray) . " Sightseeing" : "";
+//                                        $incStr .= ($Inclusions) ? ", " . str_replace(",", ", ", $Inclusions) : "";
+//                                        echo $incStr;
+?> 
+                                                                </h6>
+                                                                <div class="mb-5"> </div>
+                                                            </div>
+                                                        </div>     -->
+                            <div class="mt-4 hed-space-mt"></div>
+                            <div class="col-md-12">
+<?php if ((int) $detail['itementries']['PackageSpec'] != 2) { ?>
+                                    <ul id="myTab" class="nav nav-tabs" role="tablist">
+                                    <?php
+                                    for ($i = 1; $i <= count($detail['dayItineraryArray']); $i++) {
+                                        ?>
+                                            <li role="presentation" <?php echo ($i == 1) ? 'class="active"' : ''; ?>>
+                                                <a href="#<?php echo $i; ?>" id="<?php echo $i; ?>-tab" role="tab" data-toggle="tab" aria-controls="<?php echo $i; ?>" <?php echo ($i == 1) ? 'aria-expanded="true"' : ''; ?>>DAY-<?php echo $i; ?></a>
+                                                <span></span>
+                                            </li>
+    <?php } ?>
+                                    </ul>
+                                    <?php } ?>
+                                <div id="myTabContent" class="tab-content">
+                                    <input type="hidden" id="packageId" value="<?php echo $this->packageId; ?>">
+                                    <input type="hidden" id="categoryId" value="<?php echo $this->catId; ?>">
+                                    <input type="hidden" id="gtxID" value="<?php echo $this->gtxId; ?>">
+<?php
+$count = 1;
+$dayTitle = $dayProgram = '';
+foreach ($dayItineraryArray as $itinerariesKey => $itineraries) {
+    ?>
+                                        <div role="tabpanel" class="tab-pane fade in <?php echo ($count == 1) ? 'active' : ''; ?>" id="<?php echo $count; ?>"  aria-labelledby="<?php echo $count; ?>-tab">
+                                            <div class="contents">
+                                                <!--<h3 class="p-title"><?php // echo $count;   ?><span class="small">Fri, 29 Jun 2018</span></h3>-->
+                                                <div class="col-lg-12 no-padding-left-right ">
+                                                    <div class="  package_det_day_cont pa-bot">
+                                                        <div class="col-lg-12 package_det_d_side1_box no-padding ">
+                                                            <div class="hed-space-mt1"></div>
+    <?php
+    if (isset($itineraries['repeat']) && $itineraries['repeat'] == 1) {
+        if (is_array($itineraries['day']['Title'])) {
+            foreach ($itineraries['day']['Title'] as $key => $value) {
+                if ($value != '0') {
+                    echo '<h3 class="p-title">' . $value . ' </h3>';
+                }
+                if (trim(strip_tags($itineraries['day']['Program'][$key])) != '0') {
+                    echo '<p class="more">' . $itineraries['day']['Program'][$key] . '</p>';
+                }
+            }
+        }
+    } else {
+        if ($itineraries['day']['Title'] != '0') {
+            ?>
+                                                                    <h3 class="p-title"><?php echo $itineraries['day']['Title']; ?></h3>
+                                                                <?php } if (trim(strip_tags($itineraries['day']['Program'])) != '0') { ?>
+                                                                    <p><?php echo $itineraries['day']['Program']; ?></p>
+                                                                    <?php
+                                                                }
+                                                            }
+                                                            ?>
+                                                        </div>
+                                                    </div>
+                                                    <div class="mt-3"> </div>
+
+                                                    <div class="clearfix"> </div>
+    <?php
+    foreach ($itineraries['SightSeeings'] as $itinerariesItem) {
+        $itinerariesItem = ( isset($itineraries['repeat']) && $itineraries['repeat'] == 1 ) ? $itinerariesItem[0] : $itinerariesItem;
+        if (!empty($itinerariesItem['Items']['0']['Item'])) {
+            foreach ($itinerariesItem['Items']['0']['Item'] as $itinerariesActivity) {
+                if ($itinerariesActivity['IsIncluded'] == true) {
+                    if ($itinerariesItem['Type'] == 'SIGHTSEEING') {
+                        foreach ($detail['finalArray']['SightSeeings'] as $finalSightSeeing => $valfinalSightSeeing) {
+                            if (isset($valfinalSightSeeing['SightSeeing'])) {
+                                foreach ($valfinalSightSeeing['SightSeeing'] as $keySightSeeing => $valSightSeeing) {
+                                    if ($itinerariesActivity['Id'] == $valSightSeeing['RefSSId']) {
+                                        ?>
+                                                                                        <div class=" package_det_day_cont" style="border-top:0;">
+                                                                                        <?php if ((trim($valSightSeeing['Image']) == "No File") || (trim($valSightSeeing['Image']) == "0") || (trim($valSightSeeing['Image']) == "")) {
+                                                                                            
+                                                                                        } else {
+                                                                                            ?>
+                                                                                                <div class="col-lg-4 no-padding ">
+                                                                                                    <div class="package_det_day_cont_img">
+                                                                                                        <div class="package_det_day_cont_img_caption">
+                                                                                                            <?php echo $itinerariesItem['Type']; ?> : <?php echo $objHelper->trimContent($valSightSeeing['Title'], 50); ?>
+                                                                                                        </div>
+                                                                                                        <img style="height:274px;" src="<?php echo $valSightSeeing['Image']; ?>" alt="" title="" onerror="this.src='<?php echo Catabatic_Helper::getNoImage('sightseeing'); ?>'" />    
+
+                                                                                                    </div>
+                                                                                                </div>
+                                                                                            <?php } ?>
+                                                                                            <div class="col-lg-8 package_det_d_side1_box day-pading padd_box_mob">
+                                                                                                <h1><?php echo $valSightSeeing['Title']; ?> - <span><?php echo $itinerariesItem['Type']; ?></span></h1>
+                                                                                                <p class="more"><?php echo html_entity_decode($valSightSeeing['Description']); ?></p>
+                                                                                            </div>
+
+                                                                                        </div>
+                                                                                        <?php
+                                                                                    }
+                                                                                }
+                                                                            }
+                                                                        }
+                                                                    }
+                                                                }
+                                                            }
+                                                        }
+                                                    }
+                                                    foreach ($itineraries['Hotels'] as $itinerariesItem) {
+                                                        $itinerariesItem = ( isset($itineraries['repeat']) && $itineraries['repeat'] == 1 ) ? $itinerariesItem[0] : $itinerariesItem;
+                                                        if (!empty($itinerariesItem['Items'])) {
+                                                            foreach ($itinerariesItem['Items'] as $itinerariesActivity) {
+                                                                if ($itinerariesActivity['Id'] == $catId) {
+                                                                    if (isset($itinerariesActivity['Item'])) {
+                                                                        foreach ($itinerariesActivity['Item'] as $itinerariesActivityValue) {
+                                                                            if (($PackageType == $packageTypeStatic) && ($PackageSubType == $packageSubTypeStatic)) {
+                                                                                if ($CONST_MEAL_PLAN_ARR[$itinerariesActivityValue['MealPlanId']] == $detail['MPType']) {
+                                                                                    $isMealplanType = true;
+                                                                                } else {
+                                                                                    $isMealplanType = false;
+                                                                                }
+                                                                            } else {
+                                                                                $isMealplanType = true;
+                                                                            }
+
+                                                                            if (($itinerariesActivityValue['IsIncluded'] == true) && $isMealplanType) {
+
+                                                                                foreach ($detail['finalArray']['Hotel'] as $finalSightSeeing => $valfinalSightSeeing) {
+                                                                                    foreach ($valfinalSightSeeing['Hotel'] as $keySightSeeing => $valSightSeeing) {
+
+                                                                                        if ($itinerariesActivityValue['Id'] == $valSightSeeing['RefHotelId']) {
+//                                                                                echo "<pre>";print_r($valSightSeeing);
+                                                                                            ?>
+
+                                                                                            <div class="clearfix"></div> <div class="mt-3 mb-5"> </div>
+                                                                                            <div class="col-md-12 hotel_day_cont" style="border-top:0;">
+                                                                                                <h1>Hotel- <?php echo $masterDataHotel[$itinerariesActivityValue['Id']]['Name']; ?> &nbsp;
+                                                                                                    <span>
+                                                                                                        <?php
+                                                                                                        echo $objHelper->getRatingImage($valSightSeeing['Star'], 5);
+                                                                                                        ?>
+                                                                                                    </span>
+                                                                                                </h1>
+                                                                                                <div class="col-lg-2 no-padding ">
+                                                                                                    <div class="package_det_day_cont_img"> 
+                                                                                                        <img src="<?php
+                                                                                                        if ((trim($masterDataHotel[$itinerariesActivityValue['Id']]['MainImg']) == "No File") || (trim($masterDataHotel[$itinerariesActivityValue['Id']]['MainImg']) == "0") || (trim($masterDataHotel[$itinerariesActivityValue['Id']]['MainImg']) == "")) {
+                                                                                                            echo Catabatic_Helper::getNoImage('hotel');
+                                                                                                        } else {
+                                                                                                            echo $masterDataHotel[$itinerariesActivityValue['Id']]['MainImg'];
+                                                                                                        }
+                                                                                                        ?>" alt="" title="" onerror="this.src='<?php echo Catabatic_Helper::getNoImage('hotel'); ?>'" />
+                                                                                                    </div>
+                                                                                                </div>
+                                                                                                <div class="col-lg-10 package_det_d_side1_box">
+                                                                                                    <h6 class="nopadding">
+                                                                                                        <img src="<?php $baseUrl; ?>public/images/pin-black-min.png" border="0" alt="" title="" class=""> <?php echo $valSightSeeing['Location']['Address']; ?> 
+                                                                                                    </h6>
+                                                                                                    <p class="more"><?php echo html_entity_decode(html_entity_decode($valSightSeeing['Brief'])); ?></p>
+
+                                                                                                </div>
+                                                                                            </div>
+                                                                                            <?php
+                                                                                        }
+                                                                                    }
+                                                                                }
+                                                                            }
+                                                                        }
+                                                                    }
+                                                                }
+                                                            }
+                                                        }
+                                                    }
+                                                    ?>
+                                                    <div class="clearfix"></div>
+                                                    <div class="mt-3 mb-5" > </div>
+                                                    <div class="mt-3"> </div>
+                                                </div>
+                                                <div class="clearfix"></div>
+                                            </div>                                                        
+                                        </div>
+                                        <?php
+                                        $count++;
+                                    }
+                                    ?>                                       
+                                </div>
+                            </div>
+                            <div class="clearfix"></div>    
+                        </div>
+                        <div class="mt-4 hed-space-mt"></div>
+                        <div class="clearfix"></div>
+                    </section>
+
+                 <section>
+                        <div class="animate-box resp-tab-contentn">
+                            <div class="col-md-12">
+                                <div class="hed-space">
+                                    <!--<h3>Hotel</h3>-->
+                                </div>
+                            </div>
+                            <div class="box-package">
+                                <?php
+                                foreach ($hotels_array_included_only_view as $key => $value) {
+//                                    echo"<pre>";print_r($value);echo"</pre>";
+                                    ?>
+                                    <div class="box-border">
+                                        <!--<h2>Personal Cruises in Goa</h2>-->
+                                        <div class="col-md-3 nopadding"> 
+                                            <img style="width:292px;height:176px;" src="<?php
+                                            if ((trim($value['MainImg']) == "No File") || (trim($value['MainImg']) == "0") || (trim($value['MainImg']) == "")) {
+                                                echo Catabatic_Helper::getNoImage('hotel');
+                                            } else {
+                                                echo trim($value['MainImg']);
+                                            }
+                                            ?>" border="0" alt="" title="" class="img-responsive hotel-img">                                       
+                                        </div>
+                                        <div class="col-md-9">
+                                            <div class="box-package-middle">
+                                                <h4><?php echo $value['Name']; ?>
+                                                    <?php
+                                                    echo ($value['MealTypeName']) ? " (" . $value['RoomTypeName'] . ") " : "";
+                                                    echo $objHelper->getRatingImage($value['Star'], 5);
+                                                    ?>
+                                                </h4>
+                                                <h6 class="nopadding"><img src="<?php echo $baseUrl; ?>public/images/pin-black-min.png" border="0" alt="" title="" class="">
+                                                    <?php echo trim($value['Location']['Address']); ?></h6>
+                                                <p class="more"><?php echo html_entity_decode(html_entity_decode($value['Brief'])); ?></p>
+                                                <div class="m-2 nopadding ic-font">                        
+                                                    <?php
+                                                    $amen = '';
+                                                    foreach ($value['AccoAminities'] as $k => $val) {
+                                                        $amen .= $val['Title'] . ",";
+                                                        if ($k == 10)
+                                                            break;
+                                                    }
+                                                    print_r($objHelper->getInclusionIcon($amen, ','));
+                                                    ?> 
+                                                </div>
+                                                <div class="clearfix"></div>
+                                                <a title="View Hotel Detail" onclick="openpopupModel('<?php echo $value['RefHotelId']; ?>', 'H')" href="javascript:void(0);" class="small-1 btn btn-black-border" >View Detail</a>
+                                            </div>
+                                        </div>
+
+                                        <div class="clearfix"></div>
+                                    </div>
+                                <?php } ?>
+                            </div>
+                        </div>
+                        <div class="cl"></div>
+                        <div class="mb-6"></div>
+                    </section>
+
+                    <section>
+                        <div class="detail-hotel-count">
+                            <ul id="myTab" class="nav nav-tabs" role="tablist">
+                                <?php if(trim($detail['itementries']['Terms']['Inclusion']) != 'Inclusion'){?>
+                                <li role="presentation" class="active">
+                                    <a href="#101" id="101-tab" role="101-tab" data-toggle="tab" aria-controls="101" aria-expanded="true">Inclusions</a>
+                                    <span></span>
+                                </li>
+                                <?php } ?>
+                                 <?php if(trim($detail['itementries']['Terms']['Exclusions']) != 'Exclusions'){?>
+                                <li role="presentation">
+                                    <a href="#102" role="tab" id="102-tab" data-toggle="tab" aria-controls="102">Exclusions</a>
+                                    <span></span>
+                                </li>
+                                <?php } ?>
+                                <?php if(($detail['itementries']['Terms']['TravelBasics']) != ''){?>
+                                <li role="presentation">
+                                    <a href="#104" role="tab" id="104-tab" data-toggle="tab" aria-controls="104">Travel Basics</a>
+                                    <span></span>
+                                </li>
+                                <?php } ?>
+                                 <?php if(trim($detail['itementries']['Terms']['BookingTerms']) != 'Booking Terms'){?>
+                                <li role="presentation">
+                                    <a href="#105" role="tab" id="105-tab" data-toggle="tab" aria-controls="105">Booking Term</a>
+                                    <span></span>
+                                </li>
+                                <?php } ?>
+                                 <?php if(trim($detail['itementries']['Terms']['CancellationPolicy']) != 'Cancellation Policy'){?>
+                                <li role="presentation">
+                                    <a href="#103" role="tab" id="103-tab" data-toggle="tab" aria-controls="103">Cancellation Policy</a>
+                                    <span></span>
+                                </li>
+                                <?php } ?>
+                                 <?php if(trim($detail['itementries']['Terms']['WhyUseUs']) != 'Why Choose Us'){?>
+                                <li role="presentation">
+                                    <a href="#106" role="tab" id="106-tab" data-toggle="tab" aria-controls="106">Why Choose Us</a>
+                                    <span></span>
+                                </li>
+<?php } ?>
+                            </ul>
+                            <div id="myTabContent" class="tab-content">
+                                <div role="tabpanel" class="tab-pane fade in active" id="101" aria-labelledby="101-tab">
+
+                                    <div class="contents">
+                                        <!--<h3 class="no-margin">Inclusions</h3>-->
+                                        <div class="package_det_d_Exclusions">
+                                            <?php echo html_entity_decode($detail['itementries']['Terms']['Inclusion']); ?>
+                                        </div>
+                                        <div class="clearfix"></div>
+                                    </div>
+                                </div>
+                                <div role="tabpanel" class="tab-pane fade" id="102" aria-labelledby="102-tab">
+
+                                    <div class="contents">
+                                        <!--<h3 class="no-margin">Exclusions</h3>-->
+                                        <div class="package_det_d_Exclusions">
+                                            <?php echo html_entity_decode($detail['itementries']['Terms']['Exclusions']); ?>
+                                        </div>
+                                        <div class="clearfix"></div>
+                                    </div>
+                                </div>
+
+                                <div role="tabpanel" class="tab-pane fade" id="104" aria-labelledby="104-tab">
+
+                                    <div class="contents">
+                                        <!--<h3 class="no-margin">Travel Basics</h3>-->
+                                        <div class="package_det_d_Exclusions">
+                                            <p><?php echo html_entity_decode($detail['itementries']['Terms']['TravelBasics']); ?></p>
+                                        </div>
+                                        <div class="clearfix"></div>
+                                    </div>
+                                </div>
+                                <div role="tabpanel" class="tab-pane fade" id="105" aria-labelledby="105-tab">
+
+                                    <div class="contents">
+                                        <!--<h3 class="no-margin">Booking Term</h3>-->
+                                        <div class="package_det_d_Exclusions">
+                                            <p><?php echo html_entity_decode($detail['itementries']['Terms']['BookingTerms']); ?> </p>
+                                        </div>
+                                        <div class="clearfix"></div>
+                                    </div>
+                                </div>
+                                <div role="tabpanel" class="tab-pane fade" id="103" aria-labelledby="103-tab">
+
+                                    <div class="contents">
+                                        <!--<h3 class="no-margin">Cancellation Policy</h3>-->
+                                        <div class="package_det_d_Exclusions">
+                                            <?php echo html_entity_decode($detail['itementries']['Terms']['CancellationPolicy']); ?>
+                                        </div>
+                                        <div class="clearfix"></div>
+                                    </div>
+                                </div>
+                                <div role="tabpanel" class="tab-pane fade" id="106" aria-labelledby="106-tab">
+
+                                    <div class="contents">
+                                        <!--<h3 class="no-margin">Why Choose Us</h3>-->
+                                        <div class="package_det_d_Exclusions">
+                                            <p><?php echo html_entity_decode($detail['itementries']['Terms']['WhyUseUs']); ?> </p>
+                                        </div>
+                                        <div class="clearfix"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="cl"></div>
+                        <div class="mb-6"></div>
+                    </section>
+
+
+                    <section>
+                        <div class="animate-box resp-tab-contentn">
+                            <!--                            <div class="col-md-12">
+                                                            <div class="hed-space">
+                                                                <h3>Terms & Conditions</h3>
+                                                            </div>
+                                                        </div>-->
+
+                            <div class="package_det_d_Exclusions">
+                                <?php echo html_entity_decode($detail['itementries']['Terms']['Conditions']); ?>
+                            </div>
+                            <div class="clearfix"></div>
+                        </div>
+                        <div class="cl"></div>
+                        <div class="mb-6"></div>
+                    </section>
+
+                </div>
+
+            </div>
+            <?php
+            if (count($relatedPackages)) {
+                ?>
+                <!-- start : loading div -->
+                <?php echo $this->partial('index/related-packages.phtml', ['baseUrl' => $baseUrl, 'relatedPackages' => $relatedPackages, 'objHelper' => $objHelper]); ?>
+                <!-- end : loading div -->
+                <?php
+            }
+             $data = ['baseUrl' => $baseUrl, 'AgencySysId' => $options['gtxagencysysid'], 'modulename' => $modulename,
+                    'CONST_PACKAGE_TRAVELER_MAX_ROOM' => CONST_PACKAGE_TRAVELER_MAX_ROOM,
+                    'CONST_PACKAGE_TRAVELER_MAX_ADULT_IN_ROOM' => CONST_PACKAGE_TRAVELER_MAX_ADULT_IN_ROOM,
+                    'CONST_PACKAGE_TRAVELER_MAX_CHILD_IN_ROOM' => CONST_PACKAGE_TRAVELER_MAX_CHILD_IN_ROOM,
+                    'CONST_PACKAGE_TRAVELER_MAX_INFANT_IN_ROOM' => CONST_PACKAGE_TRAVELER_MAX_INFANT_IN_ROOM,
+                    'POPUPCOOKIES' => $getMypopCookie,
+                 'CategoryDateArray'=>$CategoryDateArray,
+                 'isFixedDeparture'=>$detail['isFixedDeparture'],
+                ];
+                 echo $this->partial('index/modal-checkrate-enquiry.phtml', $data);
+            ?>
+        </div>
+    </section>
+</div>

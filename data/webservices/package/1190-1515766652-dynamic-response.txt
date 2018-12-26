@@ -1,0 +1,1 @@
+{"status":"success","url":"https:\/\/globaltravelexchange.com\/","availability":true,"addtional":{"TaxRate":5,"MyCost":null,"AgencyMarkUp":null,"AgencyExtraMarkUp":0,"AgencyDiscount":0,"GSTAmount":0,"AmountWithGST":0}}

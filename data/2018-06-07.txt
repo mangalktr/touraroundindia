@@ -1,0 +1,2 @@
+2018-06-07 12:42:44 - 127.0.0.1 - {"status":true,"arrIds":{"MasterTPSysId":"23405","TPSysId":"23406","VersionId":"120471","CustomerSysId":"1202","TrxId":"1971"},"redirect":false,"message":"Query Send Successfully."}
+2018-06-07 12:43:30 - 127.0.0.1 - {"status":true,"arrIds":{"MasterTPSysId":"23407","TPSysId":"23408","VersionId":"120472","CustomerSysId":"1202","TrxId":"1972"},"redirect":false,"message":"Query Send Successfully."}

@@ -1,0 +1,387 @@
+<?php 
+$options = Zend_Controller_Front::getInstance()->getParam('bootstrap')->getOption('bootstrap');
+$baseUrl = $options['siteUrl'];
+$resultset = $this->resultset; 
+$page = $this->page;
+$per_page_record = $this->per_page_record;
+?>
+
+
+<div class="content">
+        
+<div class="header">
+    <h1 class="page-title">Package List</h1>
+</div>
+
+<ul class="breadcrumb">
+    <li><a href="<?php echo $options['siteUrl'];?>admin/dashboard/index">Home</a> <span class="divider">/</span></li>
+    <li class="active">Manage <span class="divider">/</span></li>
+</ul>
+
+<div class="container-fluid">
+    <div class="row-fluid">
+<div class="col-md-12">
+    <?php if (count($this->messages)) { ?>
+     <div class="alert alert-success" >
+         <button data-dismiss="alert" class="close" type="button">x</button>
+         <?php foreach ($this->messages as $message) {  ?>
+         <?php echo $this->escape($message); ?>
+         <?php } ?>
+     </div>
+    <?php } ?>
+</div>
+ <div class="well">
+                <table id="tt" class="easyui-datagrid" style="width:100%;min-height:200%;" url="admin/package/index"
+                       iconCls="icon-save" toolbar="#tb" rownumbers="true" pagination="true" fitColumns="true" view="scrollview" nowrap="false" >
+                    <thead>
+                        <tr>
+                            <th field="GTXPkgId" data-options="width:140" sortable="true">Pkg No.</th>
+                            <th field="package" data-options="width:350">Package Name</th>
+                            <th field="Destinations" data-options="width:400">Destination(s)</th>
+                            <th field="Countries" data-options="width:150,align:'center'">Country(s)</th>
+                            <th field="HotDeal" data-options="width:160">Deals/Tags</th>
+                            <th field="PkgValidUntil" data-options="width:150">Valid Until</th>
+                            <th field="Nights" data-options="width:100,align:'center'">Nights</th>
+                            <!--<th field="StarRating" data-options="width:100,align:'center'">Rating</th>-->
+                            <th field="IsFeatured" data-options="width:100,align:'center',formatter:formatStatusAction"><span title="Trending Packages">Trending</span></th>
+                            <th field="lastMinuteDeal" data-options="width:100,align:'center',formatter:formatDealsAction"><span title="Last Minuted Deal">LMD</span></th>
+                            <th data-options="field:'Image',width:100,align:'center',formatter:formatImageAction">Image</th>
+                            <th data-options="field:'firma',width:100,align:'center',formatter:formatDestinationAction">Action</th>
+                        </tr>
+                    </thead>
+                </table>
+                <div id="tb" style="padding:3px;">
+                    <span>Package No:</span>
+                    <input id="packagenumber" onkeyup="doSearch()" style="line-height:26px;border: 1px solid #ccc">&nbsp;&nbsp;&nbsp;
+                    <span>Package Name:</span>
+                    <input id="name" onkeyup="doSearch()" style="line-height:26px;border: 1px solid #ccc">&nbsp;&nbsp;&nbsp;
+                    <span>Destination:</span>
+                    <input id="Destinations" onkeyup="doSearch()" style="line-height:26px;border: 1px solid #ccc">&nbsp;&nbsp;&nbsp;                                
+                                                    
+                </div>
+
+            </div>       
+       
+   </div>
+</div>
+</div>
+<script type="text/javascript">
+                        function doSearch() {
+                            $('#tt').datagrid('load', {
+                                Destinations: $('#Destinations').val(),
+                                packagenumber: $('#packagenumber').val(),
+                                name: $('#name').val(),
+                            });
+                        }
+                        function formatDestinationAction(val, row) {
+                            var href = 'admin/package/editpackage/id/' + row.PkgSysId;
+                            var Image = row.Image;
+                            var test="";
+                            if (Image === null) {                                
+                                test = '<a href="javascript:void(0);" onclick="download_images(this,'+row.PkgSysId+')" title="Download Images from GTX"><i class="icon-download-alt"></i></a>';
+                            }
+                            return '<a href="' + href + '" title="Edit"><i class="icon-pencil"></i></a> &nbsp;'+test+'<span style="display: none" ><img src="public/images/loader-sm.gif" width="24" title="Processing..." alt="Processing..." /></span>&nbsp;';
+
+                            }
+                            function deleteData(id){
+                            var id = id;
+                        if (!confirm('Are you sure you want to delete?                                                           Sync process should be complete after the deletion of package')) {
+                            return false;
+                        }else{			
+			$.ajax({ 
+				type: "POST", 
+				url: "admin/package/deletepackage",
+				data: "id="+id,
+                                dataType: 'json',
+				success: function(response){
+//                                    alert(response);
+					if(response.status === true) {
+					alert(response.message);
+                                        window.location.reload();
+					}
+					else if(response.status === false) {
+					alert(response.message);
+                                        window.location.reload();
+					}
+                                        else{
+					alert('Please try again');
+					}		
+				} 
+			});		
+		}
+		
+}
+                        function formatImageAction(val, row) {
+                            var Image = row.Image;
+                            if (Image !== null) {
+                                var str = row.Image;
+                                var exploded = str.split(',');
+                                return '<img src="public/upload/tours/' + row.PkgSysId + '/images/thumb/' + exploded[0] + '"border="0" alt="image" id="image_id_'+row.PkgSysId+'" width="64" ">\n\
+        <a href="javascript:void(0)" onclick="deleteImage(\'' + row.PkgSysId + '\',\'' + exploded[0] + '\')" title="Delete Image"><i class="fa fa-times"></i>x</a>';
+                            }
+                            else {
+                                return '<img src="public/images/icon-package.jpg" border="0" alt="No image" id="image_id_'+row.PkgSysId+'" width="64" >';
+                            }
+                        }
+
+                        function formatStatusAction(val, row, idx) {
+                            if (val != "" && val == 1) {
+                                var checked = "checked";
+                            }
+                            else {
+                                var checked = "";
+                            }
+                            return '<input type="checkbox" ' + checked + ' onClick="Active(\'' + row.PkgSysId + '\')" id="Active_' + row.PkgSysId + '" name="Active" value="1">';
+
+                        }
+                        function formatDealsAction(val, row, idx) {
+                            if (val != "" && val == 1) {
+                                var checked = "checked";
+                            }
+                            else {
+                                var checked = "";
+                            }
+                            return '<input type="checkbox" ' + checked + ' onClick="ActiveDeals(\'' + row.PkgSysId + '\')" id="ActiveDeals_' + row.PkgSysId + '" name="ActiveDeals" value="1">';
+
+                        }
+                        $("#package_form").on('submit', function () {
+                            if ($('#SearchPackage').val().trim() === "") {
+                                alert("Please enter package name");
+                                return false;
+                            }
+                        });
+                        $('.Delete').click(function () {
+                            if (!confirm('Are you sure you want to delete?')) {
+                                return false;
+                            }
+
+                        });
+
+                        $('#imageDelete').click(function () {
+                            alert("asdfsaf");
+                        });
+
+
+                        function Active(a) {
+                            var ele = $('#Active_' + a).prop("checked");
+                            if ($('#Active_' + a).prop("checked") == true) {
+                                var values = 1;
+                                $('#rate_' + a).addClass("hide");
+                            } else if ($('#Active_' + a).prop("checked") == false) {
+                                var values = 0;
+                                $('#rate_' + a).removeClass("hide");
+                            }
+                            //alert(values); return false;
+                            $.ajax({
+                                url: '<?php echo $options['siteUrl']; ?>admin/package/active/id/' + a + '/val/' + values,
+                                type: 'POST',
+                                dataType: 'json',
+                                success: function (result) {
+                                    if (result.status) {
+                                        alert('Record Update successfully.');
+                                    } else {
+                                        if (result.message === 'Limit Exceed!!') {
+                                            alert(result.message);
+                                            $('#Active_' + a).prop("checked", false);
+
+                                        }
+
+                                    }
+                                },
+                                error: function (result) {
+                                    alert('Execution error activation!!');
+                                }
+                            });
+
+                        }
+                        function ActiveDeals(a) {
+                            var ele = $('#Active_' + a).prop("checked");
+                            if ($('#ActiveDeals_' + a).prop("checked") == true) {
+                                var values = 1;
+                                $('#rate_' + a).addClass("hide");
+                            } else if ($('#ActiveDeals_' + a).prop("checked") == false) {
+                                var values = 0;
+                                $('#rate_' + a).removeClass("hide");
+                            }
+                            //alert(values); return false;
+                            $.ajax({
+                                url: '<?php echo $options['siteUrl']; ?>admin/package/activedeals/id/' + a + '/val/' + values,
+                                type: 'POST',
+                                dataType: 'json',
+                                success: function (result) {
+                                    if (result.status) {
+                                        alert('Record Update successfully.');
+                                    } else {
+                                        if (result.message === 'Limit Exceed!!') {
+                                            alert("You can not select more than 6 last minute deals");
+                                            $('#ActiveDeals_' + a).prop("checked", false);
+
+                                        }
+
+                                    }
+                                },
+                                error: function (result) {
+                                    alert('Execution error activation!!');
+                                }
+                            });
+
+                        }
+
+                        function deleteImage(id, images) {
+
+                            if (!confirm('Are you sure you want to delete?')) {
+                                return false;
+                            } else {
+//        alert(id);
+
+        $.ajax({
+            url: "<?php echo $baseUrl; ?>admin/package/deleteimage?id=" + id + "&images=" + images,
+            type: "POST",
+            data: '',
+            dataType: "json",
+            //OnComplete = "ClearInputField"
+            success: function (response) {
+//                alert(response.msg);
+                window.location.href = "<?php echo $baseUrl; ?>admin/package/index";
+                //           $(this).parent().prev().remove();
+            },
+        });
+    }
+}
+
+
+
+// function is used to download all images from gtx server
+
+                        function download_images(that, PkgSysId) {
+
+// console.log(PkgSysId);
+
+                            $.ajax({
+                                url: "<?php echo $baseUrl; ?>admin/package/download-images",
+                                type: "POST",
+                                data: {'id': PkgSysId},
+                                dataType: "json",
+                                beforeSend: function () {
+                                    $(that).next().show();
+                                },
+                                success: function (response) {
+//            console.log(response);
+                                    var $image = response.img;
+                                    if (response.status) {
+                                        $(that).hide();
+                                        $(that).next().hide();
+                                        $('#image_id_' + PkgSysId).attr('src', "<?php echo $baseUrl; ?>public/upload/tours/" + PkgSysId + "/images/thumb/" + $image);
+                                    } else {
+                                        $(that).next().hide();
+                                        alert(response.message);
+                                    }
+                                },
+                            });
+
+                        }
+
+</script>
+<!--<script type="text/javascript">
+                $("#package_form").on('submit',function(){
+    if($('#SearchPackage').val().trim()===""){
+        alert("Please enter package name");
+        return false;
+    }
+    });
+$('.Delete').click(function(){
+    if (!confirm('Are you sure you want to delete?')) {
+        return false;
+    }
+    
+});
+
+
+function Active(a){ 
+	var ele = $('#Active_'+a).prop("checked");
+        if($('#Active_'+a).prop("checked") == true){
+		var values = 1;
+		$('#rate_'+a).addClass("hide");
+	}else if($('#Active_'+a).prop("checked") == false){
+		var values = 0;
+		$('#rate_'+a).removeClass("hide");
+	}
+	//alert(values); return false;
+        $.ajax({
+		url:'<?php echo $options['siteUrl'];?>admin/package/active/id/'+a+'/val/'+values,
+		type:'POST',
+		dataType:'json',
+		success:function(result){
+			if(result.status){
+				alert('Record Update successfully.');
+			}else{
+                            if(result.message==='Limit Exceed!!'){
+                                alert(result.message);
+                                $('#Active_'+a).prop("checked",false);
+                                
+                            }
+				
+			}
+		},
+		error:function(result){
+			alert('Execution error activation!!');
+		}
+	});
+	
+}
+    
+function deleteImage(id , images) {
+
+    if (!confirm('Are you sure you want to delete?')) {
+        return false;
+    } else {
+//        alert(id);
+        $.ajax({
+            url: "<?php echo $baseUrl;?>admin/package/deleteimage?id="+id+"&images="+images,
+            type: "POST",
+            data: '',
+            dataType: "json",
+            //OnComplete = "ClearInputField"
+            success: function (response) {
+    //            alert('Deleted successfully!');
+          window.location.href = "<?php echo $baseUrl;?>admin/package/index";
+    //           $(this).parent().prev().remove();
+            },
+
+        });
+    }
+}
+
+
+// function is used to download all images from gtx server
+
+function download_images( that , type , PkgSysId ) {
+
+// console.log(PkgSysId);
+
+    $.ajax({
+        url: "<?php echo $baseUrl;?>admin/package/download-images",
+        type: "POST",
+        data: { 'id': PkgSysId },
+        dataType: "json",
+        beforeSend: function() {
+            $(that).next().show();
+        } ,
+        success: function (response) {
+//            console.log(response);
+            var $image = response.img;
+            if(response.status) {
+                $(that).hide();
+                $(that).next().hide();
+                $('#image_id_'+ PkgSysId ).attr('src', "<?php echo $baseUrl;?>public/upload/tours/"+PkgSysId+"/images/thumb/"+$image);
+            } else {
+                $(that).next().hide();
+                alert(response.message);
+            }
+        },
+    });
+    
+}
+
+</script>-->
+

@@ -1,0 +1,95 @@
+<?php 
+$options = Zend_Controller_Front::getInstance()->getParam('bootstrap')->getOption('bootstrap');
+$resultset = $this->resultset; 
+?>
+
+<script>
+function HierarchyMenuDelete(hmid)
+{
+   if(hmid) {
+    window.location.href='admin/cms/delete-menu/id/'+hmid;
+   } else {
+       window.location.href='admin/cms/managemenu';
+   }
+}
+</script>
+
+<!--<link rel="stylesheet" type="text/css" href="//code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css">
+<link rel="stylesheet" type="text/css" href="lib/bootstrap/css/jquery.dataTables.css">
+<script type="text/javascript" language="javascript" src="lib/jquery.js"></script>
+<script type="text/javascript" language="javascript" src="lib/jquery.dataTables.js"></script>
+<script type="text/javascript" language="javascript" src=
+"lib/dataTables.jqueryui.js"></script>
+<script type="text/javascript" language="javascript">
+$(document).ready(function() {
+  $('#example').dataTable({
+      aLengthMenu: [[25, 50, 100, 150, -1], [25, 50, 100, 150, "All"]],    
+      
+  });
+} );
+</script>-->
+
+<div class="content">
+        
+<div class="header">
+    <h1 class="page-title">Social Link</h1>
+</div>
+
+<ul class="breadcrumb">
+    <li><a href="<?php echo $options['siteUrl'];?>admin/dashboard/index">Home</a> <span class="divider">/</span></li>
+    <li class="active">Manage Social Links<span class="divider">/</span></li>
+    <li><a href="<?php echo $options['siteUrl'];?>admin/social/addsocial">Add Social Links</a> </li>
+</ul>
+
+<div class="container-fluid">
+    <div class="row-fluid">
+     <div class="col-md-12">
+    <?php if (count($this->messages)) { ?>
+     <div class="alert alert-success" >
+         <button data-dismiss="alert" class="close" type="button">x</button>
+         <?php foreach ($this->messages as $message) {  ?>
+         <?php echo $this->escape($message); ?>
+         <?php } ?>
+     </div>
+    <?php } ?>
+</div>  
+        <div class="well">
+                    <table id="tt" class="easyui-datagrid" style="width:100%;" url="admin/social/index"
+                       iconCls="icon-save" toolbar="#tb" rownumbers="true" pagination="true" fitColumns="true" view="scrollview" nowrap="false" >
+                    <thead>
+                        <tr>
+                            <th field="name" data-options="width:140">Name</th>
+                            <th field="link" data-options="width:400">Link</th>
+                            <th field="status" data-options="width:130,align:'center'">Status</th>
+                            <th data-options="field:'firma',width:100,align:'center',formatter:formatSocialAction">Action</th>
+                        </tr>
+                    </thead>
+                </table>
+<!--                <div id="tb" style="padding:3px;">
+                    <span>Hotel Name:</span>
+                    <input id="name" onkeyup="doSearch()" style="line-height:26px;border: 1px solid #ccc">&nbsp;&nbsp;&nbsp;
+                    <span>Destination:</span>
+                    <input id="Destinations" onkeyup="doSearch()" style="line-height:26px;border: 1px solid #ccc">&nbsp;&nbsp;&nbsp;                                
+                </div>-->
+</div>
+
+
+          
+   </div>
+</div>
+</div>
+
+
+<script type="text/javascript">
+$('.Delete').click(function(){
+    if (!confirm('Are you sure you want to delete?')) {
+        return false;
+    }
+    });
+    function formatSocialAction(val, row) {
+                            var href = 'admin/social/editsocial/id/' + row.id;
+                            var hrefDel = 'admin/social/deletesocial/id/' + row.id;
+
+                            return '<a href="' + href + '" title="Edit"><i class="icon-pencil"></i></a> &nbsp; <a href="' + hrefDel + '" onclick="return confirm(\'Are you sure you want to delete?\')" class="Delete" title="Delete"><i class="icon-trash"></i></a>';
+                        }
+</script>
